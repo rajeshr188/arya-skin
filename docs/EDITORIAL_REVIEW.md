@@ -19,12 +19,12 @@ remains unpublished, and analytics remains disabled.
   stored phone number for public calls and WhatsApp at both clinics.
 - The doctor draft contains the supplied qualifications, confirmed Rajasthan
   Medical Council registration, four practice areas, and three languages.
-- No experience claim, biography, membership, affiliation, treatment, article,
-  testimonial, rating, or clinic service is published.
-- A doctor portrait has been uploaded with default alternative text. Its usage
-  permission and final public alternative-text wording still require
-  confirmation. There are no clinic photographs, treatment records, or article
-  records.
+- No experience claim, biography, membership, affiliation, treatment page,
+  article, testimonial, rating, or clinic service is published. The owner-approved
+  shared service list is stored only in the two clinic drafts.
+- The owner approved the uploaded doctor portrait for publication and its default
+  alternative text is "Portrait of Dr. Naresh Rathod." There are no clinic
+  photographs, treatment records, or article records.
 - The appointment form remains unavailable until at least one clinic is approved
   and published. This prevents enquiries being routed to incomplete clinic data.
 
@@ -32,14 +32,9 @@ remains unpublished, and analytics remains disabled.
 
 The owner must approve or supply:
 
-1. The exact services genuinely offered at both clinics. The owner confirmed
-   that the service offering is the same at both locations but has not yet
-   supplied the list.
-2. Usage permission and final alternative-text wording for the uploaded doctor
-   portrait.
-3. The appointment contact-consent wording, enquiry retention period, authorized
+1. The appointment contact-consent wording, enquiry retention period, authorized
    staff, and expected response process.
-4. Final privacy-policy and medical-disclaimer wording.
+2. Final privacy-policy and medical-disclaimer wording.
 
 Do not publish the clinic pages merely to test the form. Use Wagtail Preview for
 content review; once the facts above are approved, publish the doctor page,

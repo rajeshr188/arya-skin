@@ -72,7 +72,10 @@ for stored_page in ClinicPage.objects.all():
             }
             for item in page.opening_hours.all().order_by("sort_order")
         ],
-        "services": page.services.count(),
+        "services": [
+            {"name": item.name, "notes": item.notes}
+            for item in page.services.all().order_by("sort_order")
+        ],
         "photos": page.gallery_images.count(),
         "has_doctor_availability": bool(page.doctor_availability),
         "has_maps_url": bool(page.google_maps_url),

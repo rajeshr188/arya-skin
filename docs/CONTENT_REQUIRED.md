@@ -29,8 +29,10 @@ unchecked until final publication approval.
 - [x] Languages: Hindi, English, and Marwari
 - [ ] Philosophy of care / approved first-person message
 - [ ] Current hospitals or professional affiliations
-- [ ] Portrait and professional/consultation photographs, usage permission, and
-  meaningful alt-text descriptions
+- [x] Uploaded portrait may be published; approved alternative text:
+  "Portrait of Dr. Naresh Rathod"
+- [ ] Additional professional/consultation photographs, usage permission, and
+  meaningful alternative-text descriptions
 
 ## Dolphin Derma Care — Sitapura
 
@@ -45,7 +47,10 @@ unchecked until final publication approval.
 - [ ] Google Business Profile URL and account ownership/access
 - [ ] Google Place ID and coordinates, if available
 - [x] Confirmed the service offering is the same at both branches
-- [ ] Exact services actually offered at both branches
+- [x] Exact shared services: general dermatology care; acne assessment and
+  treatment; allergy testing; cosmetic procedures including laser therapy and
+  chemical peels; complex skin disease care; advanced skin and laser procedures;
+  specialist dermatology consultations
 - [ ] Nearby landmark and accurate arrival guidance
 - [ ] Parking and public-transport information
 - [ ] Accessibility information
@@ -65,7 +70,10 @@ unchecked until final publication approval.
 - [ ] Google Business Profile URL and account ownership/access
 - [ ] Google Place ID and coordinates, if available
 - [x] Confirmed the service offering is the same at both branches
-- [ ] Exact services actually offered at both branches
+- [x] Exact shared services: general dermatology care; acne assessment and
+  treatment; allergy testing; cosmetic procedures including laser therapy and
+  chemical peels; complex skin disease care; advanced skin and laser procedures;
+  specialist dermatology consultations
 - [ ] Nearby landmark and accurate arrival guidance
 - [ ] Parking and public-transport information
 - [ ] Accessibility information

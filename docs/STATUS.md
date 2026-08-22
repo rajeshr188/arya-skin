@@ -200,9 +200,9 @@ request logs.
 ## Missing real-world content
 
 Both clinic drafts now contain owner-approved call/WhatsApp publication consent,
-addresses, and doctor-availability schedules. Before publishing them, supply the
-exact shared service list. Maps links and access details remain optional but must
-not be inferred. The doctor portrait permission/alternative text, precise
+addresses, doctor-availability schedules, and the shared service list. The
+uploaded doctor portrait and its alternative text are also approved. Maps links
+and access details remain optional but must not be inferred. Precise
 qualification/experience wording, appointment consent, staff access, response
 practice, data retention, and final legal text require approval. Blog authors,
 medical reviewers, source standards, review intervals, and every article also
