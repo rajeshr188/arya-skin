@@ -57,6 +57,14 @@ bucket-scoped token. Creating this bucket alone does not enable off-server
 backups; the upload, retention, alerting, and restore proof remain a separate
 production task.
 
+Backup encryption uses an `age` public recipient on the server; its private
+recovery key is stored off-server. The upload client verifies size and SHA-256
+metadata, and both local and encrypted off-server database generations use the
+approved 14-day retention. An isolated restore must download from R2, authenticate
+and decrypt the bundle, verify its manifest, restore into a temporary PostgreSQL
+database, and run a database query before the server copy of the recovery key is
+removed.
+
 ## Required configuration before public launch
 
 - strong `SECRET_KEY`; `DJANGO_DEBUG=False`;

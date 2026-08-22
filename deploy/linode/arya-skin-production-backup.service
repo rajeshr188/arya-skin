@@ -1,0 +1,23 @@
+[Unit]
+Description=Arya Skin encrypted production database backup
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+User=arya-deploy
+Group=arya-deploy
+SupplementaryGroups=docker
+WorkingDirectory=/srv/arya-skin/production
+UMask=0077
+RuntimeDirectory=arya-skin-production-backup-docker
+RuntimeDirectoryMode=0700
+Environment=DOCKER_CONFIG=/run/arya-skin-production-backup-docker
+ExecStart=/srv/arya-skin/production/backup_production.sh
+ExecStartPost=/srv/arya-skin/production/purge_closed_enquiries.sh /srv/arya-skin/production compose.production.yml
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/srv/arya-skin/backups
+CapabilityBoundingSet=

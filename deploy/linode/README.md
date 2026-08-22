@@ -95,3 +95,22 @@ stack must not start until staging has been stopped cleanly.
 This budget topology still requires encrypted off-server database backups,
 monitoring, and the remaining production acceptance checks before it is called
 production-ready.
+
+## Encrypted off-server production backups
+
+`backup_production.sh` creates and validates a PostgreSQL custom-format dump,
+then `encrypt_upload_latest_backup.sh` packages the dump and checksum and encrypts
+the stream with `age` before upload. `scripts/r2_backup.py` writes only to the
+`encrypted/` prefix in the bucket selected by the separately scoped backup token,
+verifies object size and SHA-256 metadata, and deletes only matching encrypted
+objects older than the approved 14-day retention period.
+
+The scheduled job needs only `backup-age-recipient.txt`, which contains the
+public encryption recipient. Keep the private `backup-recovery-key.agekey` as a
+secure off-server password-manager attachment. It may be present on the Linode
+only for the initial `test_r2_restore.sh` proof and must be removed afterward.
+Without that recovery key, encrypted off-server backups cannot be restored.
+
+The production timer must replace, not duplicate, the staging timer at cutover.
+Review each run with `systemctl status` and `journalctl`; monitoring of timer
+failures remains a separate launch requirement.

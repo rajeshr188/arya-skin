@@ -29,6 +29,10 @@ project launch gate.
 - Closed appointment enquiries are retained for 90 days and then deleted.
 - Local backup generations expire after 14 days, so a deleted record may remain
   in a restricted backup until that backup expires.
+- Production adds client-side encrypted off-server database backups with the same
+  14-day expiry. The published Privacy notice must replace "restricted local
+  backup" with "restricted local or client-side encrypted off-server backup"
+  before this automation is enabled; that wording change requires owner approval.
 - The form does not collect a diagnosis, medical history, detailed concern, date
   of birth, postal address, document, or patient account.
 - Analytics is disabled. It must not be enabled without separately approving and

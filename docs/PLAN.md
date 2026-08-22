@@ -77,6 +77,11 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
     dry-run-first, repeat-safe filesystem-to-R2 migration command.
   - [ ] Add encrypted off-server database backup upload, retention, alerting, and
     an isolated restore test.
+    - [x] Add client-side age encryption, scoped R2 upload/download, checksum
+      verification, 14-day pruning, production timer definitions, and restore
+      tooling.
+    - [ ] Upload a real backup, pass the isolated R2 restore proof, remove the
+      server recovery key, and connect timer-failure alerting.
   - [ ] Complete the remaining production controls and launch review.
 
 ## Definition of done for every milestone

@@ -53,6 +53,8 @@ umask 077
     printf 'GUNICORN_THREADS=2\n'
     printf 'LOG_LEVEL=INFO\n'
     printf 'R2_MEDIA_ENV_FILE=/srv/arya-skin/secrets/r2-media.env\n'
+    printf 'R2_BACKUP_ENV_FILE=/srv/arya-skin/secrets/r2-backups.env\n'
+    printf 'BACKUP_AGE_RECIPIENT_FILE=/srv/arya-skin/secrets/backup-age-recipient.txt\n'
     printf 'POSTGRES_VOLUME=arya-skin-staging_postgres_data\n'
     printf 'MEDIA_IMPORT_VOLUME=arya-skin-staging_media_data\n'
     printf 'CADDY_DATA_VOLUME=arya-skin-staging_caddy_data\n'
