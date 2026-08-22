@@ -189,8 +189,11 @@ request logs.
 - External and credentialed acceptance checks pass: anonymous pages remain
   access-controlled and noindexed, the health endpoint is available, and the
   authenticated site and Wagtail login route respond successfully.
-- One active Wagtail administrator is configured. A daily, access-restricted
-  PostgreSQL and media backup timer is enabled with 14-day local retention. Each
+- One active Wagtail administrator and a separate restricted enquiry-monitor
+  account for Dr. Naresh Rathod are configured. The latter can view and update
+  appointment enquiries but cannot delete them or act as a superuser. A daily,
+  access-restricted PostgreSQL and media backup timer is enabled with 14-day
+  local retention. Each
   successful backup is followed by the 90-day closed-enquiry purge; the latest
   isolated database/media restore and post-release maintenance tests passed.
 - The first redacted editorial inventory passed: only the verified homepage is

@@ -115,6 +115,8 @@ unchecked until final publication approval.
   details to contact the requester about the appointment request
 - [x] Retain closed appointment enquiries for 90 days before deletion
 - [x] Dr. Naresh Rathod is the only currently designated enquiry monitor
+- [x] Separate staging login provisioned for Dr. Naresh Rathod with appointment
+  enquiry view/change access only; it has no deletion or superuser permission
 - [x] Response target: within one business day
 - [ ] Define an escalation/coverage process when Dr. Naresh Rathod is unavailable
 - [ ] Decide whether approved staff email notifications are required later

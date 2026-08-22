@@ -32,8 +32,8 @@ remains unpublished, and analytics remains disabled.
 
 The owner must approve or supply:
 
-1. Confirm that Dr. Naresh Rathod has his own accountable administrator login and
-   define coverage when he cannot respond within one business day.
+1. Define coverage when Dr. Naresh Rathod cannot respond within one business
+   day. His separate, restricted enquiry-monitor login is provisioned.
 2. Owner and professional legal/privacy approval of the complete unpublished
    Privacy and Medical disclaimer drafts in Wagtail and `LEGAL_DRAFTS.md`.
 

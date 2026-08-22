@@ -27,7 +27,9 @@ records.
 No email, SMS, WhatsApp API, calendar, CRM, or analytics integration is enabled.
 The approved consent wording is `appointment-contact-v1`. Dr. Naresh Rathod is
 the only currently designated enquiry monitor, with a response target of one
-business day. Closed enquiries are retained for 90 days; run
+business day. His separate staging account has only appointment-enquiry view
+and change permissions; it is not a superuser and cannot delete enquiries.
+Closed enquiries are retained for 90 days; run
 `python manage.py purge_closed_enquiries` on a schedule before enabling the
 public form. Do not grant another person access without explicit approval and a
 separate accountable login.
