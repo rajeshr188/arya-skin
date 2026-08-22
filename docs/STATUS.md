@@ -252,7 +252,9 @@ require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 
-Milestone 7B should next connect backup/timer and service failure monitoring,
-decide and verify transactional email, then complete accessibility/performance,
-CSP/HSTS, and the production launch review. Analytics remains disabled until its
-separate account and consent decisions are supplied.
+The owner authorized production cutover on 22 August 2026 and explicitly
+deferred automated monitoring and transactional email as documented in
+`PRODUCTION_LAUNCH.md`. Complete the remaining preflight, cutover, production
+acceptance, and production-backup gates. Monitoring, email, and a tested CSP
+remain future work; analytics remains disabled until its separate account and
+consent decisions are supplied.

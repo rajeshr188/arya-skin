@@ -125,7 +125,9 @@ unchecked until final publication approval.
 - [x] Approved fallback when Dr. Naresh Rathod is unavailable: after one business
   day, ask the requester to call or WhatsApp the selected clinic; reiterate that
   an online request is not confirmation and must not be used for emergencies
-- [ ] Decide whether approved staff email notifications are required later
+- [x] Transactional email notifications explicitly deferred by the owner on
+  22 August 2026; Dr. Naresh Rathod will check the enquiry administration page
+  at least once each business day until notifications are implemented
 
 ## Marketing and measurement
 

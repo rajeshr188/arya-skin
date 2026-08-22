@@ -84,8 +84,10 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
       tooling.
     - [x] Upload a real backup, pass the isolated R2 restore proof, and remove the
       server recovery key after confirming its off-server copy.
-    - [ ] Enable the production timer at cutover and connect timer-failure
-      alerting.
+    - [ ] Enable the production timer at cutover. Timer-failure alerting is
+      explicitly owner-deferred and remains future work.
+  - [ ] Add monitoring/alerts and transactional email; both were explicitly
+    owner-deferred on 22 August 2026 for the budget launch.
   - [ ] Complete the remaining production controls and launch review.
 
 ## Definition of done for every milestone

@@ -27,8 +27,10 @@ records.
 No email, SMS, WhatsApp API, calendar, CRM, or analytics integration is enabled.
 The approved consent wording is `appointment-contact-v1`. Dr. Naresh Rathod is
 the only currently designated enquiry monitor, with a response target of one
-business day. His separate staging account has only appointment-enquiry view
-and change permissions; it is not a superuser and cannot delete enquiries.
+business day. His separate restricted CMS account has only appointment-enquiry
+view and change permissions; it is not a superuser and cannot delete enquiries.
+Because transactional email is owner-deferred for the budget launch, he must
+check the enquiry administration page at least once each business day.
 If no response is received within one business day, the requester is instructed
 to call or WhatsApp the selected clinic. The approved fallback also reiterates
 that the request is not confirmation and must not be used for emergencies.

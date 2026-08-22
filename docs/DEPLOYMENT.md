@@ -74,11 +74,13 @@ removed.
   limits;
 - production HSTS rollout after TLS is confirmed, including deliberate
   subdomain/preload decisions;
-- transactional email provider for operational mail;
+- transactional email provider for operational mail (explicitly owner-deferred
+  for the budget launch; manual once-per-business-day enquiry review required);
 - bucket-scoped object-storage credentials, active media custom domain, and a
   private backup-bucket policy;
 - error-monitoring provider, alert routing, log retention, and named backup
-  ownership;
+  ownership (explicitly owner-deferred for the budget launch; use the manual
+  daily checks in `PRODUCTION_LAUNCH.md` until implemented);
 - production Site hostname/port updated in Wagtail admin;
 - approved privacy notice and analytics consent behavior;
 - clinic-owned GA4 or governed GTM account, with analytics disabled until final
