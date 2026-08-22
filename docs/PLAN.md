@@ -71,7 +71,7 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
     explicitly deferred and must not be claimed.
   - [x] Connect and publicly resolve the media custom domain and create its
     bucket-scoped application token.
-  - [ ] Install the media credential on the server, migrate media, and prove
+  - [x] Install the media credential on the server, migrate media, and prove
     retrieval through the custom domain.
   - [x] Add a budget single-Linode production replacement configuration and a
     dry-run-first, repeat-safe filesystem-to-R2 migration command.

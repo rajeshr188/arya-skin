@@ -4,8 +4,9 @@ Last updated: 22 August 2026
 
 Milestones 0 through 6 and the staging baseline in milestone 7A are complete.
 Milestone 7B is in progress. Production Cloudflare R2 media support is implemented
-and tested locally. The media custom domain and bucket-scoped token are created,
-but server credential installation, media migration, backups, and the production
+and tested. The bucket-scoped credential is installed on the server, all seven
+staging media objects are migrated, and original/rendition retrieval through the
+custom domain is verified. Encrypted off-server backups and the production
 release itself are not yet configured.
 
 ## Implemented
@@ -94,6 +95,9 @@ release itself are not yet configured.
 - Added a budget single-Linode production replacement configuration that reuses
   the existing named data volumes only after staging stops, plus a tested,
   dry-run-first and conflict-safe media migration command.
+- Built and loaded immutable image `arya-skin:9ab2b82`; its R2 dry run found seven
+  files, the upload copied all seven, a repeat run skipped all seven, and public
+  checks returned PNG content for both an original and a Wagtail rendition.
 
 ## Current Wagtail tree
 
@@ -233,8 +237,7 @@ require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 
-Milestone 7B should next install the R2 media credential on the server, migrate
-and verify media, add encrypted off-server database backups with a restore proof,
-and then complete monitoring, transactional email, accessibility/performance,
-CSP/HSTS, and the production launch review. Analytics remains disabled until its
-separate account and consent decisions are supplied.
+Milestone 7B should next add encrypted off-server database backups with a restore
+proof, and then complete monitoring, transactional email,
+accessibility/performance, CSP/HSTS, and the production launch review. Analytics
+remains disabled until its separate account and consent decisions are supplied.
