@@ -19,6 +19,22 @@ sign in to the restricted enquiry administration page at least once each
 business day to meet the approved response target. The published fallback tells
 requesters to call or WhatsApp the selected clinic after one business day.
 
+Use these manual server checks each day until automated monitoring is added:
+
+```sh
+cd /srv/arya-skin/production
+./check_production.sh
+systemctl list-timers arya-skin-production-backup.timer --no-pager
+sudo systemctl show arya-skin-production-backup.service \
+  --property=Result --property=ExecMainStatus --no-pager
+sudo journalctl --unit arya-skin-production-backup.service -n 30 --no-pager
+df -h /
+```
+
+The latest backup service result must be successful and its journal must contain
+an `encrypted_backup_uploaded` line. Dr. Naresh should check new enquiries at
+`https://drnareshrathod.com/admin/appointments/appointmentenquiry/`.
+
 ## Cutover gates
 
 - [x] Owner editorial review completed; professional legal/privacy review was
@@ -31,12 +47,34 @@ requesters to call or WhatsApp the selected clinic after one business day.
   image runs as an unprivileged user.
 - [x] Monitoring and transactional email explicitly deferred with manual interim
   procedures documented above.
-- [ ] Final staging backup and restore/configuration preflight passed.
-- [ ] Production stack started only after staging stopped cleanly.
-- [ ] Production canonical Site, HTTPS, health, admin, media, forms, redirects,
+- [x] Final staging backup and restore/configuration preflight passed.
+- [x] Production stack started only after staging stopped cleanly.
+- [x] Production canonical Site, HTTPS, health, admin, media, forms, redirects,
   robots/sitemap, and security headers verified.
-- [ ] Production backup timer enabled and a production backup completed.
-- [ ] Rollback image, database/media volumes, and final staging backup retained.
+- [x] Production backup timer enabled and a production backup completed.
+- [x] Rollback image, database/media volumes, and final staging backup retained.
+
+## Launch outcome
+
+Production launched at `https://drnareshrathod.com` on 22 August 2026 using
+immutable image `arya-skin:9ec9026`. PostgreSQL and the web container are
+healthy, and only Caddy publishes host ports. Caddy obtained Let's Encrypt
+certificates for the apex and `www`; Cloudflare briefly returned 525 during
+certificate issuance and then passed all acceptance checks.
+
+The acceptance suite returned 200 for the approved public pages, appointment
+form, health endpoint, robots, sitemap, and R2 portrait; 302 for Wagtail admin;
+and 404 for the intentionally unpublished Treatments and Articles indexes. It
+also verified the apex canonical, `www` redirect, absence of production noindex,
+navigation exclusion of the empty indexes, and the initial HSTS, nosniff,
+frame-denial, and referrer-policy headers.
+
+The first encrypted production backup
+`arya-skin-production-20260822T150130Z.backup.tar.age` uploaded successfully. Its
+local PostgreSQL dump passed checksum verification, an isolated restore, and a
+database query. The production timer is active; the staging timer is disabled.
+The final staging backup from `20260822T145711Z` and image `arya-skin:377ee54`
+remain available for rollback.
 
 ## Future work
 
@@ -46,4 +84,3 @@ requesters to call or WhatsApp the selected clinic after one business day.
   first-party and third-party script/style/image sources.
 - Reassess HSTS duration, subdomain coverage, and preload only after the initial
   production TLS period is stable.
-

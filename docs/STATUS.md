@@ -2,12 +2,12 @@
 
 Last updated: 22 August 2026
 
-Milestones 0 through 6 and the staging baseline in milestone 7A are complete.
-Milestone 7B is in progress. Production Cloudflare R2 media support is implemented
-and tested. The bucket-scoped credential is installed on the server, all seven
-staging media objects are migrated, and original/rendition retrieval through the
-custom domain is verified. Daily client-side encrypted off-server backups are
-configured and restore-tested. The production release itself has not started.
+Milestones 0 through 6, staging milestone 7A, and the budget production cutover
+are complete. `https://drnareshrathod.com` is live on immutable image
+`arya-skin:9ec9026`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
+and daily client-side encrypted off-server backups. Monitoring, transactional
+email, accessibility/performance review, a tested CSP, and the later HSTS
+subdomain/preload decision remain explicitly tracked future work.
 
 ## Implemented
 
@@ -106,7 +106,7 @@ configured and restore-tested. The production release itself has not started.
   temporary database, ran a database query, and removed that database. After the
   owner confirmed the matching off-server recovery-key copy, the Linode private
   key was deleted; only its public encryption recipient remains. The production
-  timer is defined but intentionally not enabled before cutover.
+  timer is enabled and its first production dump passed an isolated restore.
 - Published owner-approved Privacy revision 30 covering client-side encrypted
   off-server backups with the same 14-day expiry; authenticated rendering shows
   the new sentence and no copy of the replaced local-only sentence.
@@ -167,10 +167,12 @@ manage.py makemigrations --check          no changes detected
 manage.py test                            79 tests passed (SQLite)
 manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
-manage.py check --deploy                  0 issues (production profile)
+manage.py check --deploy                  2 expected initial-HSTS warnings
 clean PostgreSQL migration                248 migrations applied
 production container build                passed; runs as non-root `app`
 staging smoke test                         health 200; anonymous 401; auth 200
+production acceptance suite                all page/media/SEO/header checks passed
+production encrypted backup                uploaded; isolated DB restore passed
 direct homepage request                   HTTP 200
 all nine draft routes                     HTTP 404
 git diff --check                          passed
@@ -195,7 +197,7 @@ Deployment tests cover strict environment parsing, PostgreSQL configuration,
 database readiness responses, staging access/noindex behavior, and redacted JSON
 request logs.
 
-## Current staging state
+## Current production state
 
 - The Ubuntu 24.04 LTS Linode has current security updates and kernel
   `6.8.0-138-generic`.
@@ -203,36 +205,36 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- The immutable `377ee54` application image, PostgreSQL 16, generated server-only
-  secrets, and persistent database/media volumes are provisioned.
-- All migrations and the staging release checks completed. The internal database
-  and Gunicorn containers are healthy with no restart, and neither is published
-  on a host port.
-- Wagtail's canonical Site origin is `https://staging.drnareshrathod.com`.
-- Cloudflare authoritative DNS resolves the proxied staging hostname to the
-  Linode origin. Caddy has an active Let's Encrypt certificate and redirects HTTP
-  to HTTPS.
-- External and credentialed acceptance checks pass: anonymous pages remain
-  access-controlled and noindexed, the health endpoint is available, and the
-  authenticated site and Wagtail login route respond successfully. Uploaded
-  media and Wagtail renditions are served from the persistent staging volume,
-  remain protected by reviewer authentication, and return the expected image
-  content type.
+- Production runs immutable image `arya-skin:9ec9026` with PostgreSQL 16 and
+  generated server-only secrets. The database and Gunicorn containers are
+  healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
+- Wagtail's canonical Site origin is `https://drnareshrathod.com`. Cloudflare
+  authoritative DNS proxies the apex and `www`, Caddy holds active Let's Encrypt
+  certificates for both, and `www` redirects to the apex.
+- Cloudflare R2 serves all seven migrated media objects through
+  `media.drnareshrathod.com`. Both a portrait original and Wagtail rendition have
+  returned 200 with image content.
+- The expanded production acceptance suite passed every approved page, the
+  appointment form, health, robots, sitemap, Wagtail admin redirect, R2 portrait,
+  canonical origin, navigation, and initial security-header check. Treatments
+  and Articles remain unpublished and return 404.
 - One active Wagtail administrator and a separate restricted enquiry-monitor
   account for Dr. Naresh Rathod are configured. The latter can view and update
-  appointment enquiries but cannot delete them or act as a superuser. A daily,
-  access-restricted PostgreSQL and media backup timer is enabled with 14-day
-  local retention. Each
-  successful backup is followed by the 90-day closed-enquiry purge; the latest
-  isolated database/media restore and post-release maintenance tests passed.
-- Owner editorial review is complete and the approved public pages are live on
-  staging. The identical pending Clinic Index revision was published to clear its
-  release ambiguity, and Chaksu Monday is stored as closed without hidden times.
-  The owner-approved empty Treatments and Articles indexes are unpublished, so
-  neither appears in navigation and both routes return 404; their drafts remain
-  in Wagtail for future content.
-  Paid Linode backups remain deferred; daily client-side encrypted R2 backups now
-  supplement the retained local generations.
+  appointment enquiries but cannot delete them or act as a superuser. Because
+  transactional email is deferred, he must check the enquiry administration page
+  at least once each business day.
+- The production backup timer is enabled and the staging timer is disabled. The
+  first 14-day-retained production database backup uploaded client-side encrypted
+  to R2 and passed checksum plus isolated PostgreSQL restore/query verification.
+  Every successful backup is followed by the approved 90-day closed-enquiry
+  purge. The off-server private recovery key remains outside the Linode.
+- Final staging backup `arya-skin-staging-20260822T145711Z`, the old immutable
+  image `arya-skin:377ee54`, and the unchanged data volumes are retained for
+  rollback. The staging stack is stopped because this budget topology runs only
+  one stack against the shared database volumes.
+- Paid Linode backups, automated monitoring, and transactional email remain
+  owner-deferred. The manual daily operating checks in `PRODUCTION_LAUNCH.md`
+  apply until monitoring is implemented.
 
 ## Missing real-world content
 
@@ -252,9 +254,8 @@ require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 
-The owner authorized production cutover on 22 August 2026 and explicitly
-deferred automated monitoring and transactional email as documented in
-`PRODUCTION_LAUNCH.md`. Complete the remaining preflight, cutover, production
-acceptance, and production-backup gates. Monitoring, email, and a tested CSP
-remain future work; analytics remains disabled until its separate account and
-consent decisions are supplied.
+Operate the live production site using the manual daily checks in
+`PRODUCTION_LAUNCH.md`. Next future-work priorities are automated uptime/service/
+disk/backup alerts, approved transactional email, accessibility/performance
+review, a tested CSP, and the later HSTS subdomain/preload decision. Analytics
+remains disabled until its separate account and consent decisions are supplied.

@@ -77,18 +77,21 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
     retrieval through the custom domain.
   - [x] Add a budget single-Linode production replacement configuration and a
     dry-run-first, repeat-safe filesystem-to-R2 migration command.
-  - [ ] Add encrypted off-server database backup upload, retention, alerting, and
-    an isolated restore test.
+  - [x] Add encrypted off-server database backup upload, retention, and an
+    isolated restore test; automated failure alerting remains separately
+    deferred.
     - [x] Add client-side age encryption, scoped R2 upload/download, checksum
       verification, 14-day pruning, production timer definitions, and restore
       tooling.
     - [x] Upload a real backup, pass the isolated R2 restore proof, and remove the
       server recovery key after confirming its off-server copy.
-    - [ ] Enable the production timer at cutover. Timer-failure alerting is
+    - [x] Enable the production timer at cutover. Timer-failure alerting is
       explicitly owner-deferred and remains future work.
   - [ ] Add monitoring/alerts and transactional email; both were explicitly
     owner-deferred on 22 August 2026 for the budget launch.
-  - [ ] Complete the remaining production controls and launch review.
+  - [x] Complete the production cutover and public launch acceptance checks.
+  - [ ] Complete deferred monitoring/email plus accessibility/performance, a
+    tested CSP, and the later HSTS subdomain/preload decision.
 
 ## Definition of done for every milestone
 
