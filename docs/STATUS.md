@@ -100,8 +100,13 @@ release itself are not yet configured.
   checks returned PNG content for both an original and a Wagtail rendition.
 - Added client-side `age` backup encryption, a separately scoped R2 backup client
   with upload/download integrity checks and constrained 14-day pruning, hardened
-  production timer definitions, and an isolated PostgreSQL restore workflow. A
-  real encrypted upload and restore proof remain pending.
+  production timer definitions, and an isolated PostgreSQL restore workflow.
+- Uploaded and re-downloaded the first 1,813,112-byte encrypted backup, verified
+  its database/media checksums, restored its PostgreSQL dump into an isolated
+  temporary database, ran a database query, and removed that database. After the
+  owner confirmed the matching off-server recovery-key copy, the Linode private
+  key was deleted; only its public encryption recipient remains. The production
+  timer is defined but intentionally not enabled before cutover.
 
 ## Current Wagtail tree
 
@@ -241,7 +246,8 @@ require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 
-Milestone 7B should next add encrypted off-server database backups with a restore
-proof, and then complete monitoring, transactional email,
-accessibility/performance, CSP/HSTS, and the production launch review. Analytics
-remains disabled until its separate account and consent decisions are supplied.
+Milestone 7B should next approve and publish the Privacy notice's encrypted
+off-server-backup wording, connect backup/timer failure monitoring, and then
+complete transactional email, accessibility/performance, CSP/HSTS, and the
+production launch review. Analytics remains disabled until its separate account
+and consent decisions are supplied.
