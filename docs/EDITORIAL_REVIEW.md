@@ -32,9 +32,10 @@ remains unpublished, and analytics remains disabled.
 
 The owner must approve or supply:
 
-1. The appointment contact-consent wording, enquiry retention period, authorized
-   staff, and expected response process.
-2. Final privacy-policy and medical-disclaimer wording.
+1. Confirm that Dr. Naresh Rathod has his own accountable administrator login and
+   define coverage when he cannot respond within one business day.
+2. Owner and professional legal/privacy approval of the complete unpublished
+   Privacy and Medical disclaimer drafts in Wagtail and `LEGAL_DRAFTS.md`.
 
 Do not publish the clinic pages merely to test the form. Use Wagtail Preview for
 content review; once the facts above are approved, publish the doctor page,

@@ -203,10 +203,12 @@ Both clinic drafts now contain owner-approved call/WhatsApp publication consent,
 addresses, doctor-availability schedules, and the shared service list. The
 uploaded doctor portrait and its alternative text are also approved. Maps links
 and access details remain optional but must not be inferred. Precise
-qualification/experience wording, appointment consent, staff access, response
-practice, data retention, and final legal text require approval. Blog authors,
-medical reviewers, source standards, review intervals, and every article also
-require approval. See `CONTENT_REQUIRED.md`.
+qualification/experience wording and final legal text require approval. Dr.
+Naresh Rathod is the designated enquiry monitor; consent, a one-business-day
+response target, and 90-day post-closure retention are approved. The Privacy and
+Medical disclaimer pages contain complete unpublished drafts for owner and
+professional review. Blog authors, medical reviewers, source standards, review
+intervals, and every article also require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 

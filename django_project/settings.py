@@ -338,6 +338,7 @@ APPOINTMENT_SUBMISSION_LIMIT = int(
 APPOINTMENT_SUBMISSION_WINDOW_SECONDS = int(
     os.environ.get("APPOINTMENT_SUBMISSION_WINDOW_SECONDS", "3600")
 )
+APPOINTMENT_ENQUIRY_RETENTION_DAYS = 90
 
 # Staging/production transport security. Trust X-Forwarded-Proto only when the
 # deployment proxy is known to strip the client header and set its own value.

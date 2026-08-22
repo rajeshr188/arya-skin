@@ -35,7 +35,8 @@ docker compose --file compose.staging.yml exec -T web \
 Install the daily database and media backup timer after the stack is healthy:
 
 ```sh
-chmod 750 backup_staging.sh test_restore.sh check_staging.sh
+chmod 750 backup_staging.sh test_restore.sh check_staging.sh \
+  purge_closed_enquiries.sh
 sudo install -d -m 0700 -o arya-deploy -g arya-deploy /srv/arya-skin/backups
 sudo install -m 0644 arya-skin-staging-backup.service \
   arya-skin-staging-backup.timer /etc/systemd/system/
@@ -50,6 +51,11 @@ daily, writes checksums, and retains 14 days by default. `test_restore.sh`
 restores the newest dump into an isolated temporary database and extracts its
 media archive without touching the live database or media volume. Review timer
 and service history with `systemctl list-timers` and `journalctl`.
+
+After each successful backup, the same service runs the approved appointment
+retention command. It deletes only enquiries that have remained in the `Closed`
+state for more than 90 days. The pre-deletion backup then ages out under the
+14-day backup policy.
 
 These access-restricted local copies help with application-level recovery but do
 not survive loss of the Linode. Enable Linode Backups or copy backups to

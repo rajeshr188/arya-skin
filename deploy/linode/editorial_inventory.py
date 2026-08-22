@@ -6,7 +6,7 @@ from doctors.models import DoctorPage
 from treatments.models import TreatmentPage
 from wagtail.images import get_image_model
 from wagtail.models import Page
-from website.models import SiteSettings
+from website.models import SiteSettings, StandardPage
 
 
 def latest_content(page):
@@ -85,6 +85,20 @@ for stored_page in ClinicPage.objects.all():
         "has_accessibility_information": bool(page.accessibility_information),
     })
 
+standard_pages = []
+for stored_page in StandardPage.objects.all():
+    page = latest_content(stored_page)
+    standard_pages.append(
+        {
+            "title": page.title,
+            "slug": page.slug,
+            "live": stored_page.live,
+            "has_introduction": bool(page.introduction),
+            "body_blocks": len(page.body),
+            "has_search_description": bool(page.search_description),
+        }
+    )
+
 settings = SiteSettings.objects.first()
 social_links = []
 if settings:
@@ -99,6 +113,7 @@ report = {
     "pages": pages,
     "doctors": doctors,
     "clinics": clinics,
+    "standard_pages": standard_pages,
     "treatments": {
         "total": TreatmentPage.objects.count(),
         "live": TreatmentPage.objects.live().count(),

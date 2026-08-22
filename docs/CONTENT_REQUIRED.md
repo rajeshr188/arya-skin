@@ -111,10 +111,12 @@ unchecked until final publication approval.
 
 ## Appointment operations
 
-- [ ] Approve the displayed appointment contact-consent wording
-- [ ] Decide how long appointment enquiries must be retained before deletion
-- [ ] Name the staff members permitted to view and update enquiries
-- [ ] Define the internal response target and escalation process
+- [x] Approved displayed contact consent: the selected clinic may use submitted
+  details to contact the requester about the appointment request
+- [x] Retain closed appointment enquiries for 90 days before deletion
+- [x] Dr. Naresh Rathod is the only currently designated enquiry monitor
+- [x] Response target: within one business day
+- [ ] Define an escalation/coverage process when Dr. Naresh Rathod is unavailable
 - [ ] Decide whether approved staff email notifications are required later
 
 ## Marketing and measurement
@@ -127,7 +129,7 @@ unchecked until final publication approval.
 - [ ] Existing website URLs and redirects that must be preserved
 - [ ] Legitimate testimonials/reviews, permission to display, approved wording,
   source attribution, and date
-- [ ] Consent/retention policy for appointment enquiries
+- [x] Consent/retention policy for appointment enquiries
 
 ## Publishing sign-off
 

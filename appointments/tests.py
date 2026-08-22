@@ -1,6 +1,8 @@
 from datetime import timedelta
+from io import StringIO
 
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -201,6 +203,72 @@ class AppointmentEnquiryTests(TestCase):
 
         self.assertEqual(staff_response.status_code, 200)
         self.assertContains(staff_response, "Appointment enquiries")
+
+    def test_closed_enquiries_are_deleted_after_approved_retention(self):
+        now = timezone.now()
+        old_closed = AppointmentEnquiry.objects.create(
+            clinic=self.sitapura,
+            name="Old Closed",
+            phone="9876543210",
+            preferred_date=timezone.localdate(),
+            consent_to_contact=True,
+            consent_version=CONSENT_VERSION,
+            status=AppointmentEnquiry.Status.CLOSED,
+        )
+        recent_closed = AppointmentEnquiry.objects.create(
+            clinic=self.sitapura,
+            name="Recent Closed",
+            phone="9876543211",
+            preferred_date=timezone.localdate(),
+            consent_to_contact=True,
+            consent_version=CONSENT_VERSION,
+            status=AppointmentEnquiry.Status.CLOSED,
+        )
+        old_open = AppointmentEnquiry.objects.create(
+            clinic=self.sitapura,
+            name="Old Open",
+            phone="9876543212",
+            preferred_date=timezone.localdate(),
+            consent_to_contact=True,
+            consent_version=CONSENT_VERSION,
+            status=AppointmentEnquiry.Status.CONTACTED,
+        )
+        AppointmentEnquiry.objects.filter(pk=old_closed.pk).update(
+            updated_at=now - timedelta(days=91)
+        )
+        AppointmentEnquiry.objects.filter(pk=old_open.pk).update(
+            updated_at=now - timedelta(days=91)
+        )
+
+        output = StringIO()
+        call_command("purge_closed_enquiries", stdout=output)
+
+        self.assertFalse(AppointmentEnquiry.objects.filter(pk=old_closed.pk).exists())
+        self.assertTrue(
+            AppointmentEnquiry.objects.filter(pk=recent_closed.pk).exists()
+        )
+        self.assertTrue(AppointmentEnquiry.objects.filter(pk=old_open.pk).exists())
+        self.assertIn("deleted_closed_enquiries=1", output.getvalue())
+
+    def test_retention_command_supports_a_dry_run(self):
+        enquiry = AppointmentEnquiry.objects.create(
+            clinic=self.sitapura,
+            name="Dry Run",
+            phone="9876543213",
+            preferred_date=timezone.localdate(),
+            consent_to_contact=True,
+            consent_version=CONSENT_VERSION,
+            status=AppointmentEnquiry.Status.CLOSED,
+        )
+        AppointmentEnquiry.objects.filter(pk=enquiry.pk).update(
+            updated_at=timezone.now() - timedelta(days=91)
+        )
+
+        output = StringIO()
+        call_command("purge_closed_enquiries", dry_run=True, stdout=output)
+
+        self.assertTrue(AppointmentEnquiry.objects.filter(pk=enquiry.pk).exists())
+        self.assertIn("eligible_closed_enquiries=1", output.getvalue())
 
     def test_clinic_page_has_desktop_and_mobile_conversion_actions(self):
         self.publish_clinic(self.sitapura)

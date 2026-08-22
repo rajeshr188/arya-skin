@@ -25,5 +25,9 @@ scheduled, closed, and spam. This note must not be used for diagnosis or clinica
 records.
 
 No email, SMS, WhatsApp API, calendar, CRM, or analytics integration is enabled.
-The clinic must approve access, retention, consent wording, and response practice
-before public launch.
+The approved consent wording is `appointment-contact-v1`. Dr. Naresh Rathod is
+the only currently designated enquiry monitor, with a response target of one
+business day. Closed enquiries are retained for 90 days; run
+`python manage.py purge_closed_enquiries` on a schedule before enabling the
+public form. Do not grant another person access without explicit approval and a
+separate accountable login.
