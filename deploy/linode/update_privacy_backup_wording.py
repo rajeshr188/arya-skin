@@ -45,7 +45,9 @@ if page.has_unpublished_changes:
     )
 
 introduction, introduction_count = replace_in_value(str(page.introduction))
-body_data, body_count = replace_in_value(deepcopy(page.body.raw_data))
+body_field = page._meta.get_field("body")
+serialized_body = body_field.get_prep_value(page.body)
+body_data, body_count = replace_in_value(deepcopy(serialized_body))
 replacement_count = introduction_count + body_count
 if replacement_count != 1:
     raise RuntimeError(
@@ -59,7 +61,9 @@ revision = page.save_revision(log_action=True)
 revision.publish()
 
 page.refresh_from_db()
-rendered_values = str(page.introduction) + repr(page.body.raw_data)
+rendered_values = str(page.introduction) + repr(
+    page._meta.get_field("body").get_prep_value(page.body)
+)
 if OLD_SENTENCE in rendered_values or NEW_SENTENCE not in rendered_values:
     raise RuntimeError("Published Privacy revision did not retain approved wording.")
 
