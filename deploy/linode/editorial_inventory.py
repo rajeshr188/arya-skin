@@ -9,6 +9,11 @@ from wagtail.models import Page
 from website.models import SiteSettings
 
 
+def latest_content(page):
+    revision = page.get_latest_revision()
+    return revision.as_object() if revision else page
+
+
 pages = [
     {
         "type": page.specific_class.__name__ if page.specific_class else "Page",
@@ -21,10 +26,12 @@ pages = [
     for page in Page.objects.exclude(depth=1).specific().order_by("path")
 ]
 
-doctors = [
-    {
+doctors = []
+for stored_page in DoctorPage.objects.all():
+    page = latest_content(stored_page)
+    doctors.append({
         "title": page.title,
-        "live": page.live,
+        "live": stored_page.live,
         "professional_title": page.professional_title,
         "has_portrait": bool(page.portrait_id),
         "has_biography": bool(page.biography),
@@ -39,23 +46,32 @@ doctors = [
         "memberships": page.memberships.count(),
         "has_affiliations": bool(page.professional_affiliations),
         "has_philosophy": bool(page.philosophy_of_care),
-    }
-    for page in DoctorPage.objects.all()
-]
+    })
 
-clinics = [
-    {
+clinics = []
+for stored_page in ClinicPage.objects.all():
+    page = latest_content(stored_page)
+    clinics.append({
         "title": page.title,
         "slug": page.slug,
-        "live": page.live,
+        "live": stored_page.live,
         "locality": page.locality,
         "has_address": bool(page.address),
+        "formatted_address": page.formatted_address,
         "postal_code": page.postal_code,
         "phone_present": bool(page.phone),
         "phone_public": page.phone_is_public,
         "whatsapp_present": bool(page.whatsapp),
         "whatsapp_public": page.whatsapp_is_public,
-        "opening_hours": page.opening_hours.count(),
+        "opening_hours": [
+            {
+                "day": item.get_day_display(),
+                "opens_at": item.opens_at,
+                "closes_at": item.closes_at,
+                "closed": item.is_closed,
+            }
+            for item in page.opening_hours.all().order_by("sort_order")
+        ],
         "services": page.services.count(),
         "photos": page.gallery_images.count(),
         "has_doctor_availability": bool(page.doctor_availability),
@@ -64,9 +80,7 @@ clinics = [
         "has_landmark": bool(page.nearby_landmark),
         "has_parking_information": bool(page.parking_information),
         "has_accessibility_information": bool(page.accessibility_information),
-    }
-    for page in ClinicPage.objects.all()
-]
+    })
 
 settings = SiteSettings.objects.first()
 social_links = []
@@ -90,7 +104,13 @@ report = {
         "total": BlogPage.objects.count(),
         "live": BlogPage.objects.live().count(),
     },
-    "images": get_image_model().objects.count(),
+    "images": [
+        {
+            "title": image.title,
+            "default_alt_text": image.default_alt_text,
+        }
+        for image in get_image_model().objects.all().order_by("id")
+    ],
     "site_settings": {
         "has_primary_phone": bool(settings and settings.primary_phone),
         "has_default_whatsapp": bool(settings and settings.default_whatsapp),

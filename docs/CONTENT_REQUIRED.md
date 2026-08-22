@@ -36,16 +36,16 @@ unchecked until final publication approval.
 
 - [x] Official public clinic name: Dolphin Derma Care
 - [x] Locality and route: Sitapura, `/clinics/sitapura/`
-- [ ] Confirm final address formatting
-  - Supplied for draft: Above Apni Pharmacy, Main India Gate, Tonk Road,
-    Sitapura, Jaipur, Rajasthan 302022
-- [ ] Confirm the supplied phone accepts calls and may be published
-- [ ] Confirm WhatsApp publication consent for the supplied number
-- [ ] Opening hours and doctor availability, including weekly closures
+- [x] Final address: Dolphin Derma Care, Main India Gate, Tonk Road, Sitapura
+  (Above Aapni Pharmacy), Jaipur, Rajasthan 302033
+- [x] Confirmed the supplied phone accepts calls and may be published
+- [x] Confirmed WhatsApp publication consent for the supplied number
+- [x] Doctor availability: Monday to Sunday, 6:00 PM to 8:00 PM
 - [ ] Google Maps share URL
 - [ ] Google Business Profile URL and account ownership/access
 - [ ] Google Place ID and coordinates, if available
-- [ ] Services actually offered at this branch
+- [x] Confirmed the service offering is the same at both branches
+- [ ] Exact services actually offered at both branches
 - [ ] Nearby landmark and accurate arrival guidance
 - [ ] Parking and public-transport information
 - [ ] Accessibility information
@@ -55,15 +55,17 @@ unchecked until final publication approval.
 
 - [x] Official public clinic name: Arya Skin and Hair Clinic
 - [x] Locality and route: Chaksu, `/clinics/chaksu/`
-- [ ] Complete street/building address
-  - Supplied so far: Chaksu, Jaipur, Rajasthan 302027
-- [ ] Confirm the supplied phone accepts calls and may be published
-- [ ] Confirm WhatsApp publication consent for the supplied number
-- [ ] Opening hours and doctor availability, including weekly closures
+- [x] Complete address: Arya Skin and Hair Clinic, near Peepli Ke Gatte,
+  Phagi-Chaksu Road, Chaksu, Jaipur, Rajasthan 302027
+- [x] Confirmed the supplied phone accepts calls and may be published
+- [x] Confirmed WhatsApp publication consent for the supplied number
+- [x] Doctor availability: Tuesday, Friday, and Sunday, 9:30 AM to 12:00 PM;
+  Thursday, 5:00 PM to 6:00 PM; closed Monday, Wednesday, and Saturday
 - [ ] Google Maps share URL
 - [ ] Google Business Profile URL and account ownership/access
 - [ ] Google Place ID and coordinates, if available
-- [ ] Services actually offered at this branch
+- [x] Confirmed the service offering is the same at both branches
+- [ ] Exact services actually offered at both branches
 - [ ] Nearby landmark and accurate arrival guidance
 - [ ] Parking and public-transport information
 - [ ] Accessibility information

@@ -199,13 +199,14 @@ request logs.
 
 ## Missing real-world content
 
-Before publishing the draft pages, confirm phone/WhatsApp publication consent,
-clinic hours and doctor availability, the complete Chaksu address, final Sitapura
-address formatting, Maps links, and the precise qualification/experience display
-wording. Appointment consent wording, staff access, response practice, and data
-retention also require operational approval. Blog authors, medical reviewers,
-source standards, review intervals, and every article require approval. See
-`CONTENT_REQUIRED.md`.
+Both clinic drafts now contain owner-approved call/WhatsApp publication consent,
+addresses, and doctor-availability schedules. Before publishing them, supply the
+exact shared service list. Maps links and access details remain optional but must
+not be inferred. The doctor portrait permission/alternative text, precise
+qualification/experience wording, appointment consent, staff access, response
+practice, data retention, and final legal text require approval. Blog authors,
+medical reviewers, source standards, review intervals, and every article also
+require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 

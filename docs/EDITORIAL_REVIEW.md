@@ -15,14 +15,16 @@ remains unpublished, and analytics remains disabled.
 - The two independent clinic drafts are correctly named and routed:
   Dolphin Derma Care at `/clinics/sitapura/` and Arya Skin and Hair Clinic at
   `/clinics/chaksu/`.
-- Both clinic drafts reference Dr. Naresh Rathod. Their stored phone and WhatsApp
-  values are not exposed because publication consent is disabled.
+- Both clinic drafts reference Dr. Naresh Rathod. The owner has approved their
+  stored phone number for public calls and WhatsApp at both clinics.
 - The doctor draft contains the supplied qualifications, confirmed Rajasthan
   Medical Council registration, four practice areas, and three languages.
 - No experience claim, biography, membership, affiliation, treatment, article,
   testimonial, rating, or clinic service is published.
-- There are no treatment or article records and no uploaded images. This is
-  acceptable for private structural staging.
+- A doctor portrait has been uploaded with default alternative text. Its usage
+  permission and final public alternative-text wording still require
+  confirmation. There are no clinic photographs, treatment records, or article
+  records.
 - The appointment form remains unavailable until at least one clinic is approved
   and published. This prevents enquiries being routed to incomplete clinic data.
 
@@ -30,15 +32,14 @@ remains unpublished, and analytics remains disabled.
 
 The owner must approve or supply:
 
-1. Whether the stored phone number may receive public calls for each clinic.
-2. Whether that number may be published as WhatsApp for each clinic.
-3. Final Sitapura address formatting and the complete Chaksu address.
-4. Opening hours, weekly closures, and Dr. Naresh Rathod's availability at each
-   clinic.
-5. The services genuinely offered at each clinic.
-6. The appointment contact-consent wording, enquiry retention period, authorized
+1. The exact services genuinely offered at both clinics. The owner confirmed
+   that the service offering is the same at both locations but has not yet
+   supplied the list.
+2. Usage permission and final alternative-text wording for the uploaded doctor
+   portrait.
+3. The appointment contact-consent wording, enquiry retention period, authorized
    staff, and expected response process.
-7. Final privacy-policy and medical-disclaimer wording.
+4. Final privacy-policy and medical-disclaimer wording.
 
 Do not publish the clinic pages merely to test the form. Use Wagtail Preview for
 content review; once the facts above are approved, publish the doctor page,
