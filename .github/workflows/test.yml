@@ -1,0 +1,69 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  django:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: arya_skin_test
+          POSTGRES_USER: arya_skin
+          POSTGRES_PASSWORD: ci-only-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U arya_skin -d arya_skin_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://arya_skin:ci-only-password@127.0.0.1:5432/arya_skin_test
+      SECRET_KEY: ci-only-secret-key-not-used-outside-tests-12345678901234567890
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --requirement requirements.txt
+      - name: Check migrations
+        run: python manage.py makemigrations --check --dry-run
+      - name: Run migrations
+        run: python manage.py migrate --noinput
+      - name: Run tests
+        run: python manage.py test
+      - name: Check production security profile
+        env:
+          DJANGO_ENVIRONMENT: production
+          DJANGO_DEBUG: "False"
+          ALLOWED_HOSTS: www.example.test
+          CSRF_TRUSTED_ORIGINS: https://www.example.test
+          WAGTAILADMIN_BASE_URL: https://www.example.test
+          TRUST_X_FORWARDED_PROTO: "True"
+          SECURE_HSTS_SECONDS: "31536000"
+          SECURE_HSTS_INCLUDE_SUBDOMAINS: "True"
+          SECURE_HSTS_PRELOAD: "True"
+        run: python manage.py check --deploy
+      - name: Collect static files
+        env:
+          DJANGO_ENVIRONMENT: staging
+          DJANGO_DEBUG: "False"
+          ALLOWED_HOSTS: stage.example.test
+          CSRF_TRUSTED_ORIGINS: https://stage.example.test
+          WAGTAILADMIN_BASE_URL: https://stage.example.test
+          STAGING_ACCESS_USERNAME: ci-reviewer
+          STAGING_ACCESS_PASSWORD: ci-only-staging-password
+          TRUST_X_FORWARDED_PROTO: "True"
+        run: python manage.py collectstatic --noinput --verbosity 0

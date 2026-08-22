@@ -4,10 +4,11 @@ Server-rendered Django and Wagtail website for Dr. Naresh Rathod and the two
 independently named clinics where he practises: Dolphin Derma Care in Sitapura
 and Arya Skin and Hair Clinic in Chaksu, Jaipur.
 
-The project is being evolved from the Lithium starter. Milestones 1–6 provide
+The project is being evolved from the Lithium starter. Milestones 1–7A provide
 the CMS foundation, structured public content, the CMS-driven public shell, a
 privacy-minimized appointment workflow, a medically governed article system,
-factual technical/local SEO foundations, and consent-gated analytics readiness.
+factual technical/local SEO foundations, consent-gated analytics readiness, and
+a private staging deployment baseline.
 
 ## Stack
 
@@ -15,7 +16,7 @@ factual technical/local SEO foundations, and consent-gated analytics readiness.
 - Django 6.0.4
 - Wagtail 7.4 LTS (currently locked to 7.4.3)
 - Bootstrap 5.3, WhiteNoise, Gunicorn, psycopg, django-allauth, crispy forms
-- SQLite for local development; PostgreSQL is the production target
+- SQLite for local development; PostgreSQL for CI, staging, and production
 
 ## Local setup
 
@@ -31,6 +32,16 @@ Open the public site at <http://127.0.0.1:8000/>, Wagtail at
 <http://127.0.0.1:8000/admin/>. Appointment enquiries are managed in Django
 admin. Public patient accounts are not enabled.
 
+To exercise the PostgreSQL development path instead:
+
+```powershell
+docker compose up --build --detach db
+docker compose run --rm web python manage.py migrate
+docker compose up --build web
+```
+
+Stop it with `docker compose down`; the named PostgreSQL volume is retained.
+
 ## Verification
 
 ```powershell
@@ -41,10 +52,10 @@ uv run manage.py test
 
 ## Configuration
 
-The current settings read `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, and
-`WAGTAILADMIN_BASE_URL` from the environment with local-only defaults. Uploaded
-media is written to `media/` in development and is not committed. Do not use
-WhiteNoise for production uploads.
+The settings use local-only defaults in development and require explicit secret,
+host, origin, PostgreSQL, Wagtail URL, and access-control values in staging.
+Uploaded media is written to `media/` locally and must use the documented
+persistent staging volume. Do not use WhiteNoise for uploads.
 
 Appointment throttling can be adjusted with `APPOINTMENT_SUBMISSION_LIMIT` and
 `APPOINTMENT_SUBMISSION_WINDOW_SECONDS`. The defaults allow five accepted
@@ -68,6 +79,7 @@ is tracked for the production-hardening milestone in `docs/PLAN.md` and
 - `docs/APPOINTMENTS.md`: appointment data, abuse protection, and staff workflow
 - `docs/BLOG_EDITORIAL.md`: article sourcing, review, and publishing workflow
 - `docs/DEPLOYMENT.md`: current and target deployment architecture
+- `docs/STAGING.md`: private staging environment and release runbook
 
 Do not invent clinic contacts, addresses, hours, services, credentials, reviews,
 or medical claims to make an unfinished page appear complete.

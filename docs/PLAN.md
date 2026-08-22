@@ -60,9 +60,12 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
 
 ## Milestone 7 — production hardening
 
-- Finish environment/database configuration, PostgreSQL deployment, durable
-  media storage strategy, security, accessibility, performance, and error-page
-  reviews.
+- [x] Milestone 7A: environment-driven PostgreSQL and HTTPS settings, private
+  noindex staging access, non-root container/release workflow, health checks,
+  structured logs, persistent staging-media guidance, and PostgreSQL CI.
+- [ ] Milestone 7B: production object storage, monitoring/alerts, transactional
+  email, backup/restore proof, accessibility/performance review, CSP, final HSTS,
+  public content/legal approval, and production launch review.
 
 ## Definition of done for every milestone
 

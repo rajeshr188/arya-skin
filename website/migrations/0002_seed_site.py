@@ -55,6 +55,9 @@ def seed_site(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-    dependencies = [("website", "0001_initial")]
+    dependencies = [
+        ("wagtailsearch", "0010_add_text_fields"),
+        ("website", "0001_initial"),
+    ]
 
     operations = [migrations.RunPython(seed_site, migrations.RunPython.noop)]

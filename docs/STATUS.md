@@ -2,7 +2,8 @@
 
 Last updated: 22 August 2026
 
-Milestones 0 through 6 are complete. Production hardening is not implemented.
+Milestones 0 through 6 and the staging baseline in milestone 7A are complete.
+Milestone 7B production launch hardening is not implemented.
 
 ## Implemented
 
@@ -71,9 +72,19 @@ Milestones 0 through 6 are complete. Production hardening is not implemented.
 - Added consent controls, analytics-choice reopening, clinic/mobile/home/treatment
   event annotations, and documented GA4, GTM, Search Console, UTM, and Google
   Business Profile operating safeguards.
+- Added explicit development, staging, and production settings profiles with
+  strict environment validation, PostgreSQL URL parsing, HTTPS/proxy security,
+  secret/host/origin validation, and deployment-safe cookie defaults.
+- Added forced private staging access, noindex headers, a database-readiness
+  endpoint, privacy-safe JSON logs, and a documented staging release checklist.
+- Added a non-root multi-stage container, Gunicorn configuration, release script,
+  local PostgreSQL Compose workflow, and persistent-media guidance.
+- Added PostgreSQL-backed CI for migration, test, static-file, and production
+  deployment checks. A clean PostgreSQL database now applies the entire migration
+  graph in dependency order.
 - Retained Django admin and installed allauth; public allauth routes remain
   intentionally unavailable.
-- Added project documentation and 59 passing foundation/domain tests.
+- Added project documentation and 67 passing foundation/domain/deployment tests.
 
 ## Current Wagtail tree
 
@@ -114,6 +125,11 @@ in Wagtail before publication.
 - Analytics uses one approved provider and basic opt-in consent. A live Privacy
   page is a technical prerequisite; GA4 enhanced outbound/form measurement and
   any GTM form/DOM variables remain prohibited.
+- SQLite remains a convenience for local development only. CI, staging, and
+  production use PostgreSQL; staging additionally requires HTTPS, Basic access
+  control, forced noindex, a persistent media volume, and secret-manager values.
+- Database migration and static collection are release operations, separate from
+  web-process startup. The application container runs as an unprivileged user.
 
 ## Verification
 
@@ -123,8 +139,13 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            59 tests passed
+manage.py test                            67 tests passed (SQLite)
+manage.py test                            67 tests passed (PostgreSQL 16)
 manage.py collectstatic --dry-run         passed
+manage.py check --deploy                  0 issues (production profile)
+clean PostgreSQL migration                248 migrations applied
+production container build                passed; runs as non-root `app`
+staging smoke test                         health 200; anonymous 401; auth 200
 direct homepage request                   HTTP 200
 all nine draft routes                     HTTP 404
 git diff --check                          passed
@@ -145,6 +166,9 @@ breadcrumbs, redirects, draft/noindex behavior, and sitemap coverage.
 Analytics tests cover disabled defaults, provider validation, live-privacy
 gating, consent controls, safe clinic/treatment actions, Search Console metadata,
 one-time accepted submissions, and the client-side event allowlist.
+Deployment tests cover strict environment parsing, PostgreSQL configuration,
+database readiness responses, staging access/noindex behavior, and redacted JSON
+request logs.
 
 ## Missing real-world content
 
@@ -158,7 +182,9 @@ source standards, review intervals, and every article require approval. See
 
 ## Next milestone
 
-Milestone 7 should complete PostgreSQL/environment configuration, durable media
-storage, deployment security, accessibility, performance, and production error
-handling. Analytics must remain disabled until the outstanding account, privacy,
-and consent approvals are supplied.
+Milestone 7B should add production object storage, monitoring and alerts,
+transactional email, tested backup/restore, accessibility and performance review,
+CSP/final HSTS, public content and legal approval, and the production launch
+review. Analytics must remain disabled until the outstanding account, privacy,
+and consent approvals are supplied. No hosted staging environment has been
+provisioned yet; milestone 7A makes the application ready for one.

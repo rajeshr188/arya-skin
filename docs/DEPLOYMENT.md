@@ -6,9 +6,22 @@
 - local uploaded media under `media/` (ignored by Git)
 - static source under `static/`; WhiteNoise is configured for collected static
 - `uv` lockfile and a generated `requirements.txt`
-- Gunicorn/Docker starter files retained from Lithium
+- Docker Compose can run the development application against PostgreSQL 16;
+  SQLite remains the zero-configuration local default.
 
-## Production target
+## Staging baseline
+
+Milestone 7A provides environment-driven PostgreSQL, host/origin validation,
+secure-cookie and HTTPS settings, guarded proxy-header trust, a non-root Gunicorn
+container, immutable static collection, JSON operational logs, a database health
+endpoint, and CI against PostgreSQL.
+
+Staging is forcibly noindex and protected with HTTPS Basic authentication. The
+health endpoint is the only authentication bypass. Staging media may use one
+mounted persistent volume with backups; it is not suitable for multiple web
+replicas. See `STAGING.md` for the required environment and acceptance checks.
+
+## Production target (Milestone 7B)
 
 - supported Python 3.12+ runtime;
 - PostgreSQL via `psycopg` and an environment-driven connection;
@@ -17,16 +30,19 @@
 - S3-compatible/object storage and optional CDN for user-uploaded Wagtail media;
 - durable database/media backups and tested restore procedures.
 
-## Required configuration before launch
+## Required configuration before public launch
 
-- strong `SECRET_KEY`; `DEBUG=False`;
+- strong `SECRET_KEY`; `DJANGO_DEBUG=False`;
 - production `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, and
   `WAGTAILADMIN_BASE_URL`;
-- environment-driven PostgreSQL settings;
-- secure cookies, HTTPS redirect/HSTS after TLS is confirmed;
+- final PostgreSQL sizing, backup retention, restore testing, and connection
+  limits;
+- production HSTS rollout after TLS is confirmed, including deliberate
+  subdomain/preload decisions;
 - transactional email provider for operational mail;
 - object-storage credentials and private/public access policy as appropriate;
-- error monitoring, log retention, health checks, and backup ownership;
+- error-monitoring provider, alert routing, log retention, and named backup
+  ownership;
 - production Site hostname/port updated in Wagtail admin;
 - approved privacy notice and analytics consent behavior;
 - clinic-owned GA4 or governed GTM account, with analytics disabled until final
@@ -43,13 +59,15 @@ approved account ownership and privacy configuration.
 
 ## Release outline
 
-```powershell
-uv sync --frozen --no-dev
-uv run manage.py check --deploy
-uv run manage.py migrate --noinput
-uv run manage.py collectstatic --noinput
+```text
+Build:    docker build --tag arya-skin:<release> .
+Release:  /app/scripts/release.sh
+Web:      gunicorn --config gunicorn.conf.py django_project.wsgi
+Health:   GET /healthz/
 ```
 
-Run tests in CI before release. Migrations should execute once as a release task,
-not concurrently in every web worker. The existing Docker Compose file remains a
-local PostgreSQL aid and is not yet a production orchestration definition.
+Migrations execute once as a release task, not concurrently in every web worker.
+Docker Compose remains a local development aid and is not production
+orchestration. The application service must use an HTTPS router and a platform
+secret manager. Django should trust `X-Forwarded-Proto` only when that router
+strips the client-supplied value and sets its own.

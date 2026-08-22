@@ -1,2 +1,12 @@
-# Exclude the project virtual environment from image builds
+.git
+.github
 .venv
+__pycache__
+*.py[cod]
+*.log
+.env
+.env.*
+!.env.example
+db.sqlite3
+media
+staticfiles

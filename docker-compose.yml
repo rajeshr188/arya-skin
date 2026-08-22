@@ -1,19 +1,32 @@
 services:
   web:
     build: .
-    command: python /code/manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - .:/app
+      - /app/.venv
     ports:
-      - 8000:8000
+      - "8000:8000"
+    environment:
+      DJANGO_DEBUG: "True"
+      DJANGO_ENVIRONMENT: development
+      DATABASE_URL: postgresql://arya_skin:${POSTGRES_PASSWORD:-local-dev-password}@db:5432/arya_skin
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   db:
     image: postgres:16
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      POSTGRES_DB: arya_skin
+      POSTGRES_USER: arya_skin
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-dev-password}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U arya_skin -d arya_skin"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   postgres_data:
