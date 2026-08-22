@@ -30,9 +30,11 @@ remains unpublished, and analytics remains disabled.
 
 ## Required before publishing clinic and appointment pages
 
-The owner must obtain owner and professional legal/privacy approval of the
-complete unpublished Privacy and Medical disclaimer drafts in Wagtail and
-`LEGAL_DRAFTS.md`.
+The owner must approve the exact complete unpublished Privacy and Medical
+disclaimer drafts in Wagtail and `LEGAL_DRAFTS.md`. Professional legal/privacy
+review remains recommended but was explicitly deferred by the owner on 22
+August 2026 for the budget launch. Do not describe the drafts as professionally
+reviewed or legally verified.
 
 The public fallback for an unanswered request is approved: after one business
 day, ask the requester to call or WhatsApp the selected clinic and reiterate

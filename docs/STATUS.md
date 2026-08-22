@@ -214,9 +214,11 @@ qualification/experience wording and final legal text require approval. Dr.
 Naresh Rathod is the designated enquiry monitor; consent, a one-business-day
 response target, the call/WhatsApp fallback for an unanswered request, and
 90-day post-closure retention are approved. The Privacy and Medical disclaimer
-pages contain complete unpublished drafts for owner and professional review.
-Blog authors, medical reviewers, source standards, review intervals, and every
-article also require approval. See `CONTENT_REQUIRED.md`.
+pages contain complete unpublished drafts for owner approval. Professional
+legal/privacy review remains recommended but was explicitly deferred by the
+owner for the budget launch; the drafts are not legally verified. Blog authors,
+medical reviewers, source standards, review intervals, and every article also
+require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 

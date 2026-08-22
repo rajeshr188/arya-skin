@@ -3,8 +3,10 @@
 Drafted: 22 August 2026
 
 These are conservative working drafts for the private staging site. They are not
-legal advice and must remain unpublished until the clinic owner and an
-appropriately qualified Indian legal/privacy reviewer approve them. Update the
+legal advice. On 22 August 2026, the owner chose to defer professional
+legal/privacy review for the budget launch. They must remain unpublished until
+the owner explicitly approves the exact final wording. This deferral does not
+verify legal compliance or make the drafts professionally reviewed. Update the
 review date when the final text is approved.
 
 The drafting review used the official [Digital Personal Data Protection Act,
@@ -13,7 +15,8 @@ MeitY's [DPDP Act page](https://www.meity.gov.in/content/digital-personal-data-p
 and the Government of India's [DPDP Rules, 2025 notification
 summary](https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/nov/doc20251117695301.pdf).
 Rules and commencement are phased and may change the final compliance work; a
-professional review is required before production publication.
+professional review remains recommended but, at the owner's direction, is not a
+project launch gate.
 
 ## Operational decisions reflected in the drafts
 

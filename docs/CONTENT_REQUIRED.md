@@ -108,6 +108,8 @@ unchecked until final publication approval.
 - [ ] Instagram, Facebook, YouTube, and LinkedIn profile URLs
 - [ ] Default social-sharing image
 - [ ] Approved privacy policy and medical disclaimer wording
+- [x] Professional legal/privacy review recommended and explicitly deferred by
+  the owner on 22 August 2026 for the budget launch; this is not legal approval
 
 ## Appointment operations
 
