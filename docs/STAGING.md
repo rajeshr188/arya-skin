@@ -101,6 +101,11 @@ cd /srv/arya-skin/staging
 - the provider has current database and media backups and a named owner;
 - analytics remains disabled unless its separate approvals are complete.
 
+The single-host staging timer in `deploy/linode/` is the first recovery layer.
+Its restore test must pass after setup and after meaningful database or media
+changes. Because those backups share the Linode's failure domain, also enable a
+provider backup or transfer encrypted copies off-server.
+
 The repository CI runs migrations and all tests against PostgreSQL and validates
 a production security profile. A successful CI run and staging acceptance review
 are prerequisites for Milestone 7B, not evidence that public launch content is

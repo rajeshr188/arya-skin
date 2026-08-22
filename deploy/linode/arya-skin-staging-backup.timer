@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the Arya Skin staging backup daily
+
+[Timer]
+OnCalendar=*-*-* 02:30:00 UTC
+Persistent=true
+RandomizedDelaySec=15m
+Unit=arya-skin-staging-backup.service
+
+[Install]
+WantedBy=timers.target

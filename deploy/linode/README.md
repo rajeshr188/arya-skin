@@ -22,5 +22,31 @@ This directory contains the version-controlled, secret-free infrastructure for
 8. Run `./check_staging.sh` on the host, then complete the editorial acceptance
    checks in `docs/STAGING.md`.
 
+## Local staging backups
+
+Install the daily database and media backup timer after the stack is healthy:
+
+```sh
+chmod 750 backup_staging.sh test_restore.sh check_staging.sh
+sudo install -d -m 0700 -o arya-deploy -g arya-deploy /srv/arya-skin/backups
+sudo install -m 0644 arya-skin-staging-backup.service \
+  arya-skin-staging-backup.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now arya-skin-staging-backup.timer
+./backup_staging.sh
+./test_restore.sh
+```
+
+The timer takes a PostgreSQL custom-format dump and a compressed media archive
+daily, writes checksums, and retains 14 days by default. `test_restore.sh`
+restores the newest dump into an isolated temporary database and extracts its
+media archive without touching the live database or media volume. Review timer
+and service history with `systemctl list-timers` and `journalctl`.
+
+These access-restricted local copies help with application-level recovery but do
+not survive loss of the Linode. Enable Linode Backups or copy backups to
+separately controlled encrypted storage before treating off-server backup
+coverage as complete.
+
 Do not use this single-host layout for public production. Milestone 7B still
 requires object storage, monitoring, transactional email, and restore testing.

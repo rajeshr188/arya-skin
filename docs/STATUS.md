@@ -189,6 +189,9 @@ request logs.
 - External and credentialed acceptance checks pass: anonymous pages remain
   access-controlled and noindexed, the health endpoint is available, and the
   authenticated site and Wagtail login route respond successfully.
+- One active Wagtail administrator is configured. A daily, access-restricted
+  PostgreSQL and media backup timer is enabled with 14-day local retention, and
+  the initial isolated database/media restore test passed.
 
 ## Missing real-world content
 
@@ -207,4 +210,4 @@ transactional email, tested backup/restore, accessibility and performance review
 CSP/final HSTS, public content and legal approval, and the production launch
 review. Analytics must remain disabled until the outstanding account, privacy,
 and consent approvals are supplied. The private Linode staging site is live;
-administrator setup, backup/restore validation, and editorial acceptance remain.
+off-server backup coverage and editorial acceptance remain.
