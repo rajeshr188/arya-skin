@@ -30,6 +30,16 @@ docker compose --file compose.staging.yml exec -T web \
   python manage.py shell < editorial_inventory.py
 ```
 
+After explicit owner approval, an empty Treatments and Articles index can be
+removed from public navigation without deleting its CMS draft. The guarded
+operation refuses to run if either index has unpublished edits or any child
+content:
+
+```sh
+docker compose --file compose.staging.yml exec -T web \
+  python manage.py shell < unpublish_empty_content_indexes.py
+```
+
 ## Local staging backups
 
 Install the daily database and media backup timer after the stack is healthy:
