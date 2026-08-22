@@ -1,0 +1,127 @@
+# Content required from Dr. Naresh Rathod
+
+Checked items have been supplied or explicitly clarified for draft use. Items
+that affect public contact, medical claims, or incomplete addresses remain
+unchecked until final publication approval.
+
+## Confirmed structure
+
+- [x] Dr. Naresh Rathod is the practitioner associated with both clinics.
+- [x] Dolphin Derma Care is the clinic in Sitapura, Jaipur.
+- [x] Arya Skin and Hair Clinic is the clinic in Chaksu, Jaipur.
+- [x] Public routes should be `/clinics/sitapura/` and `/clinics/chaksu/`.
+- [x] The clinic names are independent and must not be merged or relabelled.
+
+## Doctor profile
+
+- [x] Public professional name: Dr. Naresh Rathod
+- [x] Supplied professional title: Dermatologist and Cosmetologist
+- [ ] Final qualification display wording and award years
+  - Supplied for draft: MBBS, Jhalawar Medical College, Jhalawar, Rajasthan, India
+  - Supplied for draft: PGCCD, Indian Association of Dermatologists,
+    Venereologists and Cosmetologists
+- [x] Supplied registration: C-6523, Rajasthan Medical Council, 2008
+- [x] Supplied areas of practice: skin, nail, hair, and cosmetology
+- [ ] Professional memberships
+- [ ] Current professional biography
+- [ ] Experience claim and its “as of” date
+  - Supplied but not yet displayed: 14 years in dermatology and cosmetology
+- [x] Languages: Hindi, English, and Marwari
+- [ ] Philosophy of care / approved first-person message
+- [ ] Current hospitals or professional affiliations
+- [ ] Portrait and professional/consultation photographs, usage permission, and
+  meaningful alt-text descriptions
+
+## Dolphin Derma Care — Sitapura
+
+- [x] Official public clinic name: Dolphin Derma Care
+- [x] Locality and route: Sitapura, `/clinics/sitapura/`
+- [ ] Confirm final address formatting
+  - Supplied for draft: Above Apni Pharmacy, Main India Gate, Tonk Road,
+    Sitapura, Jaipur, Rajasthan 302022
+- [ ] Confirm the supplied phone accepts calls and may be published
+- [ ] Confirm WhatsApp publication consent for the supplied number
+- [ ] Opening hours and doctor availability, including weekly closures
+- [ ] Google Maps share URL
+- [ ] Google Business Profile URL and account ownership/access
+- [ ] Google Place ID and coordinates, if available
+- [ ] Services actually offered at this branch
+- [ ] Nearby landmark and accurate arrival guidance
+- [ ] Parking and public-transport information
+- [ ] Accessibility information
+- [ ] Exterior, reception, consultation-room, staff, and approved equipment photos
+
+## Arya Skin and Hair Clinic — Chaksu
+
+- [x] Official public clinic name: Arya Skin and Hair Clinic
+- [x] Locality and route: Chaksu, `/clinics/chaksu/`
+- [ ] Complete street/building address
+  - Supplied so far: Chaksu, Jaipur, Rajasthan 302027
+- [ ] Confirm the supplied phone accepts calls and may be published
+- [ ] Confirm WhatsApp publication consent for the supplied number
+- [ ] Opening hours and doctor availability, including weekly closures
+- [ ] Google Maps share URL
+- [ ] Google Business Profile URL and account ownership/access
+- [ ] Google Place ID and coordinates, if available
+- [ ] Services actually offered at this branch
+- [ ] Nearby landmark and accurate arrival guidance
+- [ ] Parking and public-transport information
+- [ ] Accessibility information
+- [ ] Exterior, reception, consultation-room, staff, and approved equipment photos
+
+## Treatments and patient information
+
+- [ ] Confirm which proposed conditions/treatments are actually offered
+- [ ] Clinician-approved overview, symptoms, causes, diagnosis, consultation
+  guidance, approaches, expectations, risks, and FAQs for every published page
+- [ ] Approved treatment imagery and usage rights
+- [ ] Internal medical-review and update process
+- [ ] Topics or claims the clinic does not want published
+
+## Blog editorial governance
+
+- [ ] Confirm who may be listed as an article author
+- [ ] Confirm who may perform and be named for medical review
+- [ ] Approve acceptable clinical source types and citation practice
+- [ ] Define the review interval and process for revising or withdrawing articles
+- [ ] Approve each article's text, sources, imagery, author, and review date before
+  publication
+
+## Brand and contact
+
+- [ ] Confirm final umbrella site wording around Dr. Naresh Rathod
+- [ ] Final logo files (SVG preferred, plus raster variants) and usage guidance
+- [ ] Approved color palette and typography preferences
+- [ ] Domain name and DNS ownership/access
+- [ ] General clinic email address
+- [ ] Preferred site-wide phone/WhatsApp fallback, if any
+- [ ] Instagram, Facebook, YouTube, and LinkedIn profile URLs
+- [ ] Default social-sharing image
+- [ ] Approved privacy policy and medical disclaimer wording
+
+## Appointment operations
+
+- [ ] Approve the displayed appointment contact-consent wording
+- [ ] Decide how long appointment enquiries must be retained before deletion
+- [ ] Name the staff members permitted to view and update enquiries
+- [ ] Define the internal response target and escalation process
+- [ ] Decide whether approved staff email notifications are required later
+
+## Marketing and measurement
+
+- [ ] Existing Google Business Profiles and owner/manager access
+- [ ] Google Search Console property and access
+- [ ] GA4 property/measurement ID and account access
+- [ ] Google Tag Manager container ID, only if a container is justified
+- [ ] Existing advertising/social accounts and campaign naming conventions
+- [ ] Existing website URLs and redirects that must be preserved
+- [ ] Legitimate testimonials/reviews, permission to display, approved wording,
+  source attribution, and date
+- [ ] Consent/retention policy for appointment enquiries
+
+## Publishing sign-off
+
+- [ ] Named person responsible for factual approval
+- [ ] Named medical reviewer for educational content
+- [ ] Review frequency for doctor, clinic, treatment, and legal information
+- [ ] Process for urgent corrections to phone, hours, and address details

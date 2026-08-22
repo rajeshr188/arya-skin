@@ -1,0 +1,12 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<article class="card article-card h-100 border-0 shadow-sm">
+  {% if article.featured_image %}
+    {% image article.featured_image fill-640x360 class="card-img-top" alt=article.featured_image_alt_text loading="lazy" %}
+  {% endif %}
+  <div class="card-body p-4">
+    {% if article.categories.all %}<p class="eyebrow mb-2">{% for category in article.categories.all %}{% if not forloop.first %} · {% endif %}{{ category.name }}{% endfor %}</p>{% endif %}
+    <h2 class="h3 card-title"><a class="stretched-link" href="{% pageurl article %}">{{ article.title }}</a></h2>
+    <p class="text-secondary">{{ article.excerpt }}</p>
+    <p class="small mb-0">{% if article.author %}By {{ article.author.name }} · {% endif %}{{ article.first_published_at|date:"j F Y" }}</p>
+  </div>
+</article>

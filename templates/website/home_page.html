@@ -1,0 +1,89 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+<main id="main-content">
+  <section class="hero py-5 py-lg-6">
+    <div class="container py-4 py-lg-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-8">
+          {% if page.hero_eyebrow %}<p class="eyebrow mb-3">{{ page.hero_eyebrow }}</p>{% endif %}
+          <h1 class="display-3 mb-3">{{ settings.website.SiteSettings.doctor_name }}</h1>
+          <p class="doctor-name mb-2">{{ settings.website.SiteSettings.professional_title }}</p>
+          {% if settings.website.SiteSettings.location_summary %}<p class="location-line mb-4">{{ settings.website.SiteSettings.location_summary }}</p>{% endif %}
+          {% if page.introduction %}<div class="lead rich-text">{{ page.introduction|richtext }}</div>{% endif %}
+          {% if clinics %}<a class="btn btn-primary mt-3" href="{% url 'appointments:request' %}">Request appointment</a>{% elif contact_page %}<a class="btn btn-primary mt-3" href="{% pageurl contact_page %}">Contact a clinic</a>{% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if featured_treatments %}
+    <section class="home-section py-5" aria-labelledby="concerns-heading">
+      <div class="container">
+        <h2 id="concerns-heading" class="h1 mb-4">{{ page.concerns_heading|default:"Patient information" }}</h2>
+        <div class="row g-4">
+          {% for treatment in featured_treatments %}<div class="col-md-6 col-lg-4">{% include "includes/treatment_card.html" %}</div>{% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if doctor_page %}
+    <section class="home-section py-5" aria-labelledby="doctor-heading">
+      <div class="container">
+        <div class="row g-5 align-items-center">
+          {% if doctor_page.portrait %}<div class="col-lg-4">{% image doctor_page.portrait fill-640x760 class="img-fluid rounded-3" alt="" loading="lazy" %}</div>{% endif %}
+          <div class="{% if doctor_page.portrait %}col-lg-8{% else %}col-lg-9{% endif %}">
+            <h2 id="doctor-heading" class="h1">{{ page.doctor_section_heading|default:doctor_page.title }}</h2>
+            <p class="lead text-secondary">{{ doctor_page.title }}, {{ doctor_page.professional_title }}</p>
+            {% if doctor_page.biography %}<div class="rich-text">{{ doctor_page.biography|richtext }}</div>{% endif %}
+            <a href="{% pageurl doctor_page %}">View professional profile</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if clinics %}
+    <section class="home-section py-5" aria-labelledby="clinics-heading">
+      <div class="container">
+        <h2 id="clinics-heading" class="h1 mb-4">{{ page.clinic_section_heading|default:"Clinic locations" }}</h2>
+        <div class="row g-4">
+          {% for clinic in clinics %}<div class="col-md-6">{% include "includes/clinic_card.html" %}</div>{% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if page.faqs.all %}
+    <section class="home-section py-5" aria-labelledby="home-faq-heading">
+      <div class="container content-column">
+        <h2 id="home-faq-heading" class="h1">{{ page.faq_heading|default:"Frequently asked questions" }}</h2>
+        <div class="faq-list">
+          {% for item in page.faqs.all %}<details class="faq-item"><summary>{{ item.question }}</summary><div class="rich-text pt-3">{{ item.answer|richtext }}</div></details>{% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if latest_articles %}
+    <section class="home-section py-5" aria-labelledby="articles-heading">
+      <div class="container">
+        <h2 id="articles-heading" class="h1 mb-4">{{ page.blog_section_heading|default:"Patient education" }}</h2>
+        <div class="row g-4">{% for article in latest_articles %}<div class="col-md-6 col-lg-4">{% include "includes/article_card.html" %}</div>{% endfor %}</div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% if contact_page and page.final_cta_heading %}
+    <section class="home-cta py-5">
+      <div class="container text-center content-column">
+        <h2>{{ page.final_cta_heading }}</h2>
+        {% if page.final_cta_text %}<p>{{ page.final_cta_text }}</p>{% endif %}
+        <a class="btn btn-light" href="{% pageurl contact_page %}">Contact a clinic</a>
+      </div>
+    </section>
+  {% endif %}
+</main>
+{% endblock content %}

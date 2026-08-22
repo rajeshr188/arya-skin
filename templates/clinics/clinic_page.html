@@ -1,0 +1,75 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+{% include "includes/breadcrumbs.html" %}
+<main id="main-content">
+  <article class="container py-4 py-lg-5">
+    <header class="row g-4 align-items-end mb-5">
+      <div class="col-lg-8">
+        <p class="eyebrow mb-2">{{ page.locality }}, {{ page.city }}</p>
+        <h1 class="display-4 mb-3">{{ page.title }}</h1>
+        {% if page.doctor.live %}<p class="lead">Consultations with <a href="{% pageurl page.doctor %}">{{ page.doctor.title }}</a></p>{% endif %}
+        {% if page.summary %}<div class="text-secondary">{{ page.summary|richtext }}</div>{% endif %}
+      </div>
+      <div class="col-lg-4">{% include "includes/clinic_contact_actions.html" %}</div>
+    </header>
+
+    <div class="row g-5">
+      <div class="col-lg-7">
+        {% if page.formatted_address %}
+          <section class="clinic-section" aria-labelledby="address-heading">
+            <h2 id="address-heading">Address</h2>
+            <address>{{ page.formatted_address }}</address>
+            {% if page.nearby_landmark %}<p><strong>Nearby landmark:</strong> {{ page.nearby_landmark }}</p>{% endif %}
+          </section>
+        {% endif %}
+
+        {% if page.opening_hours.all or page.doctor_availability %}
+          <section class="clinic-section" aria-labelledby="hours-heading">
+            <h2 id="hours-heading">Hours and doctor availability</h2>
+            {% if page.opening_hours.all %}
+              <dl class="hours-list">
+                {% for item in page.opening_hours.all %}
+                  <div><dt>{{ item.get_day_display }}</dt><dd>{% if item.is_closed %}Closed{% elif item.appointment_only %}By appointment{% elif item.opens_at and item.closes_at %}{{ item.opens_at|time:"g:i A" }}–{{ item.closes_at|time:"g:i A" }}{% else %}Contact clinic{% endif %}{% if item.notes %} — {{ item.notes }}{% endif %}</dd></div>
+                {% endfor %}
+              </dl>
+            {% endif %}
+            {% if page.doctor_availability %}<p>{{ page.doctor_availability|linebreaksbr }}</p>{% endif %}
+          </section>
+        {% endif %}
+
+        {% if page.services.all %}
+          <section class="clinic-section" aria-labelledby="services-heading">
+            <h2 id="services-heading">Services at this clinic</h2>
+            <ul>{% for service in page.services.all %}<li><strong>{{ service.name }}</strong>{% if service.notes %}: {{ service.notes }}{% endif %}</li>{% endfor %}</ul>
+          </section>
+        {% endif %}
+
+        {% if page.parking_information or page.accessibility_information %}
+          <section class="clinic-section" aria-labelledby="access-heading">
+            <h2 id="access-heading">Access information</h2>
+            {% if page.parking_information %}<p><strong>Parking:</strong> {{ page.parking_information }}</p>{% endif %}
+            {% if page.accessibility_information %}<p><strong>Accessibility:</strong> {{ page.accessibility_information }}</p>{% endif %}
+          </section>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if page.gallery_images.all %}
+      <section class="clinic-section" aria-labelledby="gallery-heading">
+        <h2 id="gallery-heading">Clinic photographs</h2>
+        <div class="row g-4">
+          {% for item in page.gallery_images.all %}
+            <figure class="col-md-6">
+              {% image item.image fill-720x480 class="img-fluid rounded-3" alt=item.alt_text loading="lazy" %}
+              {% if item.caption %}<figcaption class="small text-secondary mt-2">{{ item.caption }}</figcaption>{% endif %}
+            </figure>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </article>
+</main>
+{% include "includes/mobile_conversion_bar.html" %}
+{% endblock content %}

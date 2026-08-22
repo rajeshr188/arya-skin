@@ -1,0 +1,56 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+{% include "includes/breadcrumbs.html" %}
+<main id="main-content">
+  <article class="container py-4 py-lg-5">
+    <header class="row g-5 align-items-center mb-5">
+      <div class="col-lg-7">
+        {% if page.category %}<p class="eyebrow mb-2">{{ page.category.name }}</p>{% endif %}
+        <h1 class="display-4">{{ page.title }}</h1>
+        <p class="lead text-secondary">{{ page.summary }}</p>
+      </div>
+      {% if page.featured_image %}
+        <div class="col-lg-5">{% image page.featured_image fill-720x480 class="img-fluid rounded-3" alt="" loading="eager" %}</div>
+      {% endif %}
+    </header>
+
+    <div class="row g-5">
+      <div class="col-lg-8 treatment-content">
+        {% if page.overview %}<section><h2>Overview</h2><div class="rich-text">{{ page.overview|richtext }}</div></section>{% endif %}
+        {% if page.symptoms %}<section><h2>Symptoms</h2><div class="rich-text">{{ page.symptoms|richtext }}</div></section>{% endif %}
+        {% if page.common_causes %}<section><h2>Common causes</h2><div class="rich-text">{{ page.common_causes|richtext }}</div></section>{% endif %}
+        {% if page.diagnosis %}<section><h2>Diagnosis</h2><div class="rich-text">{{ page.diagnosis|richtext }}</div></section>{% endif %}
+        {% if page.when_to_consult %}<section><h2>When to consult a dermatologist</h2><div class="rich-text">{{ page.when_to_consult|richtext }}</div></section>{% endif %}
+        {% if page.treatment_approaches %}<section><h2>Treatment approaches</h2><div class="rich-text">{{ page.treatment_approaches|richtext }}</div></section>{% endif %}
+        {% if page.what_to_expect %}<section><h2>What to expect</h2><div class="rich-text">{{ page.what_to_expect|richtext }}</div></section>{% endif %}
+        {% for block in page.body %}{% include_block block %}{% endfor %}
+
+        {% if page.faqs.all %}
+          <section aria-labelledby="treatment-faq-heading">
+            <h2 id="treatment-faq-heading">Frequently asked questions</h2>
+            <div class="faq-list">
+              {% for item in page.faqs.all %}
+                <details class="faq-item"><summary>{{ item.question }}</summary><div class="rich-text pt-3">{{ item.answer|richtext }}</div></details>
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
+      </div>
+      {% if doctor_page or available_clinics %}
+        <aside class="col-lg-4">
+          <div class="sidebar-panel">
+            {% if doctor_page %}<h2 class="h4">Doctor</h2><p><a href="{% pageurl doctor_page %}">{{ doctor_page.title }}</a><br><span class="text-secondary">{{ doctor_page.professional_title }}</span></p>{% endif %}
+            {% if available_clinics %}
+              <h2 class="h4 mt-4">Available at</h2>
+              <ul class="list-unstyled mb-0">{% for clinic in available_clinics %}<li class="mb-3"><a href="{% pageurl clinic %}">{{ clinic.title }}</a><br><span class="small text-secondary">{{ clinic.locality }}, {{ clinic.city }}</span><br><a class="small" href="{% url 'appointments:request_for_clinic' clinic_slug=clinic.slug %}">Request appointment</a></li>{% endfor %}</ul>
+            {% endif %}
+          </div>
+        </aside>
+      {% endif %}
+    </div>
+  </article>
+  <aside class="medical-disclaimer py-4"><div class="container"><p class="small mb-0">{{ settings.website.SiteSettings.medical_disclaimer }}</p></div></aside>
+</main>
+{% endblock content %}

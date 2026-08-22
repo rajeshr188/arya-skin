@@ -1,0 +1,59 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+{% include "includes/breadcrumbs.html" %}
+<main id="main-content">
+  <article class="container py-4 py-lg-5">
+    <header class="article-header content-column mx-auto text-center">
+      {% if page.categories.all %}<p class="eyebrow mb-2">{% for category in page.categories.all %}{% if not forloop.first %} · {% endif %}{{ category.name }}{% endfor %}</p>{% endif %}
+      <h1 class="display-4">{{ page.title }}</h1>
+      <p class="lead text-secondary">{{ page.excerpt }}</p>
+      <p class="small mb-4">
+        By {% if author_profile %}<a href="{% pageurl author_profile %}">{{ page.author.name }}</a>{% else %}{{ page.author.name }}{% endif %}
+        · Published {{ page.first_published_at|date:"j F Y" }}
+      </p>
+      {% if page.featured_image %}{% image page.featured_image fill-1200x675 class="img-fluid rounded-3" alt=page.featured_image_alt_text loading="eager" %}{% endif %}
+    </header>
+
+    <div class="article-body content-column mx-auto">
+      {% for block in page.body %}{% include_block block %}{% endfor %}
+
+      {% if page.sources.all %}
+        <section class="article-sources" aria-labelledby="sources-heading">
+          <h2 id="sources-heading" class="h3">Sources</h2>
+          <ol>
+            {% for source in page.sources.all %}
+              <li><a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.title }}</a>{% if source.publisher %}, {{ source.publisher }}{% endif %}{% if source.accessed_on %} (accessed {{ source.accessed_on|date:"j F Y" }}){% endif %}</li>
+            {% endfor %}
+          </ol>
+        </section>
+      {% endif %}
+
+      <section class="article-review" aria-labelledby="review-heading">
+        <h2 id="review-heading" class="h3">Authorship and review</h2>
+        <p><strong>Author:</strong> {% if author_profile %}<a href="{% pageurl author_profile %}">{{ page.author.name }}</a>{% else %}{{ page.author.name }}{% endif %}, {{ page.author.role }}</p>
+        <p><strong>Medical review:</strong> {% if reviewer_profile %}<a href="{% pageurl reviewer_profile %}">{{ page.reviewed_by.name }}</a>{% else %}{{ page.reviewed_by.name }}{% endif %}, {{ page.reviewed_by.role }} on {{ page.reviewed_on|date:"j F Y" }}.</p>
+        {% if page.review_due_on %}<p class="small text-secondary">Next review due {{ page.review_due_on|date:"j F Y" }}.</p>{% endif %}
+      </section>
+    </div>
+  </article>
+
+  {% if related_treatment_pages or related_articles %}
+    <aside class="related-content py-5">
+      <div class="container">
+        {% if related_treatment_pages %}
+          <h2>Related patient information</h2>
+          <div class="row g-4 mb-5">{% for treatment in related_treatment_pages %}<div class="col-md-6 col-lg-4">{% include "includes/treatment_card.html" %}</div>{% endfor %}</div>
+        {% endif %}
+        {% if related_articles %}
+          <h2>Related articles</h2>
+          <div class="row g-4">{% for article in related_articles %}<div class="col-md-6 col-lg-4">{% include "includes/article_card.html" %}</div>{% endfor %}</div>
+        {% endif %}
+      </div>
+    </aside>
+  {% endif %}
+
+  <aside class="medical-disclaimer py-4"><div class="container"><p class="small mb-0">{{ settings.website.SiteSettings.medical_disclaimer }}</p></div></aside>
+</main>
+{% endblock content %}

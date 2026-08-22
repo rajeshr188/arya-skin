@@ -1,0 +1,5 @@
+{% load wagtailcore_tags %}
+<aside class="content-block content-note content-note-{{ value.style }}">
+  <h2 class="h3">{{ value.heading }}</h2>
+  <div class="rich-text">{{ value.text|richtext }}</div>
+</aside>

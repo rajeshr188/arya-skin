@@ -1,0 +1,73 @@
+{% extends "_base.html" %}
+
+{% block title %}Request an appointment | {{ settings.website.SiteSettings.site_title }}{% endblock title %}
+
+{% block content %}
+<main id="main-content" class="container py-5">
+  <div class="row g-5">
+    <div class="col-lg-7">
+      <p class="eyebrow mb-2">Appointment enquiry</p>
+      <h1>Request an appointment{% if clinic %} at {{ clinic.title }}{% endif %}</h1>
+      <p class="lead text-secondary">
+        Send your preferred date and contact details. Clinic staff must confirm
+        the appointment before it is scheduled.
+      </p>
+
+      <form method="post" class="appointment-form mt-4" novalidate>
+        {% csrf_token %}
+        {{ form.form_token }}
+        <div class="appointment-honeypot" aria-hidden="true">
+          {{ form.website.label_tag }}{{ form.website }}
+        </div>
+
+        {% if form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+        {% if form.form_token.errors %}<div class="alert alert-danger" role="alert">{{ form.form_token.errors }}</div>{% endif %}
+        {% if form.website.errors %}<div class="alert alert-danger" role="alert">{{ form.website.errors }}</div>{% endif %}
+
+        {% if clinic %}
+          {{ form.clinic }}
+          <div class="mb-3">
+            <label class="form-label">Clinic</label>
+            <p class="form-control-plaintext"><strong>{{ clinic.title }}</strong><br>{{ clinic.locality }}, {{ clinic.city }}</p>
+          </div>
+        {% else %}
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.clinic.id_for_label }}">{{ form.clinic.label }}</label>
+            {{ form.clinic }}
+            {% for error in form.clinic.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+          </div>
+        {% endif %}
+
+        {% for field in form.visible_fields %}
+          {% if field.name != "clinic" and field.name != "consent_to_contact" and field.name != "website" %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+              {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        <div class="form-check mb-4">
+          {{ form.consent_to_contact }}
+          <label class="form-check-label" for="{{ form.consent_to_contact.id_for_label }}">{{ form.consent_to_contact.label }}</label>
+          {% for error in form.consent_to_contact.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+        </div>
+
+        <button class="btn btn-primary btn-lg" type="submit">Send appointment request</button>
+      </form>
+    </div>
+    <aside class="col-lg-4 offset-lg-1">
+      <div class="content-note content-note-information">
+        <h2 class="h4">Before submitting</h2>
+        <ul class="mb-0">
+          <li>This request does not confirm an appointment.</li>
+          <li>Do not use this form for emergencies.</li>
+          <li>No detailed medical information is requested or needed here.</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</main>
+{% endblock content %}

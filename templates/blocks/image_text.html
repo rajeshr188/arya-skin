@@ -1,0 +1,12 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="content-block image-text-block">
+  <div class="row g-4 align-items-center">
+    <div class="col-md-6{% if value.image_position == 'right' %} order-md-2{% endif %}">
+      {% image value.image fill-720x480 class="img-fluid rounded-3" alt=value.alt_text loading="lazy" %}
+    </div>
+    <div class="col-md-6{% if value.image_position == 'right' %} order-md-1{% endif %}">
+      <h2 class="h3">{{ value.heading }}</h2>
+      <div class="rich-text">{{ value.text|richtext }}</div>
+    </div>
+  </div>
+</section>

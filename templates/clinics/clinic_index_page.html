@@ -1,0 +1,22 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+{% include "includes/breadcrumbs.html" %}
+<main id="main-content" class="container py-4 py-lg-5">
+  <header class="mb-5 col-lg-8">
+    <p class="eyebrow mb-2">Clinic locations</p>
+    <h1 class="display-4">{{ page.title }}</h1>
+    {% if page.introduction %}<div class="lead text-secondary">{{ page.introduction|richtext }}</div>{% endif %}
+  </header>
+  {% if clinics %}
+    <div class="row g-4">
+      {% for clinic in clinics %}
+        <div class="col-md-6">{% include "includes/clinic_card.html" with clinic=clinic %}</div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Verified clinic details will be published here when available.</p>
+  {% endif %}
+</main>
+{% endblock content %}

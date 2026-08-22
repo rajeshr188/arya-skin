@@ -1,0 +1,6 @@
+<nav class="mobile-conversion-bar" aria-label="Quick clinic actions">
+  <a href="{% url 'appointments:request_for_clinic' clinic_slug=page.slug %}">Appointment</a>
+  {% if page.phone_uri %}<a href="{{ page.phone_uri }}">Call</a>{% endif %}
+  {% if page.whatsapp_url %}<a href="{{ page.whatsapp_url }}" target="_blank" rel="noopener">WhatsApp</a>{% endif %}
+  {% if page.google_maps_url %}<a href="{{ page.google_maps_url }}" target="_blank" rel="noopener">Directions</a>{% endif %}
+</nav>

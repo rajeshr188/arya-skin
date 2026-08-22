@@ -1,0 +1,19 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+{% include "includes/breadcrumbs.html" %}
+<main id="main-content" class="container py-4 py-lg-5">
+  <header class="col-lg-8 mb-5">
+    <h1 class="display-4">{{ page.title }}</h1>
+    {% if page.introduction %}<div class="lead rich-text">{{ page.introduction|richtext }}</div>{% endif %}
+  </header>
+  {% if treatments %}
+    <div class="row g-4">
+      {% for treatment in treatments %}
+        <div class="col-md-6 col-lg-4">{% include "includes/treatment_card.html" %}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</main>
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+{% include "includes/breadcrumbs.html" %}
+<main id="main-content" class="container py-4 py-lg-5">
+  <article class="content-column">
+    <h1 class="display-4">{{ page.title }}</h1>
+    {% if page.introduction %}<div class="lead rich-text">{{ page.introduction|richtext }}</div>{% endif %}
+    {% for block in page.body %}{% include_block block %}{% endfor %}
+  </article>
+</main>
+{% endblock content %}

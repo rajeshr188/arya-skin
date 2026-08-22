@@ -1,0 +1,12 @@
+{% load wagtailcore_tags %}
+<section class="content-block" aria-labelledby="faq-block-{{ block.id }}">
+  <h2 id="faq-block-{{ block.id }}">{{ value.heading }}</h2>
+  <div class="faq-list">
+    {% for item in value.items %}
+      <details class="faq-item">
+        <summary>{{ item.question }}</summary>
+        <div class="rich-text pt-3">{{ item.answer|richtext }}</div>
+      </details>
+    {% endfor %}
+  </div>
+</section>

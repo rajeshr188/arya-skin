@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}
+<aside class="content-block content-cta">
+  <h2 class="h3">{{ value.heading }}</h2>
+  {% if value.text %}<p>{{ value.text }}</p>{% endif %}
+  {% if value.internal_page %}
+    {% if value.internal_page.live %}<a class="btn btn-primary" href="{% pageurl value.internal_page %}">{{ value.label }}</a>{% endif %}
+  {% elif value.external_url %}
+    <a class="btn btn-primary" href="{{ value.external_url }}">{{ value.label }}</a>
+  {% endif %}
+</aside>

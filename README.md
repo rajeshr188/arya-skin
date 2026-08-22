@@ -1,120 +1,73 @@
-# Lithium: A Django-Powered Boilerplate
-Lithium is a batteries-included Django starter project with everything you need to start coding, including user authentication, static files, default styling, debugging, DRY forms, custom error pages, and more.
+# Dr. Naresh Rathod clinic website
 
-> This project was formerly known as _DjangoX_ but was renamed to _Lithium_ in November 2024.
+Server-rendered Django and Wagtail website for Dr. Naresh Rathod and the two
+independently named clinics where he practises: Dolphin Derma Care in Sitapura
+and Arya Skin and Hair Clinic in Chaksu, Jaipur.
 
-https://github.com/user-attachments/assets/8698e9dd-1794-4f96-9c3f-85add17e330b
+The project is being evolved from the Lithium starter. Milestones 1–5 provide
+the CMS foundation, structured public content, the CMS-driven public shell, a
+privacy-minimized appointment workflow, a medically governed article system,
+and factual technical/local SEO foundations.
 
-## 🚀 Features
-- Django 6.0 & Python 3.13
-- Installation via [uv](https://github.com/astral-sh/uv), [Pip](https://pypi.org/project/pip/) or [Docker](https://www.docker.com/)
-- User authentication--log in, sign up, password reset--via [django-allauth](https://github.com/pennersr/django-allauth)
-- Static files configured with [Whitenoise](http://whitenoise.evans.io/en/stable/index.html)
-- Styling with [Bootstrap v5](https://getbootstrap.com/)
-- Debugging with [django-debug-toolbar](https://github.com/jazzband/django-debug-toolbar)
-- DRY forms with [django-crispy-forms](https://github.com/django-crispy-forms/django-crispy-forms)
-- Custom 404, 500, and 403 error pages
+## Stack
 
-## Table of Contents
-* **[Installation](#installation)**
-  * [uv](#uv)
-  * [Pip](#pip)
-  * [Docker](#docker)
-* [Next Steps](#next-steps)
-* [Contributing](#contributing)
-* [Support](#support)
-* [License](#license)
+- Python 3.12+ (currently verified with 3.13.3)
+- Django 6.0.4
+- Wagtail 7.4 LTS (currently locked to 7.4.3)
+- Bootstrap 5.3, WhiteNoise, Gunicorn, psycopg, django-allauth, crispy forms
+- SQLite for local development; PostgreSQL is the production target
 
-## 📖 Installation
-Lithium can be installed via Pip or Docker. To start, clone the repo to your local computer and change into the proper directory.
+## Local setup
 
-```
-$ git clone https://github.com/wsvincent/lithium.git
-$ cd lithium
+```powershell
+uv sync
+uv run manage.py migrate
+uv run manage.py createsuperuser
+uv run manage.py runserver
 ```
 
-### uv
-You can use [uv](https://docs.astral.sh/uv/) to create a dedicated virtual environment.
+Open the public site at <http://127.0.0.1:8000/>, Wagtail at
+<http://127.0.0.1:8000/cms/>, and Django admin at
+<http://127.0.0.1:8000/admin/>. Appointment enquiries are managed in Django
+admin. Public patient accounts are not enabled.
 
-```
-$ uv sync
-```
+## Verification
 
-Then run `migrate` to configure the initial database. The command `createsuperuser` will create a new superuser account for accessing the admin. Execute the `runserver` command to start up the local server.
-
-```
-$ uv run manage.py migrate
-$ uv run manage.py createsuperuser
-$ uv run manage.py runserver
-# Load the site at http://127.0.0.1:8000 or http://127.0.0.1:8000/admin for the admin
+```powershell
+uv run manage.py check
+uv run manage.py makemigrations --check
+uv run manage.py test
 ```
 
-### Pip
-To use Pip, create a new virtual environment and then install all packages hosted in `requirements.txt`. Run `migrate` to configure the initial database. and `createsuperuser` to create a new superuser account for accessing the admin. Execute the `runserver` command to start up the local server.
+## Configuration
 
-```
-(.venv) $ pip install -r requirements.txt
-(.venv) $ python manage.py migrate
-(.venv) $ python manage.py createsuperuser
-(.venv) $ python manage.py runserver
-# Load the site at http://127.0.0.1:8000 or http://127.0.0.1:8000/admin for the admin
-```
+The current settings read `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, and
+`WAGTAILADMIN_BASE_URL` from the environment with local-only defaults. Uploaded
+media is written to `media/` in development and is not committed. Do not use
+WhiteNoise for production uploads.
 
-### Docker
+Appointment throttling can be adjusted with `APPOINTMENT_SUBMISSION_LIMIT` and
+`APPOINTMENT_SUBMISSION_WINDOW_SECONDS`. The defaults allow five accepted
+submissions per browser session per hour.
 
-To use Docker with PostgreSQL as the database update the `DATABASES` section of `django_project/settings.py` to reflect the following:
+Production database, trusted-origin, storage, email, and security configuration
+is tracked for the production-hardening milestone in `docs/PLAN.md` and
+`docs/DEPLOYMENT.md`.
 
-```python
-# django_project/settings.py
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "db",  # set in docker-compose.yml
-        "PORT": 5432,  # default postgres port
-    }
-}
-```
+## Project documents
 
-The `INTERNAL_IPS` configuration in `django_project/settings.py` must be also be updated:
+- `AGENTS.md`: mandatory conventions for future contributors and agents
+- `docs/ARCHITECTURE.md`: ownership, model proposal, and boundaries
+- `docs/PLAN.md`: milestone sequence and definition of done
+- `docs/STATUS.md`: current implementation and verification state
+- `docs/CONTENT_REQUIRED.md`: facts and assets still needed from the clinic
+- `docs/CONTENT_STRATEGY.md`: initial medically reviewed editorial plan
+- `docs/SEO_STRATEGY.md`: technical, content, and local SEO policy
+- `docs/GOOGLE_BUSINESS_PROFILE.md`: location profile operating guidance
+- `docs/ANALYTICS.md`: privacy-safe events and UTM conventions
+- `docs/APPOINTMENTS.md`: appointment data, abuse protection, and staff workflow
+- `docs/BLOG_EDITORIAL.md`: article sourcing, review, and publishing workflow
+- `docs/DEPLOYMENT.md`: current and target deployment architecture
 
-```python
-# config/settings.py
-# django-debug-toolbar
-import socket
-hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
-```
-
-And then proceed to build the Docker image, run the container, and execute the standard commands within Docker.
-
-```
-$ docker compose up -d --build
-$ docker compose exec web python manage.py migrate
-$ docker compose exec web python manage.py createsuperuser
-# Load the site at http://127.0.0.1:8000 or http://127.0.0.1:8000/admin for the admin
-```
-
-## Next Steps
-
-- Add environment variables. There are multiple packages but I personally prefer [environs](https://pypi.org/project/environs/).
-- Add [gunicorn](https://pypi.org/project/gunicorn/) as the production web server.
-- Update the [EMAIL_BACKEND](https://docs.djangoproject.com/en/4.0/topics/email/#module-django.core.mail) and connect with a mail provider.
-- Make the [admin more secure](https://opensource.com/article/18/1/10-tips-making-django-admin-more-secure).
-- `django-allauth` supports [social authentication](https://django-allauth.readthedocs.io/en/latest/socialaccount/index.html) if you need that.
-
-I cover all of these steps in tutorials and premium courses over at [LearnDjango.com](https://learndjango.com).
-
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome! See [CONTRIBUTING.md](https://github.com/wsvincent/lithium/blob/master/CONTRIBUTING.md).
-
-## ⭐️ Support
-
-Give a ⭐️  if this project helped you!
-
-## License
-
-[The MIT License](LICENSE)
+Do not invent clinic contacts, addresses, hours, services, credentials, reviews,
+or medical claims to make an unfinished page appear complete.

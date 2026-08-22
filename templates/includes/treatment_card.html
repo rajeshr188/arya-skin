@@ -1,0 +1,11 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<article class="card treatment-card h-100 border-0 shadow-sm">
+  {% if treatment.featured_image %}
+    {% image treatment.featured_image fill-640x400 class="card-img-top" alt="" loading="lazy" %}
+  {% endif %}
+  <div class="card-body p-4">
+    {% if treatment.category %}<p class="eyebrow mb-2">{{ treatment.category.name }}</p>{% endif %}
+    <h2 class="h3 card-title"><a class="stretched-link" href="{% pageurl treatment %}">{{ treatment.title }}</a></h2>
+    <p class="text-secondary mb-0">{{ treatment.summary }}</p>
+  </div>
+</article>

@@ -1,0 +1,95 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+{% include "includes/breadcrumbs.html" %}
+<main id="main-content">
+  <article class="container py-4 py-lg-5">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-7">
+        <p class="eyebrow mb-2">Professional profile</p>
+        <h1 class="display-4 mb-2">{{ page.title }}</h1>
+        <p class="lead text-secondary mb-4">{{ page.professional_title }}</p>
+        {% if page.biography %}<div class="rich-text">{{ page.biography|richtext }}</div>{% endif %}
+      </div>
+      {% if page.portrait %}
+        <div class="col-lg-5">
+          {% image page.portrait fill-640x800 class="img-fluid rounded-3" loading="eager" %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if page.qualifications.all or page.registrations.all %}
+      <section class="profile-section" aria-labelledby="credentials-heading">
+        <h2 id="credentials-heading">Qualifications and registration</h2>
+        <div class="row g-4">
+          {% if page.qualifications.all %}
+            <div class="col-md-6">
+              <h3 class="h5">Qualifications</h3>
+              <ul>
+                {% for item in page.qualifications.all %}
+                  <li><strong>{{ item.qualification }}</strong>{% if item.institution %}, {{ item.institution }}{% endif %}{% if item.year %} ({{ item.year }}){% endif %}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+          {% if page.registrations.all %}
+            <div class="col-md-6">
+              <h3 class="h5">Professional registration</h3>
+              <ul>
+                {% for item in page.registrations.all %}
+                  <li>{{ item.authority }}: {{ item.registration_number }}{% if item.registration_year %} ({{ item.registration_year }}){% endif %}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if page.specialties.all or page.languages.all %}
+      <section class="profile-section" aria-labelledby="practice-heading">
+        <h2 id="practice-heading">Areas of practice and languages</h2>
+        <div class="row g-4">
+          {% if page.specialties.all %}
+            <div class="col-md-6">
+              <h3 class="h5">Areas of practice</h3>
+              <ul>{% for item in page.specialties.all %}<li>{{ item.name }}</li>{% endfor %}</ul>
+            </div>
+          {% endif %}
+          {% if page.languages.all %}
+            <div class="col-md-6">
+              <h3 class="h5">Languages</h3>
+              <ul>{% for item in page.languages.all %}<li>{{ item.name }}</li>{% endfor %}</ul>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if page.experience_years and page.experience_as_of_date %}
+      <section class="profile-section" aria-labelledby="experience-heading">
+        <h2 id="experience-heading">Experience</h2>
+        <p>{{ page.experience_years }} years of professional experience as of {{ page.experience_as_of_date|date:"F Y" }}.</p>
+      </section>
+    {% endif %}
+
+    {% if page.memberships.all or page.professional_affiliations %}
+      <section class="profile-section" aria-labelledby="professional-heading">
+        <h2 id="professional-heading">Professional memberships and affiliations</h2>
+        {% if page.memberships.all %}
+          <ul>{% for item in page.memberships.all %}<li>{{ item.organization }}{% if item.membership_detail %}: {{ item.membership_detail }}{% endif %}</li>{% endfor %}</ul>
+        {% endif %}
+        {% if page.professional_affiliations %}<div class="rich-text">{{ page.professional_affiliations|richtext }}</div>{% endif %}
+      </section>
+    {% endif %}
+
+    {% if page.philosophy_of_care %}
+      <section class="profile-section" aria-labelledby="philosophy-heading">
+        <h2 id="philosophy-heading">Philosophy of care</h2>
+        <div class="rich-text">{{ page.philosophy_of_care|richtext }}</div>
+      </section>
+    {% endif %}
+  </article>
+</main>
+{% endblock content %}

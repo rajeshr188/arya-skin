@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+{% include "includes/breadcrumbs.html" %}
+<main id="main-content" class="container py-4 py-lg-5">
+  <header class="col-lg-8 mb-5">
+    <h1 class="display-4">{{ page.title }}</h1>
+    {% if page.introduction %}<div class="lead rich-text">{{ page.introduction|richtext }}</div>{% endif %}
+  </header>
+  {% for block in page.body %}{% include_block block %}{% endfor %}
+  {% if clinics %}
+    <section class="mt-5" aria-labelledby="contact-clinics-heading">
+      <h2 id="contact-clinics-heading">Clinic locations</h2>
+      <div class="row g-4 mt-1">
+        {% for clinic in clinics %}<div class="col-md-6">{% include "includes/clinic_card.html" %}</div>{% endfor %}
+      </div>
+    </section>
+  {% endif %}
+</main>
+{% endblock content %}

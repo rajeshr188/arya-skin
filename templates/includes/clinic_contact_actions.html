@@ -1,0 +1,13 @@
+{% load wagtailcore_tags %}
+<div class="d-flex flex-wrap gap-2" aria-label="Clinic contact actions">
+    <a class="btn btn-primary" href="{% url 'appointments:request_for_clinic' clinic_slug=page.slug %}">Request appointment</a>
+    {% if page.phone_uri %}
+      <a class="btn btn-outline-primary" href="{{ page.phone_uri }}">Call clinic</a>
+    {% endif %}
+    {% if page.whatsapp_url %}
+      <a class="btn btn-outline-primary" href="{{ page.whatsapp_url }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+    {% endif %}
+    {% if page.google_maps_url %}
+      <a class="btn btn-outline-secondary" href="{{ page.google_maps_url }}" target="_blank" rel="noopener">Get directions</a>
+    {% endif %}
+</div>

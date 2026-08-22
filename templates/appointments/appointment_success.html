@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+
+{% block title %}Appointment request received | {{ settings.website.SiteSettings.site_title }}{% endblock title %}
+
+{% block content %}
+<main id="main-content" class="container py-5">
+  <div class="content-column py-lg-5">
+    <p class="eyebrow mb-2">Request received</p>
+    <h1>Thank you</h1>
+    <p class="lead">Your appointment request has been recorded.</p>
+    <p>This is not a confirmed appointment. Clinic staff will contact you using the details supplied.</p>
+    <a class="btn btn-outline-primary" href="/">Return to homepage</a>
+  </div>
+</main>
+{% endblock content %}

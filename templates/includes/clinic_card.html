@@ -1,0 +1,9 @@
+{% load wagtailcore_tags %}
+<article class="clinic-card card h-100 border-0 shadow-sm">
+  <div class="card-body p-4">
+    <p class="eyebrow mb-2">{{ clinic.locality }}, {{ clinic.city }}</p>
+    <h2 class="h3 card-title"><a class="stretched-link" href="{% pageurl clinic %}">{{ clinic.title }}</a></h2>
+    {% if clinic.summary %}<div class="text-secondary">{{ clinic.summary|richtext }}</div>{% endif %}
+    {% if clinic.formatted_address %}<address class="small mb-0">{{ clinic.formatted_address }}</address>{% endif %}
+  </div>
+</article>
