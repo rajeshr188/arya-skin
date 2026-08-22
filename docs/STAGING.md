@@ -6,8 +6,9 @@ content, privacy, storage, monitoring, and operational approvals.
 
 The current staging target is `staging.drnareshrathod.com` on a single Ubuntu
 24.04 LTS Linode. Its version-controlled host and Compose configuration lives in
-`deploy/linode/`. The domain uses GoDaddy DNS, so the `staging` A record must be
-managed there rather than in Linode DNS Manager.
+`deploy/linode/`. The registrar is GoDaddy, but the domain is delegated to
+Linode's authoritative nameservers, so DNS records must be managed in Linode DNS
+Manager.
 
 ## Required services
 

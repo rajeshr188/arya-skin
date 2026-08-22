@@ -17,7 +17,7 @@ This directory contains the version-controlled, secret-free infrastructure for
 3. Copy this directory to `/srv/arya-skin/staging`.
 4. Generate `.env` once and validate the rendered Compose configuration.
 5. Start PostgreSQL, run `scripts/release.sh` once, then start the web service.
-6. Point the GoDaddy `staging` A record to the Linode IPv4 address.
+6. Point the Linode DNS `staging` A record to the Linode IPv4 address.
 7. Start Caddy only after public DNS resolves to the Linode.
 8. Run the acceptance checks in `docs/STAGING.md`.
 

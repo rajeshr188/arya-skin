@@ -184,8 +184,8 @@ request logs.
   and Gunicorn containers are healthy with no restart, and neither is published
   on a host port.
 - Wagtail's canonical Site origin is `https://staging.drnareshrathod.com`.
-- Caddy and public HTTPS remain intentionally stopped until the GoDaddy `staging`
-  A record resolves to the Linode.
+- Caddy and public HTTPS remain intentionally stopped until the Linode DNS
+  `staging` A record resolves to the staging host.
 
 ## Missing real-world content
 
