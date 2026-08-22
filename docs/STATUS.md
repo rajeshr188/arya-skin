@@ -117,7 +117,7 @@ release itself are not yet configured.
 Root
 └── HomePage: Dr. Naresh Rathod                     /                  [live]
     ├── DoctorPage: Dr. Naresh Rathod               /profile/          [live]
-    ├── ClinicIndexPage: Clinics                    /clinics/          [live; draft changes]
+    ├── ClinicIndexPage: Clinics                    /clinics/          [live]
     │   ├── ClinicPage: Dolphin Derma Care          /clinics/sitapura/ [live]
     │   └── ClinicPage: Arya Skin and Hair Clinic   /clinics/chaksu/   [live]
     ├── TreatmentIndexPage: Treatments              /treatments/       [live; empty]
@@ -226,10 +226,10 @@ request logs.
   successful backup is followed by the 90-day closed-enquiry purge; the latest
   isolated database/media restore and post-release maintenance tests passed.
 - Owner editorial review is complete and the approved public pages are live on
-  staging. The Clinic Index has a newer unpublished revision that must be resolved
-  during the production release audit. Paid Linode backups remain deferred; two
-  R2 buckets have been created, but encrypted off-server backup automation is not
-  yet implemented.
+  staging. The identical pending Clinic Index revision was published to clear its
+  release ambiguity, and Chaksu Monday is stored as closed without hidden times.
+  Paid Linode backups remain deferred; daily client-side encrypted R2 backups now
+  supplement the retained local generations.
 
 ## Missing real-world content
 

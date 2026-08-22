@@ -11,8 +11,10 @@ not professional legal/privacy or independent medical review. The owner has
 explicitly deferred professional legal/privacy review, and analytics remains
 disabled.
 
-The final release audit must resolve the Clinic Index page's unpublished revision
-and verify the exact live revision of every page after the production data copy.
+The final release audit published the identical Clinic Index draft to clear its
+revision state and verified that all current public pages have no unpublished
+changes. It also cleared hidden time values from Chaksu Monday while preserving
+the approved closed status.
 
 ## Verified in staging
 
@@ -45,10 +47,9 @@ The public fallback for an unanswered request is approved: after one business
 day, ask the requester to call or WhatsApp the selected clinic and reiterate
 that an online request is not confirmation or an emergency channel.
 
-Only synthetic details may be used for release testing. Confirm the Clinic Index
-revision, clear any hidden time values on days marked closed, and check every
-call, WhatsApp, address, schedule, privacy, disclaimer, and appointment route on
-the production candidate before DNS cutover.
+Only synthetic details may be used for release testing. Check every call,
+WhatsApp, address, schedule, privacy, disclaimer, and appointment route on the
+production candidate before DNS cutover.
 
 ## May be completed later
 
