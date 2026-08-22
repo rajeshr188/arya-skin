@@ -14,6 +14,7 @@ RuntimeDirectory=arya-skin-backup-docker
 RuntimeDirectoryMode=0700
 Environment=DOCKER_CONFIG=/run/arya-skin-backup-docker
 ExecStart=/srv/arya-skin/staging/backup_staging.sh
+ExecStartPost=/srv/arya-skin/production/encrypt_upload_latest_backup.sh /srv/arya-skin/production /srv/arya-skin/backups arya-skin-staging
 ExecStartPost=/srv/arya-skin/staging/purge_closed_enquiries.sh
 NoNewPrivileges=true
 PrivateTmp=true

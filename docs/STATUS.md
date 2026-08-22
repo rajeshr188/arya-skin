@@ -107,6 +107,9 @@ release itself are not yet configured.
   owner confirmed the matching off-server recovery-key copy, the Linode private
   key was deleted; only its public encryption recipient remains. The production
   timer is defined but intentionally not enabled before cutover.
+- Published owner-approved Privacy revision 30 covering client-side encrypted
+  off-server backups with the same 14-day expiry; authenticated rendering shows
+  the new sentence and no copy of the replaced local-only sentence.
 
 ## Current Wagtail tree
 

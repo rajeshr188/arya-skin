@@ -69,6 +69,8 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
   - [x] Add fail-closed Cloudflare R2 media configuration and dependency locking.
   - [x] Complete owner editorial approval; professional legal/privacy review is
     explicitly deferred and must not be claimed.
+  - [x] Approve and publish the Privacy notice amendment covering client-side
+    encrypted off-server backups with the existing 14-day expiry.
   - [x] Connect and publicly resolve the media custom domain and create its
     bucket-scoped application token.
   - [x] Install the media credential on the server, migrate media, and prove
