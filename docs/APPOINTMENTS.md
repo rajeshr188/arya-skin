@@ -29,6 +29,9 @@ The approved consent wording is `appointment-contact-v1`. Dr. Naresh Rathod is
 the only currently designated enquiry monitor, with a response target of one
 business day. His separate staging account has only appointment-enquiry view
 and change permissions; it is not a superuser and cannot delete enquiries.
+If no response is received within one business day, the requester is instructed
+to call or WhatsApp the selected clinic. The approved fallback also reiterates
+that the request is not confirmation and must not be used for emergencies.
 Closed enquiries are retained for 90 days; run
 `python manage.py purge_closed_enquiries` on a schedule before enabling the
 public form. Do not grant another person access without explicit approval and a

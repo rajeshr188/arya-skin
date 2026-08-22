@@ -30,12 +30,13 @@ remains unpublished, and analytics remains disabled.
 
 ## Required before publishing clinic and appointment pages
 
-The owner must approve or supply:
+The owner must obtain owner and professional legal/privacy approval of the
+complete unpublished Privacy and Medical disclaimer drafts in Wagtail and
+`LEGAL_DRAFTS.md`.
 
-1. Define coverage when Dr. Naresh Rathod cannot respond within one business
-   day. His separate, restricted enquiry-monitor login is provisioned.
-2. Owner and professional legal/privacy approval of the complete unpublished
-   Privacy and Medical disclaimer drafts in Wagtail and `LEGAL_DRAFTS.md`.
+The public fallback for an unanswered request is approved: after one business
+day, ask the requester to call or WhatsApp the selected clinic and reiterate
+that an online request is not confirmation or an emergency channel.
 
 Do not publish the clinic pages merely to test the form. Use Wagtail Preview for
 content review; once the facts above are approved, publish the doctor page,

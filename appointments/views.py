@@ -87,10 +87,14 @@ def appointment_success(request):
     if not request.session.pop("appointment_request_submitted", False):
         return redirect("/")
     clinic_slug = request.session.pop("appointment_request_clinic_slug", "")
+    clinic = _public_clinic(clinic_slug)
     response = render(
         request,
         "appointments/appointment_success.html",
-        {"analytics_clinic_slug": clinic_slug},
+        {
+            "analytics_clinic_slug": clinic_slug,
+            "clinic": clinic,
+        },
     )
     response.headers["X-Robots-Tag"] = "noindex, nofollow"
     return response

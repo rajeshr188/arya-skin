@@ -68,7 +68,8 @@ class AppointmentEnquiryTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertIn("no-cache", response.headers["Cache-Control"])
-        self.assertContains(response, "A request is not a confirmed appointment")
+        self.assertContains(response, "within one business day")
+        self.assertContains(response, "must not be used for emergencies")
         field_names = set(response.context["form"].fields)
         self.assertEqual(
             field_names,
@@ -174,13 +175,24 @@ class AppointmentEnquiryTests(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_success_page_contains_no_submitted_personal_data(self):
+        self.sitapura.phone = "9461289316"
+        self.sitapura.phone_is_public = True
+        self.sitapura.whatsapp = "+919461289316"
+        self.sitapura.whatsapp_is_public = True
+        self.publish_clinic(self.sitapura)
         session = self.client.session
         session["appointment_request_submitted"] = True
+        session["appointment_request_clinic_slug"] = self.sitapura.slug
         session.save()
         response = self.client.get(reverse("appointments:success"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "not a confirmed appointment")
+        self.assertContains(response, "within one business day")
+        self.assertContains(response, "does not confirm an appointment")
+        self.assertContains(response, "must not be used for emergencies")
+        self.assertContains(response, 'href="tel:')
+        self.assertContains(response, "Call Dolphin Derma Care")
+        self.assertContains(response, "WhatsApp Dolphin Derma Care")
         self.assertNotContains(response, "Test Patient")
 
     def test_success_page_does_not_claim_an_unsubmitted_request(self):

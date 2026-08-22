@@ -118,7 +118,9 @@ unchecked until final publication approval.
 - [x] Separate staging login provisioned for Dr. Naresh Rathod with appointment
   enquiry view/change access only; it has no deletion or superuser permission
 - [x] Response target: within one business day
-- [ ] Define an escalation/coverage process when Dr. Naresh Rathod is unavailable
+- [x] Approved fallback when Dr. Naresh Rathod is unavailable: after one business
+  day, ask the requester to call or WhatsApp the selected clinic; reiterate that
+  an online request is not confirmation and must not be used for emergencies
 - [ ] Decide whether approved staff email notifications are required later
 
 ## Marketing and measurement

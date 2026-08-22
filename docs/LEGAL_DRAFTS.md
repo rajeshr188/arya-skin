@@ -20,6 +20,9 @@ professional review is required before production publication.
 - Appointment contact consent version `appointment-contact-v1` is approved.
 - Dr. Naresh Rathod is the only currently designated enquiry monitor.
 - The response target is within one business day.
+- If there is no response within one business day, the requester is instructed
+  to call or WhatsApp the selected clinic; the request remains unconfirmed and
+  must not be used for emergencies.
 - Closed appointment enquiries are retained for 90 days and then deleted.
 - Local backup generations expire after 14 days, so a deleted record may remain
   in a restricted backup until that backup expires.

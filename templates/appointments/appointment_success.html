@@ -10,7 +10,17 @@
     <p class="eyebrow mb-2">Request received</p>
     <h1>Thank you</h1>
     <p class="lead">Your appointment request has been recorded.</p>
-    <p>This is not a confirmed appointment. Clinic staff will contact you using the details supplied.</p>
+    <p>The selected clinic will contact you using the details supplied.</p>
+    <div class="content-note content-note-information my-4">
+      <p>If you do not receive a response within one business day, please call or WhatsApp the selected clinic.</p>
+      <p class="mb-0">An online request does not confirm an appointment and must not be used for emergencies.</p>
+    </div>
+    {% if clinic.phone_uri or clinic.whatsapp_url %}
+      <div class="d-flex flex-wrap gap-2 mb-4" aria-label="Selected clinic contact actions">
+        {% if clinic.phone_uri %}<a class="btn btn-primary" href="{{ clinic.phone_uri }}" data-analytics-event="phone_click" data-analytics-clinic="{{ clinic.slug }}">Call {{ clinic.title }}</a>{% endif %}
+        {% if clinic.whatsapp_url %}<a class="btn btn-outline-primary" href="{{ clinic.whatsapp_url }}" target="_blank" rel="noopener" data-analytics-event="whatsapp_click" data-analytics-clinic="{{ clinic.slug }}">WhatsApp {{ clinic.title }}</a>{% endif %}
+      </div>
+    {% endif %}
     <a class="btn btn-outline-primary" href="/">Return to homepage</a>
   </div>
 </main>
