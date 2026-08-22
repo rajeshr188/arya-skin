@@ -192,6 +192,10 @@ request logs.
 - One active Wagtail administrator is configured. A daily, access-restricted
   PostgreSQL and media backup timer is enabled with 14-day local retention, and
   the initial isolated database/media restore test passed.
+- The first redacted editorial inventory passed: only the verified homepage is
+  live, and pages depending on incomplete facts remain drafts. Paid off-server
+  Linode backups are intentionally deferred during budget staging; see
+  `EDITORIAL_REVIEW.md` for the documented risk and owner checklist.
 
 ## Missing real-world content
 
@@ -210,4 +214,4 @@ transactional email, tested backup/restore, accessibility and performance review
 CSP/final HSTS, public content and legal approval, and the production launch
 review. Analytics must remain disabled until the outstanding account, privacy,
 and consent approvals are supplied. The private Linode staging site is live;
-off-server backup coverage and editorial acceptance remain.
+owner content confirmations and final editorial acceptance remain.

@@ -22,6 +22,14 @@ This directory contains the version-controlled, secret-free infrastructure for
 8. Run `./check_staging.sh` on the host, then complete the editorial acceptance
    checks in `docs/STAGING.md`.
 
+For a contact-value-redacted inventory of page publication and content
+completeness, run:
+
+```sh
+docker compose --file compose.staging.yml exec -T web \
+  python manage.py shell < editorial_inventory.py
+```
+
 ## Local staging backups
 
 Install the daily database and media backup timer after the stack is healthy:
