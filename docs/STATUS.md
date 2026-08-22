@@ -178,7 +178,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- The immutable `d0b45fc` application image, PostgreSQL 16, generated server-only
+- The immutable `20433de` application image, PostgreSQL 16, generated server-only
   secrets, and persistent database/media volumes are provisioned.
 - All migrations and the staging release checks completed. The internal database
   and Gunicorn containers are healthy with no restart, and neither is published
@@ -190,8 +190,9 @@ request logs.
   access-controlled and noindexed, the health endpoint is available, and the
   authenticated site and Wagtail login route respond successfully.
 - One active Wagtail administrator is configured. A daily, access-restricted
-  PostgreSQL and media backup timer is enabled with 14-day local retention, and
-  the initial isolated database/media restore test passed.
+  PostgreSQL and media backup timer is enabled with 14-day local retention. Each
+  successful backup is followed by the 90-day closed-enquiry purge; the latest
+  isolated database/media restore and post-release maintenance tests passed.
 - The first redacted editorial inventory passed: only the verified homepage is
   live, and pages depending on incomplete facts remain drafts. Paid off-server
   Linode backups are intentionally deferred during budget staging; see
