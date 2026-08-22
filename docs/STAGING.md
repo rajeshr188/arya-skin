@@ -22,6 +22,10 @@ The persistent filesystem option is intentionally limited to one staging web
 replica. Production or horizontally scaled staging requires shared object
 storage, which remains Milestone 7B work.
 
+In private staging, the application serves files under `/media/` from that
+persistent volume so the existing reviewer authentication also protects them.
+This low-volume staging path is not the production media architecture.
+
 ## Required environment
 
 | Variable | Staging requirement |

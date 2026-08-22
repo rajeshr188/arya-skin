@@ -2,6 +2,8 @@ import base64
 import json
 import logging
 import sys
+import tempfile
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -108,6 +110,45 @@ class DeploymentConfigurationTests(TestCase):
             HTTP_AUTHORIZATION=f"Basic {credentials}",
         )
         self.assertEqual(authenticated.status_code, 200)
+        self.assertEqual(
+            authenticated.headers["X-Robots-Tag"],
+            "noindex, nofollow, noarchive",
+        )
+
+    @override_settings(
+        IS_STAGING=True,
+        SITE_NOINDEX=True,
+        STAGING_ACCESS_USERNAME="reviewer",
+        STAGING_ACCESS_PASSWORD="staging-password",
+        STAGING_ACCESS_REALM="Arya Skin staging",
+        SECURE_SSL_REDIRECT=False,
+        DEBUG=False,
+    )
+    def test_staging_media_is_private_and_served_from_the_media_root(self):
+        credentials = base64.b64encode(
+            b"reviewer:staging-password"
+        ).decode("ascii")
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            media_root = Path(temporary_directory)
+            image_directory = media_root / "original_images"
+            image_directory.mkdir()
+            (image_directory / "portrait.png").write_bytes(b"test-image")
+
+            with override_settings(MEDIA_ROOT=media_root):
+                anonymous = self.client.get(
+                    "/media/original_images/portrait.png"
+                )
+                authenticated = self.client.get(
+                    "/media/original_images/portrait.png",
+                    HTTP_AUTHORIZATION=f"Basic {credentials}",
+                )
+                authenticated_body = b"".join(
+                    authenticated.streaming_content
+                )
+
+        self.assertEqual(anonymous.status_code, 401)
+        self.assertEqual(authenticated.status_code, 200)
+        self.assertEqual(authenticated_body, b"test-image")
         self.assertEqual(
             authenticated.headers["X-Robots-Tag"],
             "noindex, nofollow, noarchive",

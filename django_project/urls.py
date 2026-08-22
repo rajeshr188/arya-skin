@@ -6,10 +6,11 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail import urls as wagtail_urls
-from website.views import health_check, robots_txt
+from website.views import health_check, local_media_file, robots_txt
 
 urlpatterns = [
     path("healthz/", health_check, name="health_check"),
+    path("media/<path:path>", local_media_file, name="local_media_file"),
     path("admin/", admin.site.urls),
     path("appointments/", include("appointments.urls")),
     path("cms/", include(wagtailadmin_urls)),

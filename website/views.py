@@ -1,8 +1,10 @@
+from django.conf import settings
 from django.db import DatabaseError, connection
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
+from django.views.static import serve
 from wagtail.models import Site
 
 
@@ -18,6 +20,14 @@ def health_check(request):
         response = JsonResponse({"status": "ok"})
     response.headers["Cache-Control"] = "no-store"
     return response
+
+
+@require_GET
+def local_media_file(request, path):
+    """Serve persistent local media only in development or private staging."""
+    if not (settings.DEBUG or settings.IS_STAGING):
+        raise Http404
+    return serve(request, path, document_root=settings.MEDIA_ROOT)
 
 
 @require_GET
