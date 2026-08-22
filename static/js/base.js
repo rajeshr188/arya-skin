@@ -223,3 +223,23 @@
     showBanner();
   }
 })();
+
+(function () {
+  "use strict";
+
+  if (!("serviceWorker" in navigator)) {
+    return;
+  }
+
+  navigator.serviceWorker.getRegistrations().then(function (registrations) {
+    registrations.forEach(function (registration) {
+      if (new URL(registration.scope).origin === window.location.origin) {
+        registration.update().catch(function () {
+          // A failed retirement check must not affect the website itself.
+        });
+      }
+    });
+  }).catch(function () {
+    // Some privacy modes block service-worker access entirely.
+  });
+})();

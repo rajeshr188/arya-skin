@@ -76,6 +76,15 @@ database query. The production timer is active; the staging timer is disabled.
 The final staging backup from `20260822T145711Z` and image `arya-skin:377ee54`
 remain available for rollback.
 
+After launch, a returning browser reported a Workbox `sw.js` failure while
+fetching an R2 rendition. The exact rendition remained healthy and returned its
+complete PNG response. The application had never registered a service worker,
+so the failure was traced to a registration retained from a site previously
+hosted on the apex origin. Production now serves a no-store retirement worker at
+`/sw.js`; the first-party script asks only existing same-origin registrations to
+update. The retirement worker clears service-worker caches, unregisters itself,
+and reloads controlled tabs without clearing cookies or local storage.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.

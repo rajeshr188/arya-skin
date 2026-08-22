@@ -8,6 +8,35 @@ from django.views.static import serve
 from wagtail.models import Site
 
 
+RETIRED_SERVICE_WORKER = """\
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+      .then(() => self.clients.claim())
+      .then(() => self.registration.unregister())
+      .then(() => self.clients.matchAll({ type: "window" }))
+      .then((clients) => Promise.all(
+        clients.map((client) => client.navigate(client.url))
+      ))
+  );
+});
+"""
+
+
+@require_GET
+def retired_service_worker(request):
+    """Remove a service worker left by a site previously hosted on this origin."""
+    response = HttpResponse(
+        RETIRED_SERVICE_WORKER,
+        content_type="application/javascript; charset=utf-8",
+    )
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+    response.headers["Service-Worker-Allowed"] = "/"
+    return response
+
+
 @require_GET
 def health_check(request):
     try:

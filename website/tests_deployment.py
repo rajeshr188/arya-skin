@@ -211,6 +211,26 @@ class DeploymentConfigurationTests(TestCase):
         self.assertEqual(response.json(), {"status": "ok"})
         self.assertEqual(response.headers["Cache-Control"], "no-store")
 
+    def test_retired_service_worker_clears_caches_and_unregisters(self):
+        response = self.client.get(reverse("retired_service_worker"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.headers["Content-Type"],
+            "application/javascript; charset=utf-8",
+        )
+        self.assertEqual(
+            response.headers["Cache-Control"],
+            "no-store, no-cache, must-revalidate",
+        )
+        self.assertEqual(response.headers["Service-Worker-Allowed"], "/")
+        self.assertContains(response, "caches.keys()")
+        self.assertContains(response, "self.registration.unregister()")
+        self.assertEqual(
+            self.client.post(reverse("retired_service_worker")).status_code,
+            405,
+        )
+
     def test_health_check_returns_503_without_exposing_database_details(self):
         with patch(
             "website.views.connection.cursor",

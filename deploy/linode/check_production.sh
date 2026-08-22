@@ -34,6 +34,7 @@ expect_status disclaimer_page "https://$PRODUCTION_HOST/medical-disclaimer/" 200
 expect_status appointment_form "https://$PRODUCTION_HOST/appointments/request/" 200
 expect_status robots_txt "https://$PRODUCTION_HOST/robots.txt" 200
 expect_status sitemap_xml "https://$PRODUCTION_HOST/sitemap.xml" 200
+expect_status retired_service_worker "https://$PRODUCTION_HOST/sw.js" 200
 expect_status treatments_unpublished "https://$PRODUCTION_HOST/treatments/" 404
 expect_status articles_unpublished "https://$PRODUCTION_HOST/blog/" 404
 expect_status wagtail_admin_redirect "https://$PRODUCTION_HOST/cms/" 302
