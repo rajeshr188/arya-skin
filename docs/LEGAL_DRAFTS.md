@@ -30,9 +30,9 @@ project launch gate.
 - Local backup generations expire after 14 days, so a deleted record may remain
   in a restricted backup until that backup expires.
 - Production adds client-side encrypted off-server database backups with the same
-  14-day expiry. The published Privacy notice must replace "restricted local
-  backup" with "restricted local or client-side encrypted off-server backup"
-  before this automation is enabled; that wording change requires owner approval.
+  14-day expiry. On 22 August 2026, the owner approved replacing "restricted
+  local backup" in the published Privacy notice with "restricted local backup or
+  a client-side encrypted off-server backup."
 - The form does not collect a diagnosis, medical history, detailed concern, date
   of birth, postal address, document, or patient account.
 - Analytics is disabled. It must not be enabled without separately approving and
