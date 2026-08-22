@@ -118,6 +118,12 @@ the stream with `age` before upload. `scripts/r2_backup.py` writes only to the
 verifies object size and SHA-256 metadata, and deletes only matching encrypted
 objects older than the approved 14-day retention period.
 
+After the first production backup and periodically thereafter, run
+`test_production_restore.sh`. It verifies the latest local manifest, restores the
+dump into an isolated temporary PostgreSQL database, runs a query, and removes
+only that temporary database. The separate R2 restore proof additionally tests
+download, metadata integrity, decryption, and the off-server recovery key.
+
 The scheduled job needs only `backup-age-recipient.txt`, which contains the
 public encryption recipient. Keep the private `backup-recovery-key.agekey` as a
 secure off-server password-manager attachment. It may be present on the Linode
