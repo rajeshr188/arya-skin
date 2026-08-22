@@ -27,8 +27,28 @@ replicas. See `STAGING.md` for the required environment and acceptance checks.
 - PostgreSQL via `psycopg` and an environment-driven connection;
 - Gunicorn behind an HTTPS reverse proxy/platform router;
 - WhiteNoise for immutable collected static files;
-- S3-compatible/object storage and optional CDN for user-uploaded Wagtail media;
+- Cloudflare R2 via a custom domain for user-uploaded Wagtail media;
 - durable database/media backups and tested restore procedures.
+
+### Production media storage
+
+Production refuses to start unless `USE_R2_MEDIA=True` and all five R2 media
+settings in `.env.example` are present. The token must have access only to
+`arya-skin-production-media`; do not reuse the backup token. Connect
+`media.drnareshrathod.com` in the bucket's **Custom Domains** settings and keep
+the development-only `r2.dev` URL disabled. The custom domain is public because
+the website must render Wagtail images and linked public documents.
+
+Before cutover, upload the staging media to R2 and verify representative original
+images, generated renditions, and documents through the custom domain. Keep the
+staging media volume unchanged until the production database and media restore
+test has passed.
+
+`arya-skin-production-backups` is reserved for private, client-side encrypted
+database backups. It must not have a public custom domain and must use a separate
+bucket-scoped token. Creating this bucket alone does not enable off-server
+backups; the upload, retention, alerting, and restore proof remain a separate
+production task.
 
 ## Required configuration before public launch
 
@@ -40,7 +60,8 @@ replicas. See `STAGING.md` for the required environment and acceptance checks.
 - production HSTS rollout after TLS is confirmed, including deliberate
   subdomain/preload decisions;
 - transactional email provider for operational mail;
-- object-storage credentials and private/public access policy as appropriate;
+- bucket-scoped object-storage credentials, active media custom domain, and a
+  private backup-bucket policy;
 - error-monitoring provider, alert routing, log retention, and named backup
   ownership;
 - production Site hostname/port updated in Wagtail admin;

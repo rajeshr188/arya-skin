@@ -3,7 +3,10 @@
 Last updated: 22 August 2026
 
 Milestones 0 through 6 and the staging baseline in milestone 7A are complete.
-Milestone 7B production launch hardening is not implemented.
+Milestone 7B is in progress. Production Cloudflare R2 media support is implemented
+and tested locally. The media custom domain and bucket-scoped token are created,
+but server credential installation, media migration, backups, and the production
+release itself are not yet configured.
 
 ## Implemented
 
@@ -84,26 +87,29 @@ Milestone 7B production launch hardening is not implemented.
   graph in dependency order.
 - Retained Django admin and installed allauth; public allauth routes remain
   intentionally unavailable.
-- Added project documentation and 67 passing foundation/domain/deployment tests.
+- Added project documentation and 73 passing foundation/domain/deployment tests.
+- Added fail-closed production media storage using a bucket-scoped Cloudflare R2
+  configuration and public custom domain; local development and private staging
+  retain filesystem media.
 
 ## Current Wagtail tree
 
 ```text
 Root
 └── HomePage: Dr. Naresh Rathod                     /                  [live]
-    ├── DoctorPage: Dr. Naresh Rathod               /dr-naresh-rathod/ [draft]
-    ├── ClinicIndexPage: Clinics                    /clinics/          [draft]
-    │   ├── ClinicPage: Dolphin Derma Care          /clinics/sitapura/ [draft]
-    │   └── ClinicPage: Arya Skin and Hair Clinic   /clinics/chaksu/   [draft]
-    ├── TreatmentIndexPage: Treatments              /treatments/       [draft]
-    ├── BlogIndexPage: Articles                      /blog/             [draft]
-    ├── ContactPage: Contact                        /contact/          [draft]
-    ├── StandardPage: Privacy                       /privacy/          [draft]
-    └── StandardPage: Medical disclaimer            /medical-disclaimer/ [draft]
+    ├── DoctorPage: Dr. Naresh Rathod               /profile/          [live]
+    ├── ClinicIndexPage: Clinics                    /clinics/          [live; draft changes]
+    │   ├── ClinicPage: Dolphin Derma Care          /clinics/sitapura/ [live]
+    │   └── ClinicPage: Arya Skin and Hair Clinic   /clinics/chaksu/   [live]
+    ├── TreatmentIndexPage: Treatments              /treatments/       [live; empty]
+    ├── BlogIndexPage: Articles                      /blog/             [live; empty]
+    ├── ContactPage: Contact                        /contact/          [live]
+    ├── StandardPage: Privacy                       /privacy/          [live]
+    └── StandardPage: Medical disclaimer            /medical-disclaimer/ [live]
 ```
 
-Draft routes correctly return 404 publicly. Staff can complete and preview them
-in Wagtail before publication.
+The owner completed editorial review of the current public content. Professional
+legal/privacy review remains explicitly deferred and is not claimed.
 
 ## Architecture decisions
 
@@ -139,8 +145,8 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            67 tests passed (SQLite)
-manage.py test                            67 tests passed (PostgreSQL 16)
+manage.py test                            73 tests passed (SQLite)
+manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
 manage.py check --deploy                  0 issues (production profile)
 clean PostgreSQL migration                248 migrations applied
@@ -184,8 +190,9 @@ request logs.
   and Gunicorn containers are healthy with no restart, and neither is published
   on a host port.
 - Wagtail's canonical Site origin is `https://staging.drnareshrathod.com`.
-- Linode DNS resolves the staging hostname to the host. Caddy has an active
-  Let's Encrypt certificate and redirects HTTP to HTTPS.
+- Cloudflare authoritative DNS resolves the proxied staging hostname to the
+  Linode origin. Caddy has an active Let's Encrypt certificate and redirects HTTP
+  to HTTPS.
 - External and credentialed acceptance checks pass: anonymous pages remain
   access-controlled and noindexed, the health endpoint is available, and the
   authenticated site and Wagtail login route respond successfully. Uploaded
@@ -199,22 +206,23 @@ request logs.
   local retention. Each
   successful backup is followed by the 90-day closed-enquiry purge; the latest
   isolated database/media restore and post-release maintenance tests passed.
-- The first redacted editorial inventory passed: only the verified homepage is
-  live, and pages depending on incomplete facts remain drafts. Paid off-server
-  Linode backups are intentionally deferred during budget staging; see
-  `EDITORIAL_REVIEW.md` for the documented risk and owner checklist.
+- Owner editorial review is complete and the approved public pages are live on
+  staging. The Clinic Index has a newer unpublished revision that must be resolved
+  during the production release audit. Paid Linode backups remain deferred; two
+  R2 buckets have been created, but encrypted off-server backup automation is not
+  yet implemented.
 
 ## Missing real-world content
 
-Both clinic drafts now contain owner-approved call/WhatsApp publication consent,
+Both clinic pages contain owner-approved call/WhatsApp publication consent,
 addresses, doctor-availability schedules, and the shared service list. The
 uploaded doctor portrait and its alternative text are also approved. Maps links
 and access details remain optional but must not be inferred. Precise
-qualification/experience wording and final legal text require approval. Dr.
+qualification/experience wording may remain absent. Dr.
 Naresh Rathod is the designated enquiry monitor; consent, a one-business-day
 response target, the call/WhatsApp fallback for an unanswered request, and
 90-day post-closure retention are approved. The Privacy and Medical disclaimer
-pages contain complete unpublished drafts for owner approval. Professional
+pages contain owner-approved working text. Professional
 legal/privacy review remains recommended but was explicitly deferred by the
 owner for the budget launch; the drafts are not legally verified. Blog authors,
 medical reviewers, source standards, review intervals, and every article also
@@ -222,9 +230,8 @@ require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 
-Milestone 7B should add production object storage, monitoring and alerts,
-transactional email, tested backup/restore, accessibility and performance review,
-CSP/final HSTS, public content and legal approval, and the production launch
-review. Analytics must remain disabled until the outstanding account, privacy,
-and consent approvals are supplied. The private Linode staging site is live;
-owner content confirmations and final editorial acceptance remain.
+Milestone 7B should next install the R2 media credential on the server, migrate
+and verify media, add encrypted off-server database backups with a restore proof,
+and then complete monitoring, transactional email, accessibility/performance,
+CSP/HSTS, and the production launch review. Analytics remains disabled until its
+separate account and consent decisions are supplied.

@@ -3,7 +3,12 @@ from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
 
-from .environment import env_bool, env_list, postgres_config_from_url
+from .environment import (
+    env_bool,
+    env_list,
+    postgres_config_from_url,
+    r2_media_storage_options,
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -243,15 +248,29 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-# User-uploaded images and documents. Production must replace this local
-# filesystem backend with durable object storage; WhiteNoise serves static only.
+# User-uploaded images and documents. Development and private staging use the
+# mounted filesystem. Production requires the configured Cloudflare R2 bucket;
+# WhiteNoise serves static assets only.
 MEDIA_ROOT = Path(os.environ.get("MEDIA_ROOT", BASE_DIR / "media"))
 MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
+R2_MEDIA_STORAGE_OPTIONS = r2_media_storage_options(
+    os.environ,
+    required=IS_PRODUCTION,
+)
 
 # https://whitenoise.readthedocs.io/en/latest/django.html
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": (
+            "storages.backends.s3.S3Storage"
+            if R2_MEDIA_STORAGE_OPTIONS
+            else "django.core.files.storage.FileSystemStorage"
+        ),
+        **(
+            {"OPTIONS": R2_MEDIA_STORAGE_OPTIONS}
+            if R2_MEDIA_STORAGE_OPTIONS
+            else {}
+        ),
     },
     "staticfiles": {
         "BACKEND": (
@@ -261,6 +280,8 @@ STORAGES = {
         ),
     },
 }
+if R2_MEDIA_STORAGE_OPTIONS:
+    MEDIA_URL = f"https://{R2_MEDIA_STORAGE_OPTIONS['custom_domain']}/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/stable/ref/settings/#default-auto-field

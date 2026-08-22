@@ -4,10 +4,15 @@ Review date: 22 August 2026
 
 ## Outcome
 
-The private staging site is suitable for owner editing and preview, but its
-content is not approved for public production. The verified homepage is live on
-staging. Every page that depends on incomplete business, legal, or medical facts
-remains unpublished, and analytics remains disabled.
+The owner completed the staging editorial review on 22 August 2026 and approved
+the current factual clinic, doctor, contact, privacy, and medical-disclaimer
+content for the budget production launch. This is owner editorial acceptance,
+not professional legal/privacy or independent medical review. The owner has
+explicitly deferred professional legal/privacy review, and analytics remains
+disabled.
+
+The final release audit must resolve the Clinic Index page's unpublished revision
+and verify the exact live revision of every page after the production data copy.
 
 ## Verified in staging
 
@@ -17,33 +22,33 @@ remains unpublished, and analytics remains disabled.
   `/clinics/chaksu/`.
 - Both clinic drafts reference Dr. Naresh Rathod. The owner has approved their
   stored phone number for public calls and WhatsApp at both clinics.
-- The doctor draft contains the supplied qualifications, confirmed Rajasthan
+- The doctor page contains the supplied qualifications, confirmed Rajasthan
   Medical Council registration, four practice areas, and three languages.
-- No experience claim, biography, membership, affiliation, treatment page,
-  article, testimonial, rating, or clinic service is published. The owner-approved
-  shared service list is stored only in the two clinic drafts.
+- No experience claim, biography, membership, affiliation, treatment detail,
+  article, testimonial, rating, or patient-outcome claim is published. The
+  owner-approved shared service list is published on both clinic pages.
 - The owner approved the uploaded doctor portrait for publication and its default
   alternative text is "Portrait of Dr. Naresh Rathod." There are no clinic
   photographs, treatment records, or article records.
-- The appointment form remains unavailable until at least one clinic is approved
-  and published. This prevents enquiries being routed to incomplete clinic data.
+- Both clinic pages, the doctor page, Contact, Privacy, and Medical disclaimer are
+  live on staging, so the appointment form can route to verified clinic data.
 
-## Required before publishing clinic and appointment pages
+## Release conditions
 
-The owner must approve the exact complete unpublished Privacy and Medical
-disclaimer drafts in Wagtail and `LEGAL_DRAFTS.md`. Professional legal/privacy
-review remains recommended but was explicitly deferred by the owner on 22
-August 2026 for the budget launch. Do not describe the drafts as professionally
-reviewed or legally verified.
+The owner approved the Privacy and Medical disclaimer wording during the final
+editorial review. Professional legal/privacy review remains recommended but was
+explicitly deferred by the owner on 22 August 2026 for the budget launch. Do not
+describe the wording as professionally reviewed, legally verified, or a guarantee
+of compliance.
 
 The public fallback for an unanswered request is approved: after one business
 day, ask the requester to call or WhatsApp the selected clinic and reiterate
 that an online request is not confirmation or an emergency channel.
 
-Do not publish the clinic pages merely to test the form. Use Wagtail Preview for
-content review; once the facts above are approved, publish the doctor page,
-clinic index, approved clinic pages, contact/legal pages, and then test the form
-using synthetic details.
+Only synthetic details may be used for release testing. Confirm the Clinic Index
+revision, clear any hidden time values on days marked closed, and check every
+call, WhatsApp, address, schedule, privacy, disclaimer, and appointment route on
+the production candidate before DNS cutover.
 
 ## May be completed later
 

@@ -2,12 +2,12 @@
 
 Drafted: 22 August 2026
 
-These are conservative working drafts for the private staging site. They are not
-legal advice. On 22 August 2026, the owner chose to defer professional
-legal/privacy review for the budget launch. They must remain unpublished until
-the owner explicitly approves the exact final wording. This deferral does not
-verify legal compliance or make the drafts professionally reviewed. Update the
-review date when the final text is approved.
+These are conservative owner-approved working texts for the budget launch. They
+are not legal advice. On 22 August 2026, the owner approved the exact wording in
+the staging editorial review and chose to defer professional legal/privacy review.
+This approval does not verify legal compliance or make the texts professionally
+reviewed. Re-review them when website practices or applicable requirements
+change.
 
 The drafting review used the official [Digital Personal Data Protection Act,
 2023](https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf),

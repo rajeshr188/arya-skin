@@ -12,7 +12,11 @@ from django.db import DatabaseError
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from django_project.environment import env_bool, postgres_config_from_url
+from django_project.environment import (
+    env_bool,
+    postgres_config_from_url,
+    r2_media_storage_options,
+)
 from django_project.logging import JsonFormatter
 
 
@@ -50,6 +54,75 @@ class DeploymentConfigurationTests(TestCase):
             with self.subTest(database_url=database_url):
                 with self.assertRaises(ImproperlyConfigured):
                     postgres_config_from_url(database_url)
+
+    def test_r2_media_is_optional_outside_production(self):
+        self.assertIsNone(r2_media_storage_options({}))
+        with self.assertRaisesMessage(
+            ImproperlyConfigured,
+            "USE_R2_MEDIA must be enabled for production",
+        ):
+            r2_media_storage_options({}, required=True)
+
+    def test_r2_media_configuration_is_bucket_scoped_and_publicly_addressed(self):
+        options = r2_media_storage_options(
+            {
+                "USE_R2_MEDIA": "true",
+                "R2_MEDIA_ACCESS_KEY_ID": "bucket-access-key",
+                "R2_MEDIA_SECRET_ACCESS_KEY": "bucket-secret-key",
+                "R2_MEDIA_BUCKET_NAME": "arya-skin-production-media",
+                "R2_MEDIA_ENDPOINT_URL": (
+                    "https://account-id.r2.cloudflarestorage.com/"
+                ),
+                "R2_MEDIA_CUSTOM_DOMAIN": "media.drnareshrathod.com",
+            },
+            required=True,
+        )
+
+        self.assertEqual(options["bucket_name"], "arya-skin-production-media")
+        self.assertEqual(
+            options["endpoint_url"],
+            "https://account-id.r2.cloudflarestorage.com",
+        )
+        self.assertEqual(options["region_name"], "auto")
+        self.assertEqual(options["custom_domain"], "media.drnareshrathod.com")
+        self.assertFalse(options["querystring_auth"])
+        self.assertIsNone(options["default_acl"])
+        self.assertFalse(options["file_overwrite"])
+
+    def test_r2_media_configuration_rejects_missing_or_unsafe_values(self):
+        with self.assertRaisesMessage(
+            ImproperlyConfigured,
+            "R2_MEDIA_SECRET_ACCESS_KEY",
+        ):
+            r2_media_storage_options(
+                {
+                    "USE_R2_MEDIA": "true",
+                    "R2_MEDIA_ACCESS_KEY_ID": "key",
+                }
+            )
+
+        base_environment = {
+            "USE_R2_MEDIA": "true",
+            "R2_MEDIA_ACCESS_KEY_ID": "key",
+            "R2_MEDIA_SECRET_ACCESS_KEY": "secret",
+            "R2_MEDIA_BUCKET_NAME": "arya-skin-production-media",
+            "R2_MEDIA_ENDPOINT_URL": (
+                "https://account-id.r2.cloudflarestorage.com"
+            ),
+            "R2_MEDIA_CUSTOM_DOMAIN": "media.drnareshrathod.com",
+        }
+        invalid_values = (
+            ("R2_MEDIA_BUCKET_NAME", "Invalid_Bucket"),
+            ("R2_MEDIA_ENDPOINT_URL", "http://account-id.example.com"),
+            ("R2_MEDIA_CUSTOM_DOMAIN", "https://media.example.com/path"),
+            ("R2_MEDIA_CUSTOM_DOMAIN", "media domain.example.com"),
+            ("R2_MEDIA_CUSTOM_DOMAIN", "MEDIA.example.com"),
+        )
+        for name, value in invalid_values:
+            with self.subTest(name=name):
+                environment = {**base_environment, name: value}
+                with self.assertRaises(ImproperlyConfigured):
+                    r2_media_storage_options(environment)
 
     def test_health_check_reports_database_readiness_without_cache(self):
         response = self.client.get(reverse("health_check"))

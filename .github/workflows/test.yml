@@ -55,6 +55,12 @@ jobs:
           SECURE_HSTS_SECONDS: "31536000"
           SECURE_HSTS_INCLUDE_SUBDOMAINS: "True"
           SECURE_HSTS_PRELOAD: "True"
+          USE_R2_MEDIA: "True"
+          R2_MEDIA_ACCESS_KEY_ID: ci-only-r2-access-key
+          R2_MEDIA_SECRET_ACCESS_KEY: ci-only-r2-secret-key
+          R2_MEDIA_BUCKET_NAME: ci-production-media
+          R2_MEDIA_ENDPOINT_URL: https://ci-account.r2.cloudflarestorage.com
+          R2_MEDIA_CUSTOM_DOMAIN: media.example.test
         run: python manage.py check --deploy
       - name: Collect static files
         env:

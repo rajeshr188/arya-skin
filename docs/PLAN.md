@@ -66,6 +66,16 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
 - [ ] Milestone 7B: production object storage, monitoring/alerts, transactional
   email, backup/restore proof, accessibility/performance review, CSP, final HSTS,
   public content/legal approval, and production launch review.
+  - [x] Add fail-closed Cloudflare R2 media configuration and dependency locking.
+  - [x] Complete owner editorial approval; professional legal/privacy review is
+    explicitly deferred and must not be claimed.
+  - [x] Connect and publicly resolve the media custom domain and create its
+    bucket-scoped application token.
+  - [ ] Install the media credential on the server, migrate media, and prove
+    retrieval through the custom domain.
+  - [ ] Add encrypted off-server database backup upload, retention, alerting, and
+    an isolated restore test.
+  - [ ] Complete the remaining production controls and launch review.
 
 ## Definition of done for every milestone
 

@@ -102,12 +102,14 @@ unchecked until final publication approval.
 - [ ] Confirm final umbrella site wording around Dr. Naresh Rathod
 - [ ] Final logo files (SVG preferred, plus raster variants) and usage guidance
 - [ ] Approved color palette and typography preferences
-- [ ] Domain name and DNS ownership/access
+- [x] Domain and DNS access: `drnareshrathod.com`; authoritative DNS moved from
+  Linode to Cloudflare on 22 August 2026
 - [ ] General clinic email address
 - [ ] Preferred site-wide phone/WhatsApp fallback, if any
 - [ ] Instagram, Facebook, YouTube, and LinkedIn profile URLs
 - [ ] Default social-sharing image
-- [ ] Approved privacy policy and medical disclaimer wording
+- [x] Owner-approved privacy policy and medical disclaimer wording for the budget
+  launch on 22 August 2026
 - [x] Professional legal/privacy review recommended and explicitly deferred by
   the owner on 22 August 2026 for the budget launch; this is not legal approval
 
