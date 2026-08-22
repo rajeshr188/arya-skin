@@ -80,6 +80,7 @@ is tracked for the production-hardening milestone in `docs/PLAN.md` and
 - `docs/BLOG_EDITORIAL.md`: article sourcing, review, and publishing workflow
 - `docs/DEPLOYMENT.md`: current and target deployment architecture
 - `docs/STAGING.md`: private staging environment and release runbook
+- `deploy/linode/`: secret-free Linode host and staging Compose configuration
 
 Do not invent clinic contacts, addresses, hours, services, credentials, reviews,
 or medical claims to make an unfinished page appear complete.

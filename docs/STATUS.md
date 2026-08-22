@@ -170,6 +170,23 @@ Deployment tests cover strict environment parsing, PostgreSQL configuration,
 database readiness responses, staging access/noindex behavior, and redacted JSON
 request logs.
 
+## Current staging state
+
+- The Ubuntu 24.04 LTS Linode has current security updates and kernel
+  `6.8.0-138-generic`.
+- Direct root/password SSH is disabled. The key-only `arya-deploy` administrator
+  is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
+- Docker Engine and Compose are installed from Docker's official repository with
+  bounded local logs.
+- The immutable `d0b45fc` application image, PostgreSQL 16, generated server-only
+  secrets, and persistent database/media volumes are provisioned.
+- All migrations and the staging release checks completed. The internal database
+  and Gunicorn containers are healthy with no restart, and neither is published
+  on a host port.
+- Wagtail's canonical Site origin is `https://staging.drnareshrathod.com`.
+- Caddy and public HTTPS remain intentionally stopped until the GoDaddy `staging`
+  A record resolves to the Linode.
+
 ## Missing real-world content
 
 Before publishing the draft pages, confirm phone/WhatsApp publication consent,
@@ -186,5 +203,5 @@ Milestone 7B should add production object storage, monitoring and alerts,
 transactional email, tested backup/restore, accessibility and performance review,
 CSP/final HSTS, public content and legal approval, and the production launch
 review. Analytics must remain disabled until the outstanding account, privacy,
-and consent approvals are supplied. No hosted staging environment has been
-provisioned yet; milestone 7A makes the application ready for one.
+and consent approvals are supplied. The Linode staging backend is provisioned;
+DNS, TLS activation, administrator setup, and acceptance review remain.

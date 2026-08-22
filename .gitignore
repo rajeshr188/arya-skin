@@ -18,6 +18,7 @@ staticfiles/*
 .env
 .env.*
 !.env.example
+.staging-image-*.tar
 
 # Screencast
 Lithium_Demo_2025.mp4

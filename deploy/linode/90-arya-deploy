@@ -1,0 +1,2 @@
+# Administrative access is restricted to the key-only arya-deploy account.
+arya-deploy ALL=(ALL:ALL) NOPASSWD: ALL
