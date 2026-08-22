@@ -44,6 +44,13 @@ images, generated renditions, and documents through the custom domain. Keep the
 staging media volume unchanged until the production database and media restore
 test has passed.
 
+The budget single-Linode configuration is `deploy/linode/compose.production.yml`.
+It replaces the staging stack during a maintenance window and reuses its named
+data volumes by explicit external references. `migrate_media_to_r2.sh` defaults
+to `--dry-run`; `--execute` is required to write objects, and a different-sized
+existing object stops the migration instead of being overwritten. See the Linode
+README for the release boundary and rollback requirements.
+
 `arya-skin-production-backups` is reserved for private, client-side encrypted
 database backups. It must not have a public custom domain and must use a separate
 bucket-scoped token. Creating this bucket alone does not enable off-server

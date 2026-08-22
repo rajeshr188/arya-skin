@@ -87,10 +87,13 @@ release itself are not yet configured.
   graph in dependency order.
 - Retained Django admin and installed allauth; public allauth routes remain
   intentionally unavailable.
-- Added project documentation and 73 passing foundation/domain/deployment tests.
+- Added project documentation and 76 passing foundation/domain/deployment tests.
 - Added fail-closed production media storage using a bucket-scoped Cloudflare R2
   configuration and public custom domain; local development and private staging
   retain filesystem media.
+- Added a budget single-Linode production replacement configuration that reuses
+  the existing named data volumes only after staging stops, plus a tested,
+  dry-run-first and conflict-safe media migration command.
 
 ## Current Wagtail tree
 
@@ -145,7 +148,7 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            73 tests passed (SQLite)
+manage.py test                            76 tests passed (SQLite)
 manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
 manage.py check --deploy                  0 issues (production profile)

@@ -3,11 +3,16 @@ import json
 import logging
 import sys
 import tempfile
+from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.core.exceptions import ImproperlyConfigured
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.db import DatabaseError
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -123,6 +128,81 @@ class DeploymentConfigurationTests(TestCase):
                 environment = {**base_environment, name: value}
                 with self.assertRaises(ImproperlyConfigured):
                     r2_media_storage_options(environment)
+
+    @override_settings(
+        R2_MEDIA_STORAGE_OPTIONS={"bucket_name": "test-production-media"},
+        STORAGES={
+            "default": {
+                "BACKEND": "django.core.files.storage.InMemoryStorage",
+            }
+        },
+    )
+    def test_media_migration_dry_run_copy_and_idempotent_rerun(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            source = Path(temporary_directory)
+            image = source / "original_images" / "portrait.jpg"
+            image.parent.mkdir()
+            image.write_bytes(b"approved portrait")
+
+            dry_run_output = StringIO()
+            call_command(
+                "migrate_media_to_storage",
+                source=str(source),
+                dry_run=True,
+                stdout=dry_run_output,
+            )
+            self.assertIn("would copy 1 file(s)", dry_run_output.getvalue())
+            self.assertFalse(default_storage.exists("original_images/portrait.jpg"))
+
+            copy_output = StringIO()
+            call_command(
+                "migrate_media_to_storage",
+                source=str(source),
+                stdout=copy_output,
+            )
+            self.assertIn("copied 1 file(s)", copy_output.getvalue())
+            self.assertEqual(
+                default_storage.open("original_images/portrait.jpg").read(),
+                b"approved portrait",
+            )
+
+            rerun_output = StringIO()
+            call_command(
+                "migrate_media_to_storage",
+                source=str(source),
+                stdout=rerun_output,
+            )
+            self.assertIn("skipped 1 existing file(s)", rerun_output.getvalue())
+
+    @override_settings(
+        R2_MEDIA_STORAGE_OPTIONS={"bucket_name": "test-production-media"},
+        STORAGES={
+            "default": {
+                "BACKEND": "django.core.files.storage.InMemoryStorage",
+            }
+        },
+    )
+    def test_media_migration_refuses_to_replace_a_different_existing_object(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            source = Path(temporary_directory)
+            image = source / "original_images" / "portrait.jpg"
+            image.parent.mkdir()
+            image.write_bytes(b"approved portrait")
+            default_storage.save(
+                "original_images/portrait.jpg",
+                ContentFile(b"different"),
+            )
+
+            with self.assertRaisesMessage(CommandError, "different size"):
+                call_command("migrate_media_to_storage", source=str(source))
+
+    def test_media_migration_requires_r2_storage(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            with self.assertRaisesMessage(CommandError, "R2 media storage"):
+                call_command(
+                    "migrate_media_to_storage",
+                    source=temporary_directory,
+                )
 
     def test_health_check_reports_database_readiness_without_cache(self):
         response = self.client.get(reverse("health_check"))

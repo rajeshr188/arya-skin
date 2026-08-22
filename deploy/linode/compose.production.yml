@@ -1,0 +1,83 @@
+name: arya-skin-production
+
+services:
+  db:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    stop_grace_period: 1m
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready --username "$${POSTGRES_USER}" --dbname "$${POSTGRES_DB}"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend
+
+  web:
+    image: ${APP_IMAGE:?Set APP_IMAGE in .env}
+    restart: unless-stopped
+    init: true
+    env_file:
+      - ${PRODUCTION_ENV_FILE:-.env}
+      - ${R2_MEDIA_ENV_FILE:-/srv/arya-skin/secrets/r2-media.env}
+    environment:
+      MEDIA_ROOT: /app/media-import
+    volumes:
+      - media_import:/app/media-import:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - backend
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      PRODUCTION_HOST: ${PRODUCTION_HOST:?Set PRODUCTION_HOST in .env}
+      WWW_HOST: ${WWW_HOST:?Set WWW_HOST in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile.production:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      web:
+        condition: service_healthy
+    networks:
+      - edge
+      - backend
+
+networks:
+  edge:
+  backend:
+    internal: true
+
+volumes:
+  postgres_data:
+    external: true
+    name: ${POSTGRES_VOLUME:-arya-skin-staging_postgres_data}
+  media_import:
+    external: true
+    name: ${MEDIA_IMPORT_VOLUME:-arya-skin-staging_media_data}
+  caddy_data:
+    external: true
+    name: ${CADDY_DATA_VOLUME:-arya-skin-staging_caddy_data}
+  caddy_config:
+    external: true
+    name: ${CADDY_CONFIG_VOLUME:-arya-skin-staging_caddy_config}

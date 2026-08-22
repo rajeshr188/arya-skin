@@ -17,7 +17,7 @@ This directory contains the version-controlled, secret-free infrastructure for
 3. Copy this directory to `/srv/arya-skin/staging`.
 4. Generate `.env` once and validate the rendered Compose configuration.
 5. Start PostgreSQL, run `scripts/release.sh` once, then start the web service.
-6. Point the Linode DNS `staging` A record to the Linode IPv4 address.
+6. Point the Cloudflare DNS `staging` record to the Linode IPv4 address.
 7. Start Caddy only after public DNS resolves to the Linode.
 8. Run `./check_staging.sh` on the host, then complete the editorial acceptance
    checks in `docs/STAGING.md`.
@@ -62,5 +62,36 @@ not survive loss of the Linode. Enable Linode Backups or copy backups to
 separately controlled encrypted storage before treating off-server backup
 coverage as complete.
 
-Do not use this single-host layout for public production. Milestone 7B still
-requires object storage, monitoring, transactional email, and restore testing.
+## Budget production replacement
+
+The approved budget launch reuses this Linode and its existing data volumes. It
+is a single-host deployment, not high availability. Production replaces staging
+during cutover; never run both PostgreSQL services against the shared volume.
+Expect a short maintenance window and retain the final staging backup and image
+for rollback.
+
+The production files are deliberately separate:
+
+- `compose.production.yml` references the existing PostgreSQL, media-import, and
+  Caddy volumes by explicit external names;
+- `bootstrap-production-env.sh` preserves the current server-only Django and
+  PostgreSQL secrets while generating the production host configuration;
+- `/srv/arya-skin/secrets/r2-media.env` supplies the separately protected,
+  bucket-scoped R2 credential;
+- `migrate_media_to_r2.sh` defaults to a dry run and requires `--execute` before
+  it uploads anything;
+- `configure_wagtail_production.py` changes the canonical Wagtail Site only in
+  the cutover window; and
+- `check_production.sh` verifies the apex, admin redirect, health endpoint, and
+  `www` redirect after launch.
+
+Before stopping staging, build and transfer an immutable image, copy the
+version-controlled production files to `/srv/arya-skin/production`, generate its
+mode-600 `.env`, run the local backup and isolated restore test, and complete the
+R2 media dry run and upload. Freeze editorial changes before the final media
+sync. The detailed cutover commands must be executed in order and the production
+stack must not start until staging has been stopped cleanly.
+
+This budget topology still requires encrypted off-server database backups,
+monitoring, and the remaining production acceptance checks before it is called
+production-ready.

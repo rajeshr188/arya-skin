@@ -73,6 +73,8 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
     bucket-scoped application token.
   - [ ] Install the media credential on the server, migrate media, and prove
     retrieval through the custom domain.
+  - [x] Add a budget single-Linode production replacement configuration and a
+    dry-run-first, repeat-safe filesystem-to-R2 migration command.
   - [ ] Add encrypted off-server database backup upload, retention, alerting, and
     an isolated restore test.
   - [ ] Complete the remaining production controls and launch review.
