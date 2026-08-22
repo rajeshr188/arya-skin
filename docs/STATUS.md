@@ -178,7 +178,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- The immutable `01a98ac` application image, PostgreSQL 16, generated server-only
+- The immutable `377ee54` application image, PostgreSQL 16, generated server-only
   secrets, and persistent database/media volumes are provisioned.
 - All migrations and the staging release checks completed. The internal database
   and Gunicorn containers are healthy with no restart, and neither is published
@@ -212,10 +212,11 @@ uploaded doctor portrait and its alternative text are also approved. Maps links
 and access details remain optional but must not be inferred. Precise
 qualification/experience wording and final legal text require approval. Dr.
 Naresh Rathod is the designated enquiry monitor; consent, a one-business-day
-response target, and 90-day post-closure retention are approved. The Privacy and
-Medical disclaimer pages contain complete unpublished drafts for owner and
-professional review. Blog authors, medical reviewers, source standards, review
-intervals, and every article also require approval. See `CONTENT_REQUIRED.md`.
+response target, the call/WhatsApp fallback for an unanswered request, and
+90-day post-closure retention are approved. The Privacy and Medical disclaimer
+pages contain complete unpublished drafts for owner and professional review.
+Blog authors, medical reviewers, source standards, review intervals, and every
+article also require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 
