@@ -12,7 +12,7 @@
           <p class="doctor-name mb-2">{{ settings.website.SiteSettings.professional_title }}</p>
           {% if settings.website.SiteSettings.location_summary %}<p class="location-line mb-4">{{ settings.website.SiteSettings.location_summary }}</p>{% endif %}
           {% if page.introduction %}<div class="lead rich-text">{{ page.introduction|richtext }}</div>{% endif %}
-          {% if clinics %}<a class="btn btn-primary mt-3" href="{% url 'appointments:request' %}">Request appointment</a>{% elif contact_page %}<a class="btn btn-primary mt-3" href="{% pageurl contact_page %}">Contact a clinic</a>{% endif %}
+          {% if clinics %}<a class="btn btn-primary mt-3" href="{% url 'appointments:request' %}" data-analytics-event="appointment_click">Request appointment</a>{% elif contact_page %}<a class="btn btn-primary mt-3" href="{% pageurl contact_page %}">Contact a clinic</a>{% endif %}
         </div>
       </div>
     </div>

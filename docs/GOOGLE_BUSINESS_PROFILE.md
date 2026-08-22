@@ -52,3 +52,17 @@ Appointment link:
 Replace `sitapura` with `chaksu` for that branch. UTM values must not contain
 patient or medical details. Document link changes so historical reporting remains
 interpretable.
+
+## Ownership and reporting practice
+
+- Use clinic-controlled Google accounts and keep at least two current owners;
+  agencies or contractors should receive only the minimum manager access needed.
+- Record the canonical clinic-page URL, appointment URL, UTM values, responsible
+  owner, and date of every profile link change.
+- Review profile accuracy and special hours on a defined schedule and after any
+  operational change. Escalate unauthorized edits immediately.
+- Compare GBP performance with Search Console and the site's approved aggregate
+  events. Do not attempt to identify a visitor or join analytics activity to an
+  appointment enquiry.
+- Treat messages, calls, reviews, and Q&A as separate Google/clinic operational
+  channels; do not import their personal content into website analytics.

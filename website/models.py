@@ -1,3 +1,6 @@
+import re
+
+from django.core.exceptions import ValidationError
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
@@ -179,8 +182,52 @@ class SiteSettings(BaseSiteSetting):
             "does not replace consultation with a qualified medical professional."
         )
     )
+    analytics_enabled = models.BooleanField(
+        default=False,
+        help_text=(
+            "Enable only after account ownership, the privacy notice, consent "
+            "behavior, and the analytics configuration have been approved."
+        ),
+    )
     google_analytics_id = models.CharField(max_length=30, blank=True)
     google_tag_manager_id = models.CharField(max_length=30, blank=True)
+    google_search_console_verification = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text=(
+            "Content value from Google's HTML verification meta tag. "
+            "Do not paste the complete tag."
+        ),
+    )
+
+    def clean(self):
+        super().clean()
+        errors = {}
+        ga_id = self.google_analytics_id.strip().upper()
+        gtm_id = self.google_tag_manager_id.strip().upper()
+        verification = self.google_search_console_verification.strip()
+
+        if ga_id and not re.fullmatch(r"G-[A-Z0-9]+", ga_id):
+            errors["google_analytics_id"] = "Enter a GA4 ID such as G-XXXXXXXXXX."
+        if gtm_id and not re.fullmatch(r"GTM-[A-Z0-9]+", gtm_id):
+            errors["google_tag_manager_id"] = (
+                "Enter a Tag Manager container ID such as GTM-XXXXXXX."
+            )
+        if ga_id and gtm_id:
+            message = "Configure GA4 directly or Tag Manager, not both."
+            errors["google_analytics_id"] = message
+            errors["google_tag_manager_id"] = message
+        if self.analytics_enabled and not (ga_id or gtm_id):
+            errors["analytics_enabled"] = (
+                "Add one approved GA4 or Tag Manager ID before enabling analytics."
+            )
+        if verification and not re.fullmatch(r"[A-Za-z0-9_-]+", verification):
+            errors["google_search_console_verification"] = (
+                "Enter only the verification content value, using letters, numbers, "
+                "hyphens, or underscores."
+            )
+        if errors:
+            raise ValidationError(errors)
 
     panels = [
         MultiFieldPanel(
@@ -218,10 +265,15 @@ class SiteSettings(BaseSiteSetting):
         ),
         MultiFieldPanel(
             [
+                FieldPanel("analytics_enabled"),
                 FieldPanel("google_analytics_id"),
                 FieldPanel("google_tag_manager_id"),
+                FieldPanel("google_search_console_verification"),
             ],
             heading="Analytics",
-            help_text="Leave blank until approved accounts and privacy controls exist.",
+            help_text=(
+                "Only one analytics provider may be active. Tags remain blocked "
+                "until a visitor opts in."
+            ),
         ),
     ]

@@ -55,8 +55,8 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
 
 ## Milestone 6 — analytics and Google
 
-- Add privacy-safe GA4/GTM configuration and conversion events.
-- Document Search Console, UTM, and Google Business Profile operating practice.
+- [x] Add privacy-safe, consent-gated GA4/GTM configuration and conversion events.
+- [x] Document Search Console, UTM, and Google Business Profile operating practice.
 
 ## Milestone 7 — production hardening
 

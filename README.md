@@ -4,10 +4,10 @@ Server-rendered Django and Wagtail website for Dr. Naresh Rathod and the two
 independently named clinics where he practises: Dolphin Derma Care in Sitapura
 and Arya Skin and Hair Clinic in Chaksu, Jaipur.
 
-The project is being evolved from the Lithium starter. Milestones 1–5 provide
+The project is being evolved from the Lithium starter. Milestones 1–6 provide
 the CMS foundation, structured public content, the CMS-driven public shell, a
 privacy-minimized appointment workflow, a medically governed article system,
-and factual technical/local SEO foundations.
+factual technical/local SEO foundations, and consent-gated analytics readiness.
 
 ## Stack
 

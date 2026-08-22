@@ -27,7 +27,11 @@
 - transactional email provider for operational mail;
 - object-storage credentials and private/public access policy as appropriate;
 - error monitoring, log retention, health checks, and backup ownership;
-- production Site hostname/port updated in Wagtail admin.
+- production Site hostname/port updated in Wagtail admin;
+- approved privacy notice and analytics consent behavior;
+- clinic-owned GA4 or governed GTM account, with analytics disabled until final
+  approval and enhanced outbound/form measurement switched off;
+- clinic-owned Search Console property and least-privilege owner access.
 
 The Wagtail Site record is the canonical URL authority. Set its hostname to the
 single preferred public domain and its port to 443 before launch; then verify

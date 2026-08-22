@@ -1,6 +1,8 @@
 {% extends "_base.html" %}
 
 {% block title %}Appointment request received | {{ settings.website.SiteSettings.site_title }}{% endblock title %}
+{% block analytics_page_type %}appointment_success{% endblock analytics_page_type %}
+{% block analytics_body_attributes %} data-analytics-event-on-load="appointment_form_submit" data-analytics-success="accepted"{% if analytics_clinic_slug %} data-analytics-clinic="{{ analytics_clinic_slug }}"{% endif %}{% endblock analytics_body_attributes %}
 
 {% block content %}
 <main id="main-content" class="container py-5">

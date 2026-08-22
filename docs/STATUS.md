@@ -2,8 +2,7 @@
 
 Last updated: 22 August 2026
 
-Milestones 0 through 5 are complete. Analytics and production-hardening
-milestones are not implemented.
+Milestones 0 through 6 are complete. Production hardening is not implemented.
 
 ## Implemented
 
@@ -61,9 +60,20 @@ milestones are not implemented.
 - Added `robots.txt`, appointment noindex headers, draft/error noindex behavior,
   production-host canonical tests, redirect tests, and expanded sitemap tests.
   No legacy redirect or structured-data fact was invented.
+- Added an explicit Wagtail analytics enable switch, mutually exclusive GA4/GTM
+  ID validation, and optional Search Console verification metadata.
+- Added basic consent mode that makes no Google analytics request before opt-in
+  and remains unavailable until the Privacy page is published. Analytics is
+  disabled by default because no approved account or privacy notice exists.
+- Added a fixed seven-event conversion/view contract using only page type and
+  stable clinic/treatment slugs. Accepted appointment events are server-gated,
+  one-time, and contain no patient-entered values.
+- Added consent controls, analytics-choice reopening, clinic/mobile/home/treatment
+  event annotations, and documented GA4, GTM, Search Console, UTM, and Google
+  Business Profile operating safeguards.
 - Retained Django admin and installed allauth; public allauth routes remain
   intentionally unavailable.
-- Added project documentation and 50 passing foundation/domain tests.
+- Added project documentation and 59 passing foundation/domain tests.
 
 ## Current Wagtail tree
 
@@ -101,6 +111,9 @@ in Wagtail before publication.
 - The Wagtail Site hostname/port is the authority for canonical, sitemap,
   redirects, robots, and structured-data URLs; production must use its preferred
   HTTPS domain.
+- Analytics uses one approved provider and basic opt-in consent. A live Privacy
+  page is a technical prerequisite; GA4 enhanced outbound/form measurement and
+  any GTM form/DOM variables remain prohibited.
 
 ## Verification
 
@@ -110,7 +123,7 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            50 tests passed
+manage.py test                            59 tests passed
 manage.py collectstatic --dry-run         passed
 direct homepage request                   HTTP 200
 all nine draft routes                     HTTP 404
@@ -129,6 +142,9 @@ integration, alt text, and generated image renditions.
 SEO tests cover production HTTPS origins, canonical/social/article metadata,
 robots exclusions, factual doctor/clinic/article JSON-LD, private-field omission,
 breadcrumbs, redirects, draft/noindex behavior, and sitemap coverage.
+Analytics tests cover disabled defaults, provider validation, live-privacy
+gating, consent controls, safe clinic/treatment actions, Search Console metadata,
+one-time accepted submissions, and the client-side event allowlist.
 
 ## Missing real-world content
 
@@ -142,6 +158,7 @@ source standards, review intervals, and every article require approval. See
 
 ## Next milestone
 
-Milestone 6 should enable privacy-safe analytics only after approved GA4/GTM
-accounts, consent behavior, and ownership are confirmed. It should implement the
-documented conversion event contract without transmitting patient-entered data.
+Milestone 7 should complete PostgreSQL/environment configuration, durable media
+storage, deployment security, accessibility, performance, and production error
+handling. Analytics must remain disabled until the outstanding account, privacy,
+and consent approvals are supplied.

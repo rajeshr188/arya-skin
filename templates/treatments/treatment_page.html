@@ -44,7 +44,7 @@
             {% if doctor_page %}<h2 class="h4">Doctor</h2><p><a href="{% pageurl doctor_page %}">{{ doctor_page.title }}</a><br><span class="text-secondary">{{ doctor_page.professional_title }}</span></p>{% endif %}
             {% if available_clinics %}
               <h2 class="h4 mt-4">Available at</h2>
-              <ul class="list-unstyled mb-0">{% for clinic in available_clinics %}<li class="mb-3"><a href="{% pageurl clinic %}">{{ clinic.title }}</a><br><span class="small text-secondary">{{ clinic.locality }}, {{ clinic.city }}</span><br><a class="small" href="{% url 'appointments:request_for_clinic' clinic_slug=clinic.slug %}">Request appointment</a></li>{% endfor %}</ul>
+              <ul class="list-unstyled mb-0">{% for clinic in available_clinics %}<li class="mb-3"><a href="{% pageurl clinic %}">{{ clinic.title }}</a><br><span class="small text-secondary">{{ clinic.locality }}, {{ clinic.city }}</span><br><a class="small" href="{% url 'appointments:request_for_clinic' clinic_slug=clinic.slug %}" data-analytics-event="appointment_click" data-analytics-clinic="{{ clinic.slug }}">Request appointment</a></li>{% endfor %}</ul>
             {% endif %}
           </div>
         </aside>

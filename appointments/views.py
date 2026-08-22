@@ -64,6 +64,7 @@ def appointment_request(request, clinic_slug=None):
             enquiry.save()
             _record_submission(request)
             request.session["appointment_request_submitted"] = True
+            request.session["appointment_request_clinic_slug"] = enquiry.clinic.slug
             return redirect("appointments:success")
     else:
         form = AppointmentEnquiryForm(
@@ -83,8 +84,13 @@ def appointment_request(request, clinic_slug=None):
 @require_GET
 @never_cache
 def appointment_success(request):
-    if not request.session.get("appointment_request_submitted"):
+    if not request.session.pop("appointment_request_submitted", False):
         return redirect("/")
-    response = render(request, "appointments/appointment_success.html")
+    clinic_slug = request.session.pop("appointment_request_clinic_slug", "")
+    response = render(
+        request,
+        "appointments/appointment_success.html",
+        {"analytics_clinic_slug": clinic_slug},
+    )
     response.headers["X-Robots-Tag"] = "noindex, nofollow"
     return response
