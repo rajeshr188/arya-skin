@@ -6,8 +6,8 @@ Milestones 0 through 6 and the staging baseline in milestone 7A are complete.
 Milestone 7B is in progress. Production Cloudflare R2 media support is implemented
 and tested. The bucket-scoped credential is installed on the server, all seven
 staging media objects are migrated, and original/rendition retrieval through the
-custom domain is verified. Encrypted off-server backups and the production
-release itself are not yet configured.
+custom domain is verified. Daily client-side encrypted off-server backups are
+configured and restore-tested. The production release itself has not started.
 
 ## Implemented
 
@@ -120,8 +120,8 @@ Root
     ├── ClinicIndexPage: Clinics                    /clinics/          [live]
     │   ├── ClinicPage: Dolphin Derma Care          /clinics/sitapura/ [live]
     │   └── ClinicPage: Arya Skin and Hair Clinic   /clinics/chaksu/   [live]
-    ├── TreatmentIndexPage: Treatments              /treatments/       [live; empty]
-    ├── BlogIndexPage: Articles                      /blog/             [live; empty]
+    ├── TreatmentIndexPage: Treatments              /treatments/       [draft; empty]
+    ├── BlogIndexPage: Articles                      /blog/             [draft; empty]
     ├── ContactPage: Contact                        /contact/          [live]
     ├── StandardPage: Privacy                       /privacy/          [live]
     └── StandardPage: Medical disclaimer            /medical-disclaimer/ [live]
@@ -228,6 +228,9 @@ request logs.
 - Owner editorial review is complete and the approved public pages are live on
   staging. The identical pending Clinic Index revision was published to clear its
   release ambiguity, and Chaksu Monday is stored as closed without hidden times.
+  The owner-approved empty Treatments and Articles indexes are unpublished, so
+  neither appears in navigation and both routes return 404; their drafts remain
+  in Wagtail for future content.
   Paid Linode backups remain deferred; daily client-side encrypted R2 backups now
   supplement the retained local generations.
 
@@ -249,8 +252,7 @@ require approval. See `CONTENT_REQUIRED.md`.
 
 ## Next milestone
 
-Milestone 7B should next approve and publish the Privacy notice's encrypted
-off-server-backup wording, connect backup/timer failure monitoring, and then
-complete transactional email, accessibility/performance, CSP/HSTS, and the
-production launch review. Analytics remains disabled until its separate account
-and consent decisions are supplied.
+Milestone 7B should next connect backup/timer and service failure monitoring,
+decide and verify transactional email, then complete accessibility/performance,
+CSP/HSTS, and the production launch review. Analytics remains disabled until its
+separate account and consent decisions are supplied.

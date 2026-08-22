@@ -68,9 +68,11 @@ state for more than 90 days. The pre-deletion backup then ages out under the
 14-day backup policy.
 
 These access-restricted local copies help with application-level recovery but do
-not survive loss of the Linode. Enable Linode Backups or copy backups to
-separately controlled encrypted storage before treating off-server backup
-coverage as complete.
+not survive loss of the Linode. The installed service therefore follows each
+successful local backup with client-side `age` encryption and upload to the
+private backup bucket. Treat off-server coverage as complete only after the
+recovery key has been retained away from the server and `test_r2_restore.sh` has
+passed its download, integrity, decryption, and isolated restore checks.
 
 ## Budget production replacement
 
@@ -102,9 +104,10 @@ R2 media dry run and upload. Freeze editorial changes before the final media
 sync. The detailed cutover commands must be executed in order and the production
 stack must not start until staging has been stopped cleanly.
 
-This budget topology still requires encrypted off-server database backups,
-monitoring, and the remaining production acceptance checks before it is called
-production-ready.
+This budget topology still requires monitoring and the remaining production
+acceptance checks before it is called production-ready. Encrypted off-server
+database/media backups are configured and restore-tested on staging; the
+production timer replaces the staging timer only during cutover.
 
 ## Encrypted off-server production backups
 

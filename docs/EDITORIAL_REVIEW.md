@@ -29,6 +29,9 @@ the approved closed status.
 - No experience claim, biography, membership, affiliation, treatment detail,
   article, testimonial, rating, or patient-outcome claim is published. The
   owner-approved shared service list is published on both clinic pages.
+- With explicit owner approval, the empty Treatments and Articles indexes were
+  unpublished on 22 August 2026. Their CMS drafts remain available for later
+  content, while both public URLs return 404 and neither appears in navigation.
 - The owner approved the uploaded doctor portrait for publication and its default
   alternative text is "Portrait of Dr. Naresh Rathod." There are no clinic
   photographs, treatment records, or article records.
@@ -69,6 +72,8 @@ review date using the workflows in `CONTENT_REQUIRED.md` and
 - The generated Wagtail welcome page remains as an unreachable page outside the
   configured Site root. It has no public effect but can be removed later to make
   the page explorer less confusing.
-- Daily local database/media backups and the tested restore procedure remain
-  enabled. The owner has deferred paid Linode backups for the budget staging
-  phase and accepts that local backups will not survive total server loss.
+- Daily local database/media backups and client-side encrypted R2 copies remain
+  enabled. An encrypted copy has passed a download, integrity, decryption, and
+  isolated PostgreSQL/media restore test. The owner securely retained the
+  matching recovery key off-server, and the Linode copy was deleted. Paid
+  Linode backups remain deferred for the budget launch.
