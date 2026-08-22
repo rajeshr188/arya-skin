@@ -83,7 +83,9 @@ so the failure was traced to a registration retained from a site previously
 hosted on the apex origin. Production now serves a no-store retirement worker at
 `/sw.js`; the first-party script asks only existing same-origin registrations to
 update. The retirement worker clears service-worker caches, unregisters itself,
-and reloads controlled tabs without clearing cookies or local storage.
+and reloads controlled tabs without clearing cookies or local storage. The
+tested fix was deployed as immutable image `arya-skin:ed6370c`; the full
+production acceptance suite passed afterward.
 
 ## Future work
 
