@@ -178,7 +178,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- The immutable `20433de` application image, PostgreSQL 16, generated server-only
+- The immutable `01a98ac` application image, PostgreSQL 16, generated server-only
   secrets, and persistent database/media volumes are provisioned.
 - All migrations and the staging release checks completed. The internal database
   and Gunicorn containers are healthy with no restart, and neither is published
@@ -188,7 +188,10 @@ request logs.
   Let's Encrypt certificate and redirects HTTP to HTTPS.
 - External and credentialed acceptance checks pass: anonymous pages remain
   access-controlled and noindexed, the health endpoint is available, and the
-  authenticated site and Wagtail login route respond successfully.
+  authenticated site and Wagtail login route respond successfully. Uploaded
+  media and Wagtail renditions are served from the persistent staging volume,
+  remain protected by reviewer authentication, and return the expected image
+  content type.
 - One active Wagtail administrator and a separate restricted enquiry-monitor
   account for Dr. Naresh Rathod are configured. The latter can view and update
   appointment enquiries but cannot delete them or act as a superuser. A daily,
