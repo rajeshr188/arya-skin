@@ -184,8 +184,11 @@ request logs.
   and Gunicorn containers are healthy with no restart, and neither is published
   on a host port.
 - Wagtail's canonical Site origin is `https://staging.drnareshrathod.com`.
-- Caddy and public HTTPS remain intentionally stopped until the Linode DNS
-  `staging` A record resolves to the staging host.
+- Linode DNS resolves the staging hostname to the host. Caddy has an active
+  Let's Encrypt certificate and redirects HTTP to HTTPS.
+- External and credentialed acceptance checks pass: anonymous pages remain
+  access-controlled and noindexed, the health endpoint is available, and the
+  authenticated site and Wagtail login route respond successfully.
 
 ## Missing real-world content
 
@@ -203,5 +206,5 @@ Milestone 7B should add production object storage, monitoring and alerts,
 transactional email, tested backup/restore, accessibility and performance review,
 CSP/final HSTS, public content and legal approval, and the production launch
 review. Analytics must remain disabled until the outstanding account, privacy,
-and consent approvals are supplied. The Linode staging backend is provisioned;
-DNS, TLS activation, administrator setup, and acceptance review remain.
+and consent approvals are supplied. The private Linode staging site is live;
+administrator setup, backup/restore validation, and editorial acceptance remain.

@@ -74,6 +74,14 @@ redirects for the container-local probe.
 5. In **Wagtail → Settings → Sites**, set the exact staging hostname and port
    `443`. Confirm canonicals, sitemap, robots, and JSON-LD use that origin.
 6. Keep all incomplete clinic, legal, treatment, and article pages as drafts.
+
+After HTTPS is active, run the repeatable host-level smoke test without exposing
+the staging access credentials in shell history:
+
+```sh
+cd /srv/arya-skin/staging
+./check_staging.sh
+```
 7. Use synthetic appointment data only. Delete test enquiries before copying or
    promoting any database.
 

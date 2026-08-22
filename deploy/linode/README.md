@@ -19,7 +19,8 @@ This directory contains the version-controlled, secret-free infrastructure for
 5. Start PostgreSQL, run `scripts/release.sh` once, then start the web service.
 6. Point the Linode DNS `staging` A record to the Linode IPv4 address.
 7. Start Caddy only after public DNS resolves to the Linode.
-8. Run the acceptance checks in `docs/STAGING.md`.
+8. Run `./check_staging.sh` on the host, then complete the editorial acceptance
+   checks in `docs/STAGING.md`.
 
 Do not use this single-host layout for public production. Milestone 7B still
 requires object storage, monitoring, transactional email, and restore testing.
