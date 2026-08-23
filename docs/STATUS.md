@@ -88,7 +88,7 @@ subdomain/preload decision remain explicitly tracked future work.
   graph in dependency order.
 - Retained Django admin and installed allauth; public allauth routes remain
   intentionally unavailable.
-- Added project documentation and 80 passing foundation/domain/deployment tests.
+- Added project documentation and 81 passing foundation/domain/deployment tests.
 - Added fail-closed production media storage using a bucket-scoped Cloudflare R2
   configuration and public custom domain; local development and private staging
   retain filesystem media.
@@ -164,7 +164,7 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            80 tests passed (SQLite)
+manage.py test                            81 tests passed (SQLite)
 manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
 manage.py check --deploy                  2 expected initial-HSTS warnings

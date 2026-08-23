@@ -5,6 +5,9 @@ This directory contains the version-controlled, secret-free infrastructure for
 
 - Caddy is the only service publishing host ports (`80` and `443`).
 - PostgreSQL and Gunicorn are reachable only on the internal Docker network.
+- In production, Gunicorn also joins the non-published `edge` network so it can
+  reach the Cloudflare R2 API. PostgreSQL remains on `backend` only; the web
+  service still publishes no host port.
 - Database, media, and Caddy certificate data use persistent named volumes.
 - The server `.env` is generated with `bootstrap-env.sh`, mode `600`, and must
   never be copied into Git or command output.
@@ -123,6 +126,17 @@ After the first production backup and periodically thereafter, run
 dump into an isolated temporary PostgreSQL database, runs a query, and removes
 only that temporary database. The separate R2 restore proof additionally tests
 download, metadata integrity, decryption, and the off-server recovery key.
+
+After changing production media credentials or Docker networking, run the
+guarded storage probe through the web container:
+
+```sh
+docker compose --file compose.production.yml exec -T web \
+  python manage.py shell < test_media_storage_write.py
+```
+
+It writes one uniquely named text object below `healthchecks/`, verifies that it
+is readable, and deletes it immediately. It does not alter CMS image records.
 
 The scheduled job needs only `backup-age-recipient.txt`, which contains the
 public encryption recipient. Keep the private `backup-recovery-key.agekey` as a

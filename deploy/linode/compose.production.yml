@@ -41,6 +41,7 @@ services:
       - ALL
     networks:
       - backend
+      - edge
 
   caddy:
     image: caddy:2-alpine

@@ -87,6 +87,16 @@ and reloads controlled tabs without clearing cookies or local storage. The
 tested fix was deployed as immutable image `arya-skin:ed6370c`; the full
 production acceptance suite passed afterward.
 
+On 23 August 2026, new Wagtail image uploads returned 500 while existing public
+R2 images continued to render. Logs showed that Gunicorn could not resolve the
+R2 API endpoint: it was attached only to the intentionally internal database
+network. The web service now also joins Docker's non-published `edge` network for
+outbound R2 access, while PostgreSQL remains on the internal `backend` network
+only and Gunicorn still publishes no host port. A unique R2 diagnostic object
+passed write, read, delete, and post-delete verification. The default 500
+template was also made standalone because its former SEO tags masked the
+original exception when Django rendered it without request context.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.

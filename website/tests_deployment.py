@@ -15,7 +15,9 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db import DatabaseError
 from django.test import TestCase, override_settings
+from django.test.client import RequestFactory
 from django.urls import reverse
+from django.views.defaults import server_error
 
 from django_project.environment import (
     env_bool,
@@ -210,6 +212,16 @@ class DeploymentConfigurationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"status": "ok"})
         self.assertEqual(response.headers["Cache-Control"], "no-store")
+
+    def test_server_error_template_does_not_require_request_context(self):
+        response = server_error(
+            RequestFactory().get("/failed-request/"),
+            template_name="500.html",
+        )
+
+        self.assertEqual(response.status_code, 500)
+        self.assertIn(b"Something went wrong", response.content)
+        self.assertIn(b"noindex,nofollow", response.content)
 
     def test_retired_service_worker_clears_caches_and_unregisters(self):
         response = self.client.get(reverse("retired_service_worker"))
