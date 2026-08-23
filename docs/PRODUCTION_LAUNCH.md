@@ -100,6 +100,15 @@ The persistent fix was deployed as immutable image `arya-skin:95c8b03`. A
 post-deployment audit found one CMS image record, its original present in R2,
 and no orphan records from the failed upload attempts.
 
+On 23 August 2026, the guarded before-and-after gallery was deployed as
+immutable image `arya-skin:c53bca7`. Its migration created an empty
+`/before-after/` draft with no patient images. Production acceptance passed,
+the public route returned 404, and no gallery navigation link was rendered.
+Publication requires at least one distinct image pair, accurate descriptions,
+documented publication consent, and a confirmed fair-presentation review. The
+post-migration encrypted backup
+`arya-skin-production-20260823T055556Z.backup.tar.age` uploaded successfully.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.

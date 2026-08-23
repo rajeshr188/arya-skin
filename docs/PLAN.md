@@ -93,6 +93,12 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
   - [ ] Complete deferred monitoring/email plus accessibility/performance, a
     tested CSP, and the later HSTS subdomain/preload decision.
 
+## Post-launch content features
+
+- [x] Add a guarded CMS before-and-after gallery, seed it as an empty production
+  draft, document the consent/review workflow, and verify that it remains absent
+  from public routing and navigation until explicitly published.
+
 ## Definition of done for every milestone
 
 1. Migrations are committed and `makemigrations --check` is clean.

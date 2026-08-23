@@ -1,10 +1,10 @@
 # Project status
 
-Last updated: 22 August 2026
+Last updated: 23 August 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
-`arya-skin:95c8b03`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
+`arya-skin:c53bca7`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
 and daily client-side encrypted off-server backups. Monitoring, transactional
 email, accessibility/performance review, a tested CSP, and the later HSTS
 subdomain/preload decision remain explicitly tracked future work.
@@ -32,6 +32,10 @@ subdomain/preload decision remain explicitly tracked future work.
   and controlled homepage featuring.
 - Added Contact and Standard Page models and templates plus CMS-driven homepage,
   navigation, footer, cards, and conditional CTAs.
+- Added a responsive, CMS-managed before-and-after gallery with distinct image
+  descriptions, documented-consent and fair-presentation confirmations, a fixed
+  results-vary notice, and fail-closed publication checks. Its empty production
+  page is an unpublished draft and is absent from navigation.
 - Seeded supplied doctor details and both clinic records as drafts. The supplied
   phone/WhatsApp number is stored but not publicly exposed.
 - Seeded empty Treatments, Contact, Privacy, and Medical disclaimer containers as
@@ -164,7 +168,7 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            81 tests passed (SQLite)
+manage.py test                            85 tests passed (SQLite)
 manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
 manage.py check --deploy                  2 expected initial-HSTS warnings
@@ -174,7 +178,7 @@ staging smoke test                         health 200; anonymous 401; auth 200
 production acceptance suite                all page/media/SEO/header checks passed
 production encrypted backup                uploaded; isolated DB restore passed
 direct homepage request                   HTTP 200
-all nine draft routes                     HTTP 404
+all seeded draft routes                   HTTP 404
 git diff --check                          passed
 ```
 
@@ -205,7 +209,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:95c8b03` with PostgreSQL 16 and
+- Production runs immutable image `arya-skin:c53bca7` with PostgreSQL 16 and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
 - Wagtail's canonical Site origin is `https://drnareshrathod.com`. Cloudflare
@@ -218,6 +222,9 @@ request logs.
   appointment form, health, robots, sitemap, Wagtail admin redirect, R2 portrait,
   canonical origin, navigation, and initial security-header check. Treatments
   and Articles remain unpublished and return 404.
+- The before-and-after gallery exists as an empty, unpublished CMS draft. Its
+  public route returns 404 and its navigation link remains hidden until an
+  approved comparison is added and the page is explicitly published.
 - One active Wagtail administrator and a separate restricted enquiry-monitor
   account for Dr. Naresh Rathod are configured. The latter can view and update
   appointment enquiries but cannot delete them or act as a superuser. Because
