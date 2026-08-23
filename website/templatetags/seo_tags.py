@@ -102,7 +102,12 @@ def structured_data(context):
     from clinics.models import ClinicIndexPage, ClinicPage
     from doctors.models import DoctorPage
     from treatments.models import TreatmentIndexPage, TreatmentPage
-    from website.models import ContactPage, HomePage, StandardPage
+    from website.models import (
+        BeforeAfterGalleryPage,
+        ContactPage,
+        HomePage,
+        StandardPage,
+    )
 
     site_settings = SiteSettings.for_request(request)
     site = page.get_site()
@@ -130,7 +135,15 @@ def structured_data(context):
     ]
 
     webpage_type = "WebPage"
-    if isinstance(page, (BlogIndexPage, ClinicIndexPage, TreatmentIndexPage)):
+    if isinstance(
+        page,
+        (
+            BeforeAfterGalleryPage,
+            BlogIndexPage,
+            ClinicIndexPage,
+            TreatmentIndexPage,
+        ),
+    ):
         webpage_type = "CollectionPage"
     webpage = {
         "@type": webpage_type,

@@ -1,4 +1,5 @@
 {% load static wagtailcore_tags analytics_tags navigation_tags seo_tags %}
+{% public_menu_pages as primary_menu_pages %}
 {% public_contact_page as contact_page_for_navigation %}
 {% public_footer_clinics as footer_clinics %}
 {% public_standard_pages as footer_standard_pages %}
@@ -56,11 +57,9 @@
           <li class="nav-item">
             <a class="nav-link" href="/">Home</a>
           </li>
-          {% if request.site %}
-            {% for menu_page in request.site.root_page.get_children.live.public.in_menu %}
-              <li class="nav-item"><a class="nav-link" href="{% pageurl menu_page %}">{{ menu_page.title }}</a></li>
-            {% endfor %}
-          {% endif %}
+          {% for menu_page in primary_menu_pages %}
+            <li class="nav-item"><a class="nav-link" href="{% pageurl menu_page %}">{{ menu_page.title }}</a></li>
+          {% endfor %}
           {% if contact_page_for_navigation %}
             <li class="nav-item"><a class="nav-link" href="{% pageurl contact_page_for_navigation %}">Contact</a></li>
           {% endif %}

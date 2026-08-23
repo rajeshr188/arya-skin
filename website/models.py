@@ -6,6 +6,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
+from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
 
 from .blocks import ContentStreamBlock
@@ -133,6 +134,149 @@ class StandardPage(Page):
         FieldPanel("introduction"),
         FieldPanel("body"),
     ]
+
+
+class BeforeAfterGalleryPage(Page):
+    introduction = RichTextField(
+        blank=True,
+        features=["bold", "italic", "link"],
+        help_text=(
+            "Optional factual introduction. Do not promise results or identify a patient."
+        ),
+    )
+
+    parent_page_types = ["website.HomePage"]
+    subpage_types = []
+    max_count = 1
+
+    content_panels = Page.content_panels + [
+        FieldPanel("introduction"),
+        InlinePanel("comparisons", label="Before and after comparison"),
+    ]
+
+    def publication_errors(self):
+        comparisons = list(self.comparisons.all())
+        errors = []
+        if not comparisons:
+            errors.append("at least one approved comparison")
+            return errors
+        if any(not item.publication_consent_confirmed for item in comparisons):
+            errors.append("documented publication consent for every comparison")
+        if any(not item.presentation_reviewed for item in comparisons):
+            errors.append("accuracy and presentation review for every comparison")
+        if any(
+            not item.before_alt_text.strip() or not item.after_alt_text.strip()
+            for item in comparisons
+        ):
+            errors.append("before and after image descriptions")
+        if any(item.before_image_id == item.after_image_id for item in comparisons):
+            errors.append("different before and after images for every comparison")
+        return errors
+
+    def save(self, *args, **kwargs):
+        if self.live:
+            errors = self.publication_errors()
+            if errors:
+                raise ValidationError(
+                    "Cannot publish the gallery without " + ", ".join(errors) + "."
+                )
+        return super().save(*args, **kwargs)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["comparisons"] = self.comparisons.select_related(
+            "before_image", "after_image"
+        ).order_by("sort_order")
+        return context
+
+
+class BeforeAfterGalleryItem(Orderable):
+    page = ParentalKey(
+        BeforeAfterGalleryPage,
+        on_delete=models.CASCADE,
+        related_name="comparisons",
+    )
+    title = models.CharField(
+        max_length=160,
+        help_text="Use a neutral description; do not include a patient name.",
+    )
+    before_image = models.ForeignKey(
+        get_image_model_string(),
+        on_delete=models.PROTECT,
+        related_name="+",
+    )
+    after_image = models.ForeignKey(
+        get_image_model_string(),
+        on_delete=models.PROTECT,
+        related_name="+",
+    )
+    before_alt_text = models.CharField(
+        max_length=255,
+        help_text="Describe only what is visibly relevant in the before image.",
+    )
+    after_alt_text = models.CharField(
+        max_length=255,
+        help_text="Describe only what is visibly relevant in the after image.",
+    )
+    caption = models.TextField(
+        blank=True,
+        max_length=500,
+        help_text=(
+            "Optional verified context. Do not identify a patient, promise a result, "
+            "or add an unverified treatment or time claim."
+        ),
+    )
+    publication_consent_confirmed = models.BooleanField(
+        default=False,
+        help_text=(
+            "Confirm that documented consent specifically permits public website "
+            "publication. Do not upload the consent document here."
+        ),
+    )
+    presentation_reviewed = models.BooleanField(
+        default=False,
+        help_text=(
+            "Confirm that both images show the same person, labels are accurate, and "
+            "cropping or editing does not create a misleading comparison."
+        ),
+    )
+
+    panels = [
+        FieldPanel("title"),
+        MultiFieldPanel(
+            [
+                FieldPanel("before_image"),
+                FieldPanel("before_alt_text"),
+                FieldPanel("after_image"),
+                FieldPanel("after_alt_text"),
+            ],
+            heading="Images and descriptions",
+        ),
+        FieldPanel("caption"),
+        MultiFieldPanel(
+            [
+                FieldPanel("publication_consent_confirmed"),
+                FieldPanel("presentation_reviewed"),
+            ],
+            heading="Required publication checks",
+        ),
+    ]
+
+    def clean(self):
+        super().clean()
+        errors = {}
+        if self.before_image_id and self.before_image_id == self.after_image_id:
+            errors["after_image"] = "Choose a different after image."
+        if not self.publication_consent_confirmed:
+            errors["publication_consent_confirmed"] = (
+                "Confirm documented publication consent before saving this comparison."
+            )
+        if not self.presentation_reviewed:
+            errors["presentation_reviewed"] = (
+                "Confirm the accuracy and presentation review before saving."
+            )
+        if errors:
+            raise ValidationError(errors)
 
 
 @register_setting(icon="cog")
