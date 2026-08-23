@@ -96,6 +96,9 @@ only and Gunicorn still publishes no host port. A unique R2 diagnostic object
 passed write, read, delete, and post-delete verification. The default 500
 template was also made standalone because its former SEO tags masked the
 original exception when Django rendered it without request context.
+The persistent fix was deployed as immutable image `arya-skin:95c8b03`. A
+post-deployment audit found one CMS image record, its original present in R2,
+and no orphan records from the failed upload attempts.
 
 ## Future work
 
