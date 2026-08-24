@@ -1,9 +1,12 @@
 import json
 import re
 from datetime import timedelta
+from io import StringIO
 from pathlib import Path
 
 from django.core.exceptions import ValidationError
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.contrib.staticfiles import finders
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -14,6 +17,10 @@ from appointments.models import AppointmentEnquiry
 from clinics.models import ClinicIndexPage, ClinicPage
 from treatments.models import TreatmentIndexPage, TreatmentPage
 from website.models import SiteSettings, StandardPage
+from website.management.commands.configure_ga4 import (
+    NEW_ANALYTICS_NOTICE,
+    OLD_ANALYTICS_NOTICE,
+)
 
 
 def analytics_config(response):
@@ -97,7 +104,61 @@ class PrivacySafeAnalyticsTests(TestCase):
         self.assertContains(response, 'id="analytics-consent"')
         self.assertContains(response, 'data-analytics-consent="accept"')
         self.assertContains(response, 'data-analytics-consent="decline"')
+        self.assertContains(response, "we load Google Analytics cookies")
         self.assertNotContains(response, "googletagmanager.com")
+
+    def test_configuration_command_updates_privacy_before_optional_enablement(self):
+        privacy_page = StandardPage.objects.get(slug="privacy")
+        privacy_page.body = [
+            (
+                "rich_text",
+                "<h2>Analytics and changes</h2>"
+                f"<p>{OLD_ANALYTICS_NOTICE}</p>"
+                "<p>This notice may be revised.</p>",
+            )
+        ]
+        privacy_page.save_revision().publish()
+
+        output = StringIO()
+        call_command("configure_ga4", "g-dkbkvgx7nk", stdout=output)
+
+        privacy_page.refresh_from_db()
+        self.site_settings.refresh_from_db()
+        self.assertNotIn(OLD_ANALYTICS_NOTICE, str(privacy_page.body))
+        self.assertIn(NEW_ANALYTICS_NOTICE, str(privacy_page.body))
+        self.assertFalse(privacy_page.has_unpublished_changes)
+        self.assertEqual(
+            self.site_settings.google_analytics_id,
+            "G-DKBKVGX7NK",
+        )
+        self.assertFalse(self.site_settings.analytics_enabled)
+        self.assertIn("analytics_enabled=false", output.getvalue())
+
+        call_command(
+            "configure_ga4",
+            "G-DKBKVGX7NK",
+            enable=True,
+            stdout=StringIO(),
+        )
+        self.site_settings.refresh_from_db()
+        self.assertTrue(self.site_settings.analytics_enabled)
+        self.assertContains(self.client.get("/"), "G-DKBKVGX7NK")
+
+    def test_configuration_command_refuses_unreviewed_privacy_drafts(self):
+        privacy_page = StandardPage.objects.get(slug="privacy")
+        privacy_page.body = [
+            ("rich_text", f"<p>{OLD_ANALYTICS_NOTICE}</p>"),
+        ]
+        privacy_page.save_revision().publish()
+        privacy_page.introduction = "<p>Unreviewed change</p>"
+        privacy_page.save_revision()
+
+        with self.assertRaises(CommandError):
+            call_command(
+                "configure_ga4",
+                "G-DKBKVGX7NK",
+                stdout=StringIO(),
+            )
 
     def test_enabled_id_still_requires_a_published_privacy_notice(self):
         self.site_settings.analytics_enabled = True
@@ -227,6 +288,14 @@ class PrivacySafeAnalyticsTests(TestCase):
             script.index('gtag("consent", "default"'),
             script.index('"https://www.googletagmanager.com/gtag/js?id="'),
         )
+        self.assertIn('"arya_skin_analytics_consent_v2"', script)
+        for consent_type in (
+            "ad_storage",
+            "ad_user_data",
+            "ad_personalization",
+            "analytics_storage",
+        ):
+            self.assertIn(consent_type, script)
         for event_name in (
             "phone_click",
             "whatsapp_click",

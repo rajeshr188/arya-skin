@@ -24,7 +24,7 @@
     return;
   }
 
-  const consentKey = "arya_skin_analytics_consent_v1";
+  const consentKey = "arya_skin_analytics_consent_v2";
   const allowedEvents = new Set([
     "phone_click",
     "whatsapp_click",

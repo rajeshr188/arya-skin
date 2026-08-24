@@ -1,6 +1,7 @@
 # Privacy and medical-disclaimer drafts
 
-Drafted: 22 August 2026
+Drafted: 22 August 2026; analytics wording updated at the owner's instruction on
+24 August 2026
 
 These are conservative owner-approved working texts for the budget launch. They
 are not legal advice. On 22 August 2026, the owner approved the exact wording in
@@ -35,8 +36,9 @@ project launch gate.
   a client-side encrypted off-server backup."
 - The form does not collect a diagnosis, medical history, detailed concern, date
   of birth, postal address, document, or patient account.
-- Analytics is disabled. It must not be enabled without separately approving and
-  updating the privacy notice and consent behavior.
+- Direct GA4 uses Basic Consent Mode and must remain disabled until the approved
+  privacy wording is published and the account-side measurement safeguards are
+  confirmed.
 
 ## Privacy notice draft
 
@@ -95,16 +97,33 @@ can promise absolute security.
 
 An appointment enquiry is kept while it is being handled. After it is marked
 closed, it is retained for 90 days and then deleted. A deleted record may remain
-in a restricted local backup for up to 14 additional days before that backup
-expires. Security and operational records are kept only as needed for operation,
-investigation, and legal obligations.
+in a restricted local backup or a client-side encrypted off-server backup for
+up to 14 additional days before that backup expires. Security and operational
+records are kept only as needed for operation, investigation, and legal
+obligations.
 
 ### Analytics and changes
 
-Optional analytics is currently disabled. If analytics is introduced later,
-this notice and the website's consent controls must be updated before it is
-enabled. This notice may be revised when website practices or legal requirements
-change; the displayed review date will identify the current version.
+Optional Google Analytics is loaded only after a visitor selects Allow analytics
+in the website's consent banner. It helps the clinic understand visits to public
+pages and approved contact actions. When allowed, Google Analytics may set
+cookies and use similar browser storage, and may process technical and usage
+information including page and clinic identifiers, device and browser
+information, approximate location derived from an IP address, and the approved
+interaction events described here. The website does not send appointment form
+contents, names, phone numbers, email addresses, messages, medical concerns, or
+other patient information to Google Analytics. Advertising storage, ad user
+data, ad personalization, Google Signals, User-ID, enhanced conversions, and
+automatic form or outbound-link measurement are disabled. Analytics is optional,
+and the website and appointment form work if it is declined. A visitor may
+decline when the banner appears or later reopen Analytics choices in the footer
+and withdraw consent. The browser remembers the choice locally. The clinic uses
+the two-month Google Analytics user-level and event-level data retention setting;
+standard aggregated reports may remain available under Google's service terms.
+Google processes analytics information under its own terms and privacy
+practices. This notice may be revised when website practices or legal
+requirements change; the displayed review date will identify the current
+version.
 
 ## Medical disclaimer draft
 

@@ -1,9 +1,9 @@
 # Analytics and attribution
 
-Milestone 6 provides an opt-in analytics implementation, but analytics remains
-disabled until the clinic approves account ownership, the privacy notice, and
-consent behavior. No GA4 property, GTM container, or Search Console property was
-created by the application.
+Milestone 6 provides an opt-in analytics implementation. Direct GA4 activation
+uses the owner-supplied measurement ID `G-DKBKVGX7NK`; the production switch must
+remain off until the account-side controls in this document are confirmed. No
+GTM container or Search Console property was created by the application.
 
 ## Privacy boundary
 
@@ -13,7 +13,7 @@ created by the application.
 - When enabled, basic consent mode blocks GA4/GTM until a visitor selects
   **Allow analytics**. An initial decline sends nothing to Google.
 - The choice is stored only in the visitor's browser under
-  `arya_skin_analytics_consent_v1`; appointment submission is never conditional
+  `arya_skin_analytics_consent_v2`; appointment submission is never conditional
   on analytics consent.
 - Only one provider may be active: direct GA4 is preferred, while GTM is
   available only for an approved, governed container.
@@ -53,11 +53,15 @@ preserve this allowlist.
    URL; this site measures approved actions with its explicit event contract.
 4. Do not enable Google Signals, ads personalization, enhanced conversions,
    user-provided data, User-ID, session replay, or form/DOM-scraping tags.
+   Set user-level and event-level data retention to **2 months** and turn off
+   retention reset on new activity.
 5. For GTM, review every tag, trigger, variable, template, permission, and
    publishing role. The container must respect Analytics Storage consent and
    must not read appointment fields or link URLs.
-6. In Wagtail, open **Settings → Site settings → Analytics**, enter exactly one
-   `G-...` or `GTM-...` identifier, and enable analytics.
+6. A Wagtail superuser may configure exactly one `G-...` or `GTM-...` identifier
+   under **Settings -> Site settings**; production may instead use the audited
+   `configure_ga4` command. The restricted enquiry account intentionally cannot
+   edit site settings. Do not enable analytics until steps 3 and 4 are complete.
 7. Test accept, decline, repeat visits, and choice changes in a clean browser.
    Before acceptance, the Network panel must show no requests to Google
    Analytics or Google Tag Manager.
