@@ -1,10 +1,10 @@
 # Project status
 
-Last updated: 23 August 2026
+Last updated: 24 August 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
-`arya-skin:c53bca7`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
+`arya-skin:a79cd6a`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
 and daily client-side encrypted off-server backups. Monitoring, transactional
 email, accessibility/performance review, a tested CSP, and the later HSTS
 subdomain/preload decision remain explicitly tracked future work.
@@ -72,8 +72,9 @@ subdomain/preload decision remain explicitly tracked future work.
 - Added an explicit Wagtail analytics enable switch, mutually exclusive GA4/GTM
   ID validation, and optional Search Console verification metadata.
 - Added basic consent mode that makes no Google analytics request before opt-in
-  and remains unavailable until the Privacy page is published. Analytics is
-  disabled by default because no approved account or privacy notice exists.
+  and remains unavailable until the Privacy page is published. Direct GA4 is
+  preconfigured with the owner-supplied ID but remains disabled pending
+  confirmation of the required GA4 account-side privacy controls.
 - Added a fixed seven-event conversion/view contract using only page type and
   stable clinic/treatment slugs. Accepted appointment events are server-gated,
   one-time, and contain no patient-entered values.
@@ -168,7 +169,7 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            85 tests passed (SQLite)
+manage.py test                            87 tests passed (SQLite)
 manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
 manage.py check --deploy                  2 expected initial-HSTS warnings
@@ -209,7 +210,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:c53bca7` with PostgreSQL 16 and
+- Production runs immutable image `arya-skin:a79cd6a` with PostgreSQL 16 and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
 - Wagtail's canonical Site origin is `https://drnareshrathod.com`. Cloudflare
@@ -225,6 +226,11 @@ request logs.
 - The before-and-after gallery exists as an empty, unpublished CMS draft. Its
   public route returns 404 and its navigation link remains hidden until an
   approved comparison is added and the page is explicitly published.
+- The published Privacy notice now describes consent-gated Google Analytics,
+  the permitted data boundary, withdrawal, disabled advertising features, and
+  two-month retention. Measurement ID `G-DKBKVGX7NK` is stored but analytics is
+  still disabled until the external GA4 controls are confirmed; public HTML has
+  no Google tag, analytics configuration, or consent banner while disabled.
 - One active Wagtail administrator and a separate restricted enquiry-monitor
   account for Dr. Naresh Rathod are configured. The latter can view and update
   appointment enquiries but cannot delete them or act as a superuser. Because

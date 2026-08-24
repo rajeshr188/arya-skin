@@ -109,6 +109,15 @@ documented publication consent, and a confirmed fair-presentation review. The
 post-migration encrypted backup
 `arya-skin-production-20260823T055556Z.backup.tar.age` uploaded successfully.
 
+On 24 August 2026, the GA4 privacy-preparation release was deployed as immutable
+image `arya-skin:a79cd6a`. The published Privacy notice was updated through
+revision 35, and measurement ID `G-DKBKVGX7NK` was stored with analytics still
+disabled. Public verification found no measurement ID, analytics configuration,
+consent banner, or Google tag in the homepage HTML. The acceptance script was
+also corrected to follow the current CMS-managed portrait instead of a deleted
+historic filename. All acceptance checks passed, and encrypted backup
+`arya-skin-production-20260824T050554Z.backup.tar.age` uploaded successfully.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.
