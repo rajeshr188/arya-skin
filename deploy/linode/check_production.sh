@@ -39,8 +39,15 @@ expect_status treatments_unpublished "https://$PRODUCTION_HOST/treatments/" 404
 expect_status articles_unpublished "https://$PRODUCTION_HOST/blog/" 404
 expect_status wagtail_admin_redirect "https://$PRODUCTION_HOST/cms/" 302
 expect_status public_health "https://$PRODUCTION_HOST/healthz/" 200
-expect_status portrait_media \
-    "https://$R2_MEDIA_CUSTOM_DOMAIN/original_images/nareshbust.png" 200
+portrait_url=$(curl --silent --show-error "https://$PRODUCTION_HOST/profile/" \
+    | grep --extended-regexp --only-matching \
+        "https://$R2_MEDIA_CUSTOM_DOMAIN/[^\"<[:space:]]+" \
+    | head -n 1)
+case "$portrait_url" in
+    "https://$R2_MEDIA_CUSTOM_DOMAIN/"*) ;;
+    *) printf '%s\n' "No production R2 portrait URL found." >&2; exit 1 ;;
+esac
+expect_status portrait_media "$portrait_url" 200
 
 www_status=$(curl --silent --show-error --location --max-redirs 3 \
     --output /dev/null --write-out '%{http_code}' "https://$WWW_HOST/")

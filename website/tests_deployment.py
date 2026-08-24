@@ -28,6 +28,18 @@ from django_project.logging import JsonFormatter
 
 
 class DeploymentConfigurationTests(TestCase):
+    def test_production_check_follows_the_current_cms_portrait(self):
+        script = (
+            Path(__file__).resolve().parents[1]
+            / "deploy"
+            / "linode"
+            / "check_production.sh"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn('"https://$PRODUCTION_HOST/profile/"', script)
+        self.assertIn('expect_status portrait_media "$portrait_url" 200', script)
+        self.assertNotIn("original_images/nareshbust.png", script)
+
     def test_boolean_environment_values_are_strictly_validated(self):
         self.assertTrue(env_bool({"FEATURE": "yes"}, "FEATURE"))
         self.assertFalse(env_bool({"FEATURE": "off"}, "FEATURE", True))
