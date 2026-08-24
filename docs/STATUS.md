@@ -73,8 +73,8 @@ subdomain/preload decision remain explicitly tracked future work.
   ID validation, and optional Search Console verification metadata.
 - Added basic consent mode that makes no Google analytics request before opt-in
   and remains unavailable until the Privacy page is published. Direct GA4 is
-  preconfigured with the owner-supplied ID but remains disabled pending
-  confirmation of the required GA4 account-side privacy controls.
+  enabled with the owner-supplied ID after confirmation of the required GA4
+  account-side privacy controls.
 - Added a fixed seven-event conversion/view contract using only page type and
   stable clinic/treatment slugs. Accepted appointment events are server-gated,
   one-time, and contain no patient-entered values.
@@ -228,9 +228,9 @@ request logs.
   approved comparison is added and the page is explicitly published.
 - The published Privacy notice now describes consent-gated Google Analytics,
   the permitted data boundary, withdrawal, disabled advertising features, and
-  two-month retention. Measurement ID `G-DKBKVGX7NK` is stored but analytics is
-  still disabled until the external GA4 controls are confirmed; public HTML has
-  no Google tag, analytics configuration, or consent banner while disabled.
+  two-month retention. Measurement ID `G-DKBKVGX7NK` is enabled with Basic
+  Consent Mode. The public response includes the banner and configuration but no
+  Google tag; the browser loads GA4 only after **Allow analytics** is selected.
 - One active Wagtail administrator and a separate restricted enquiry-monitor
   account for Dr. Naresh Rathod are configured. The latter can view and update
   appointment enquiries but cannot delete them or act as a superuser. Because

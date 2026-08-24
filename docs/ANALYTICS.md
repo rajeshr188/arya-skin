@@ -1,9 +1,9 @@
 # Analytics and attribution
 
-Milestone 6 provides an opt-in analytics implementation. Direct GA4 activation
-uses the owner-supplied measurement ID `G-DKBKVGX7NK`; the production switch must
-remain off until the account-side controls in this document are confirmed. No
-GTM container or Search Console property was created by the application.
+Milestone 6 provides an opt-in analytics implementation. Direct GA4 with the
+owner-supplied measurement ID `G-DKBKVGX7NK` was enabled on 24 August 2026 after
+the owner confirmed the account-side controls in this document. No GTM container
+or Search Console property was created by the application.
 
 ## Privacy boundary
 

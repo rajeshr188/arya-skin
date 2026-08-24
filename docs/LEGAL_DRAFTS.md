@@ -36,9 +36,9 @@ project launch gate.
   a client-side encrypted off-server backup."
 - The form does not collect a diagnosis, medical history, detailed concern, date
   of birth, postal address, document, or patient account.
-- Direct GA4 uses Basic Consent Mode and must remain disabled until the approved
-  privacy wording is published and the account-side measurement safeguards are
-  confirmed.
+- Direct GA4 uses Basic Consent Mode. It was enabled on 24 August 2026 after the
+  approved privacy wording was published and the owner confirmed the account-side
+  measurement safeguards.
 
 ## Privacy notice draft
 

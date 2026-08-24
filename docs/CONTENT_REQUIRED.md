@@ -134,7 +134,7 @@ unchecked until final publication approval.
 - [ ] Existing Google Business Profiles and owner/manager access
 - [ ] Google Search Console property and access
 - [x] GA4 measurement ID supplied: `G-DKBKVGX7NK`
-- [ ] Confirm GA4 account-side privacy controls: Outbound clicks and Form
+- [x] Confirmed GA4 account-side privacy controls: Outbound clicks and Form
   interactions disabled; Google Signals, advertising/user-provided data, and
   enhanced conversions disabled; two-month retention selected with reset off
 - [ ] Google Tag Manager container ID, only if a container is justified

@@ -118,6 +118,15 @@ also corrected to follow the current CMS-managed portrait instead of a deleted
 historic filename. All acceptance checks passed, and encrypted backup
 `arya-skin-production-20260824T050554Z.backup.tar.age` uploaded successfully.
 
+Later on 24 August 2026, the owner confirmed that GA4 outbound-click and form
+interaction measurement, Google Signals, user-provided/advertising features,
+and enhanced conversions were disabled, and that two-month retention with reset
+off was selected. Basic Consent Mode was then enabled for `G-DKBKVGX7NK`.
+Production verification found the banner, accept/decline/manage controls, and
+measurement configuration, while the server-rendered HTML contained no Google
+tag before consent. The full acceptance suite passed, and encrypted backup
+`arya-skin-production-20260824T051503Z.backup.tar.age` uploaded successfully.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.
