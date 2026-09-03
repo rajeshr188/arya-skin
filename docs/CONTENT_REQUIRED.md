@@ -94,8 +94,9 @@ unchecked until final publication approval.
 
 ## Blog editorial governance
 
-- [ ] Confirm who may be listed as an article author
-- [ ] Confirm who may perform and be named for medical review
+- [x] Dr. Naresh Rathod may be listed as article author using the role
+  "Dermatologist and Cosmetologist"
+- [x] Dr. Naresh Rathod is the assigned medical reviewer for the prepared series
 - [ ] Approve acceptable clinical source types and citation practice
 - [ ] Define the review interval and process for revising or withdrawing articles
 - [ ] Approve each article's text, sources, imagery, author, and review date before
@@ -156,9 +157,8 @@ unchecked until final publication approval.
 ## Publishing sign-off
 
 - [ ] Named person responsible for factual approval
-- [ ] Named medical reviewer for educational content
-- [ ] Confirm whether Dr. Naresh Rathod will be displayed as author, medical
-  reviewer, or both for the prepared blog series, including the exact public role
-  wording
+- [x] Named medical reviewer for the prepared blog series: Dr. Naresh Rathod
+- [x] Display Dr. Naresh Rathod as both author and medical reviewer using the
+  public role "Dermatologist and Cosmetologist"
 - [ ] Review frequency for doctor, clinic, treatment, and legal information
 - [ ] Process for urgent corrections to phone, hours, and address details

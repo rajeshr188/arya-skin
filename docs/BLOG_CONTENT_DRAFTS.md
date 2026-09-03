@@ -1,9 +1,11 @@
 # Initial blog content drafts
 
 Prepared on 3 September 2026 for Dr. Naresh Rathod's editorial and medical
-review. These articles and the Articles index are unpublished. The seed command
-does not identify an author or medical reviewer and cannot make the articles
-public.
+review. These articles and the Articles index are unpublished. The initial seed
+command does not identify an author or medical reviewer and cannot make the
+articles public. The owner subsequently designated Dr. Naresh Rathod as both
+author and assigned medical reviewer, with the public role "Dermatologist and
+Cosmetologist"; that assignment does not claim the review is complete.
 
 ## Draft set
 
@@ -49,6 +51,12 @@ The images are imported into Wagtail/R2 only when the execute mode is used.
 Wagtail renditions, rather than the full original files, serve the article page
 and cards.
 
+For future illustrations, a depicted clinic doctor must be male and must not
+suggest that an unnamed clinician or staff member provides care. Prefer a clearly
+patient-focused scene when the doctor's identity is not needed. If Dr. Naresh
+Rathod is meant to be recognizable, use his approved portrait as an explicit
+reference rather than inventing a likeness.
+
 ## Safe import
 
 Preview the operation first:
@@ -63,6 +71,13 @@ Create the three illustrated drafts:
 uv run manage.py seed_blog_drafts --execute
 ```
 
+Preview and then apply the approved author/reviewer assignment:
+
+```powershell
+uv run manage.py assign_blog_editorial_roles
+uv run manage.py assign_blog_editorial_roles --execute
+```
+
 The command is repeat-safe after a complete import and refuses a partial set,
 an already-published Articles index, unexpected existing index copy, missing
 illustrations, or missing related treatment drafts.
@@ -72,8 +87,7 @@ illustrations, or missing related treatment drafts.
 For each article, Dr. Naresh Rathod should:
 
 1. verify every medical statement and request corrections where needed;
-2. confirm whether he is the author, medical reviewer, or both, and approve the
-   exact role wording displayed publicly;
+2. verify the recorded author and assigned-reviewer attribution;
 3. review the title, excerpt, illustration, alternative text, and direct sources;
 4. confirm that the related treatment is appropriate;
 5. enter the real completed-review date and an optional future review date; and

@@ -11,6 +11,7 @@ from django.utils import timezone
 from PIL import Image as PillowImage
 from wagtail.images import get_image_model
 
+from doctors.models import DoctorPage
 from treatments.models import TreatmentIndexPage, TreatmentPage
 from website.models import HomePage
 
@@ -168,6 +169,61 @@ class BlogEditorialTests(TestCase):
 
         with self.assertRaisesMessage(CommandError, "partial seed"):
             call_command("seed_blog_drafts", execute=True)
+
+    def test_owner_approved_editorial_roles_are_assigned_without_review_claim(self):
+        call_command("seed_treatment_drafts", execute=True)
+        with TemporaryDirectory() as media_root, override_settings(
+            MEDIA_ROOT=media_root
+        ):
+            call_command("seed_blog_drafts", execute=True)
+
+            dry_run_output = StringIO()
+            call_command("assign_blog_editorial_roles", stdout=dry_run_output)
+            self.assertIn(
+                "would_assign_blog_editorial_roles=3",
+                dry_run_output.getvalue(),
+            )
+            self.assertIn(
+                "completed_medical_review=false",
+                dry_run_output.getvalue(),
+            )
+
+            output = StringIO()
+            call_command(
+                "assign_blog_editorial_roles",
+                execute=True,
+                stdout=output,
+            )
+
+            person = BlogAuthor.objects.get(name="Dr. Naresh Rathod")
+            self.assertEqual(person.role, "Dermatologist and Cosmetologist")
+            self.assertEqual(person.doctor_page, DoctorPage.objects.get())
+            for article in BlogPage.objects.all():
+                with self.subTest(article=article.slug):
+                    self.assertEqual(article.author, person)
+                    self.assertEqual(article.reviewed_by, person)
+                    self.assertEqual(
+                        article.review_status,
+                        BlogPage.ReviewStatus.AWAITING_REVIEW,
+                    )
+                    self.assertIsNone(article.reviewed_on)
+                    self.assertIn("Reviewed status", article.publication_errors())
+                    self.assertIn(
+                        "a completed review date", article.publication_errors()
+                    )
+
+            self.assertIn("blog_editorial_roles_assigned=3", output.getvalue())
+            self.assertIn("completed_medical_review=false", output.getvalue())
+
+            rerun_output = StringIO()
+            call_command(
+                "assign_blog_editorial_roles",
+                execute=True,
+                stdout=rerun_output,
+            )
+            self.assertIn(
+                "blog_editorial_roles_unchanged=3", rerun_output.getvalue()
+            )
 
     def test_incomplete_article_can_be_saved_as_draft_but_not_published(self):
         article = BlogPage(

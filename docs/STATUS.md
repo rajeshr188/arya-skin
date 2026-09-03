@@ -46,8 +46,8 @@ subdomain/preload decision remain explicitly tracked future work.
 - Prepared a three-article patient-education starter series about acne treatment
   timelines, patch testing, and chemical-peel safety. Each unpublished draft has
   direct authoritative sources, one related treatment, meaningful image text,
-  and an original clinic-style illustration; authorship and completed medical
-  review remain deliberately unset.
+  and an original clinic-style illustration. Dr. Naresh Rathod is the approved
+  author and assigned medical reviewer; completed review remains unset.
 - Added a privacy-minimized appointment form that collects only clinic, name,
   phone, optional email, preferred date/time, and explicit contact consent.
 - Added signed form tokens, CSRF protection, a honeypot, session throttling,
@@ -101,7 +101,7 @@ subdomain/preload decision remain explicitly tracked future work.
   graph in dependency order.
 - Retained Django admin and installed allauth; public allauth routes remain
   intentionally unavailable.
-- Added project documentation and 102 passing foundation/domain/deployment tests.
+- Added project documentation and 103 passing foundation/domain/deployment tests.
 - Added fail-closed production media storage using a bucket-scoped Cloudflare R2
   configuration and public custom domain; local development and private staging
   retain filesystem media.
@@ -177,7 +177,7 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            102 tests passed (SQLite)
+manage.py test                            103 tests passed (SQLite)
 manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
 manage.py check --deploy                  2 expected initial-HSTS warnings
@@ -237,8 +237,9 @@ request logs.
   approved comparison is added and the page is explicitly published.
 - Three source-checked articles and their original illustrations are installed
   as production drafts. Production inventory reports three total and zero live
-  articles; each route is 404 and each R2 image original is retrievable. Their
-  author and completed medical-review fields remain unset by design.
+  articles; each route is 404 and each R2 image original is retrievable. Dr.
+  Naresh Rathod is assigned as author and medical reviewer, while completed
+  medical-review status and date remain unset by design.
 - The published Privacy notice now describes consent-gated Google Analytics,
   the permitted data boundary, withdrawal, disabled advertising features, and
   two-month retention. Measurement ID `G-DKBKVGX7NK` is enabled with Basic
@@ -279,8 +280,9 @@ response target, the call/WhatsApp fallback for an unanswered request, and
 pages contain owner-approved working text. Professional
 legal/privacy review remains recommended but was explicitly deferred by the
 owner for the budget launch; the drafts are not legally verified. Blog
-author/medical-reviewer role wording, review intervals, and every prepared
-article require approval. The five treatment pages are currently public; their
+review intervals and every prepared article require approval. Dr. Naresh Rathod
+is the approved author and assigned medical reviewer using the role
+"Dermatologist and Cosmetologist". The five treatment pages are currently public; their
 medical/editorial approval record should be confirmed if it was not recorded
 during CMS publication. See
 `CONTENT_REQUIRED.md`, `TREATMENT_CONTENT_DRAFTS.md`, and
@@ -289,8 +291,7 @@ during CMS publication. See
 ## Next milestone
 
 Review the three prepared blog drafts in Wagtail, then record corrections or
-explicit page-by-page approval before publication. Confirm the public author/
-reviewer role wording for the articles and retain the treatment approval record.
-Operational priorities
+explicit page-by-page approval before publication. Retain the article and
+treatment approval records. Operational priorities
 remain automated uptime/service/disk/backup alerts, accessibility/performance
 review, a tested CSP, and the HSTS subdomain/preload decision.
