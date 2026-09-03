@@ -1,3 +1,7 @@
+from io import StringIO
+
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import TestCase, override_settings
 
 from clinics.models import ClinicIndexPage, ClinicPage
@@ -25,6 +29,55 @@ class TreatmentPageTests(TestCase):
         self.assertEqual(TreatmentPage.objects.count(), 0)
         self.assertEqual(TreatmentCategory.objects.count(), 0)
         self.assertEqual(self.client.get("/treatments/").status_code, 404)
+
+    def test_content_seed_is_dry_run_first_and_creates_only_reviewable_drafts(self):
+        dry_run_output = StringIO()
+        call_command("seed_treatment_drafts", stdout=dry_run_output)
+
+        self.assertIn("would_create_treatment_drafts=5", dry_run_output.getvalue())
+        self.assertEqual(TreatmentPage.objects.count(), 0)
+
+        output = StringIO()
+        call_command("seed_treatment_drafts", execute=True, stdout=output)
+
+        treatment_index = TreatmentIndexPage.objects.get()
+        treatments = TreatmentPage.objects.order_by("slug")
+        self.assertFalse(treatment_index.live)
+        self.assertIn("support an informed consultation", treatment_index.introduction)
+        self.assertEqual(treatments.count(), 5)
+        self.assertEqual(TreatmentCategory.objects.count(), 3)
+        for treatment in treatments:
+            with self.subTest(treatment=treatment.slug):
+                self.assertFalse(treatment.live)
+                self.assertFalse(treatment.show_in_menus)
+                self.assertFalse(treatment.feature_on_homepage)
+                self.assertEqual(treatment.doctor, DoctorPage.objects.get())
+                self.assertEqual(treatment.available_at_clinics.count(), 2)
+                self.assertEqual(treatment.faqs.count(), 3)
+                self.assertTrue(treatment.summary)
+                self.assertTrue(treatment.search_description)
+                self.assertEqual(self.client.get(treatment.url).status_code, 404)
+        self.assertIn("treatment_drafts_created=5", output.getvalue())
+        self.assertIn("medical_review_required=true", output.getvalue())
+
+        rerun_output = StringIO()
+        call_command("seed_treatment_drafts", execute=True, stdout=rerun_output)
+        self.assertIn("treatment_drafts_unchanged=5", rerun_output.getvalue())
+        self.assertEqual(TreatmentPage.objects.count(), 5)
+
+    def test_content_seed_refuses_a_partial_existing_set(self):
+        index = TreatmentIndexPage.objects.get()
+        index.add_child(
+            instance=TreatmentPage(
+                title="Existing acne page",
+                slug="acne-assessment-treatment",
+                summary="Existing editorial content must not be overwritten.",
+                live=False,
+            )
+        )
+
+        with self.assertRaisesMessage(CommandError, "partial seed"):
+            call_command("seed_treatment_drafts", execute=True)
 
     def test_published_treatment_renders_structured_approved_content(self):
         doctor = DoctorPage.objects.get()
