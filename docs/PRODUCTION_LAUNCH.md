@@ -159,6 +159,22 @@ draft URL returned 404 externally. Encrypted backup
 `arya-skin-production-20260903T095431Z.backup.tar.age` completed after creation.
 Publication requires Dr. Naresh Rathod's explicit page-by-page approval.
 
+Later on 3 September 2026, immutable image `arya-skin:011dc6e` added three
+illustrated patient-education articles as unpublished Wagtail drafts: acne
+treatment timelines, patch testing for contact allergy, and a chemical-peel
+safety checklist. The dry run reported three pages and three illustrations; the
+execute run created them, and a repeat run was unchanged. Production inventory
+reported three total and zero live articles, with author and completed medical
+review deliberately unset. All article routes remained 404, while the three R2
+image originals returned 200. The acceptance suite passed.
+
+That inventory also showed that the Treatments index and all five treatment
+pages had since been published through the CMS. This blog release did not change
+their publication state; the acceptance script was reconciled to test their
+live routes and continue enforcing the unpublished Articles index. Encrypted
+backup `arya-skin-production-20260903T102948Z.backup.tar.age` uploaded
+successfully after the article import.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.

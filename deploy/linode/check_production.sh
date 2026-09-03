@@ -35,7 +35,17 @@ expect_status appointment_form "https://$PRODUCTION_HOST/appointments/request/" 
 expect_status robots_txt "https://$PRODUCTION_HOST/robots.txt" 200
 expect_status sitemap_xml "https://$PRODUCTION_HOST/sitemap.xml" 200
 expect_status retired_service_worker "https://$PRODUCTION_HOST/sw.js" 200
-expect_status treatments_unpublished "https://$PRODUCTION_HOST/treatments/" 404
+expect_status treatments_index "https://$PRODUCTION_HOST/treatments/" 200
+expect_status acne_treatment \
+    "https://$PRODUCTION_HOST/treatments/acne-assessment-treatment/" 200
+expect_status allergy_treatment \
+    "https://$PRODUCTION_HOST/treatments/skin-allergy-assessment-testing/" 200
+expect_status peel_treatment \
+    "https://$PRODUCTION_HOST/treatments/chemical-peel-consultation/" 200
+expect_status laser_treatment \
+    "https://$PRODUCTION_HOST/treatments/laser-treatment-consultation/" 200
+expect_status dermatology_treatment \
+    "https://$PRODUCTION_HOST/treatments/general-dermatology-consultation/" 200
 expect_status articles_unpublished "https://$PRODUCTION_HOST/blog/" 404
 expect_status wagtail_admin_redirect "https://$PRODUCTION_HOST/cms/" 302
 expect_status public_health "https://$PRODUCTION_HOST/healthz/" 200
@@ -76,8 +86,8 @@ if grep --ignore-case --quiet '^x-robots-tag:.*noindex' "$response_headers"; the
     echo "Production homepage unexpectedly has a noindex header." >&2
     exit 1
 fi
-if grep --extended-regexp --quiet 'href="/(treatments|blog)/"' "$response_body"; then
-    echo "An unpublished empty index still appears in navigation." >&2
+if grep --fixed-strings --quiet 'href="/blog/"' "$response_body"; then
+    echo "The unpublished Articles index appears in navigation." >&2
     exit 1
 fi
 
@@ -92,5 +102,5 @@ grep --ignore-case --quiet \
 printf 'canonical_origin=verified\n'
 printf 'robots_sitemap=verified\n'
 printf 'production_noindex=absent\n'
-printf 'empty_index_navigation_links=absent\n'
+printf 'unpublished_articles_navigation_link=absent\n'
 printf 'initial_security_headers=verified\n'

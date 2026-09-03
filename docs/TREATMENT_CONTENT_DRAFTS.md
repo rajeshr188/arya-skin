@@ -15,6 +15,11 @@ Arya Skin and Hair Clinic. They do not name an unconfirmed device, product,
 medicine, technique, price, session count, result, or recovery period. They do
 not claim that Dr. Naresh Rathod has medically reviewed them yet.
 
+Production inventory on 3 September 2026 later showed the Treatments index and
+all five pages as live. This document records the original drafting boundary; it
+does not itself prove who completed the medical review or when. Retain the real
+approval record, or return a page to draft if its review was not completed.
+
 ## Editorial sources
 
 The drafting boundaries and general patient-safety statements were checked

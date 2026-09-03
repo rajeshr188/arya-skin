@@ -4,7 +4,7 @@ Last updated: 3 September 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
-`arya-skin:9b43e1f`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
+`arya-skin:011dc6e`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
 and daily client-side encrypted off-server backups. Privacy-minimized staff-only
 transactional email is active and passed production inbox acceptance. Monitoring,
 accessibility/performance review, a tested CSP, and the later HSTS
@@ -101,7 +101,7 @@ subdomain/preload decision remain explicitly tracked future work.
   graph in dependency order.
 - Retained Django admin and installed allauth; public allauth routes remain
   intentionally unavailable.
-- Added project documentation and 101 passing foundation/domain/deployment tests.
+- Added project documentation and 102 passing foundation/domain/deployment tests.
 - Added fail-closed production media storage using a bucket-scoped Cloudflare R2
   configuration and public custom domain; local development and private staging
   retain filesystem media.
@@ -133,7 +133,7 @@ Root
     ├── ClinicIndexPage: Clinics                    /clinics/          [live]
     │   ├── ClinicPage: Dolphin Derma Care          /clinics/sitapura/ [live]
     │   └── ClinicPage: Arya Skin and Hair Clinic   /clinics/chaksu/   [live]
-    ├── TreatmentIndexPage: Treatments              /treatments/       [draft; 5 child drafts]
+    ├── TreatmentIndexPage: Treatments              /treatments/       [live; 5 live child pages]
     ├── BlogIndexPage: Articles                      /blog/             [draft; 3 child drafts prepared]
     ├── ContactPage: Contact                        /contact/          [live]
     ├── StandardPage: Privacy                       /privacy/          [live]
@@ -177,7 +177,7 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            101 tests passed (SQLite)
+manage.py test                            102 tests passed (SQLite)
 manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
 manage.py check --deploy                  2 expected initial-HSTS warnings
@@ -218,7 +218,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:9b43e1f` with PostgreSQL 16 and
+- Production runs immutable image `arya-skin:011dc6e` with PostgreSQL 16 and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
 - Wagtail's canonical Site origin is `https://drnareshrathod.com`. Cloudflare
@@ -229,11 +229,16 @@ request logs.
   returned 200 with image content.
 - The expanded production acceptance suite passed every approved page, the
   appointment form, health, robots, sitemap, Wagtail admin redirect, R2 portrait,
-  canonical origin, navigation, and initial security-header check. Treatments
-  and Articles remain unpublished and return 404.
+  canonical origin, navigation, and initial security-header check. The Treatments
+  index and its five pages are live. The Articles index and its three prepared
+  child drafts remain unpublished and return 404.
 - The before-and-after gallery exists as an empty, unpublished CMS draft. Its
   public route returns 404 and its navigation link remains hidden until an
   approved comparison is added and the page is explicitly published.
+- Three source-checked articles and their original illustrations are installed
+  as production drafts. Production inventory reports three total and zero live
+  articles; each route is 404 and each R2 image original is retrievable. Their
+  author and completed medical-review fields remain unset by design.
 - The published Privacy notice now describes consent-gated Google Analytics,
   the permitted data boundary, withdrawal, disabled advertising features, and
   two-month retention. Measurement ID `G-DKBKVGX7NK` is enabled with Basic
@@ -254,6 +259,8 @@ request logs.
   image `arya-skin:377ee54`, and the unchanged data volumes are retained for
   rollback. The staging stack is stopped because this budget topology runs only
   one stack against the shared database volumes.
+- Encrypted backup `arya-skin-production-20260903T102948Z.backup.tar.age`
+  uploaded successfully after the blog draft import.
 - Paid Linode backups and automated monitoring remain owner-deferred. The manual
   daily operating checks in `PRODUCTION_LAUNCH.md` still apply. Transactional
   email is active after transport and live-form delivery proofs; its one-minute
@@ -273,15 +280,17 @@ pages contain owner-approved working text. Professional
 legal/privacy review remains recommended but was explicitly deferred by the
 owner for the budget launch; the drafts are not legally verified. Blog
 author/medical-reviewer role wording, review intervals, and every prepared
-article require approval. The five treatment drafts also require Dr. Naresh
-Rathod's medical/editorial approval before any publication. See
+article require approval. The five treatment pages are currently public; their
+medical/editorial approval record should be confirmed if it was not recorded
+during CMS publication. See
 `CONTENT_REQUIRED.md`, `TREATMENT_CONTENT_DRAFTS.md`, and
 `BLOG_CONTENT_DRAFTS.md`.
 
 ## Next milestone
 
-Review the five treatment drafts and three prepared blog drafts in Wagtail, then
-record corrections or explicit page-by-page approval before publication. Confirm
-the public author/reviewer role wording for the articles. Operational priorities
+Review the three prepared blog drafts in Wagtail, then record corrections or
+explicit page-by-page approval before publication. Confirm the public author/
+reviewer role wording for the articles and retain the treatment approval record.
+Operational priorities
 remain automated uptime/service/disk/backup alerts, accessibility/performance
 review, a tested CSP, and the HSTS subdomain/preload decision.

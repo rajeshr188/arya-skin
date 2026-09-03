@@ -58,6 +58,28 @@ class DeploymentConfigurationTests(TestCase):
         self.assertIn('expect_status portrait_media "$portrait_url" 200', script)
         self.assertNotIn("original_images/nareshbust.png", script)
 
+    def test_production_check_matches_live_treatments_and_draft_articles(self):
+        script = (
+            Path(__file__).resolve().parents[1]
+            / "deploy"
+            / "linode"
+            / "check_production.sh"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn(
+            'expect_status treatments_index "https://$PRODUCTION_HOST/treatments/" 200',
+            script,
+        )
+        self.assertIn(
+            'expect_status articles_unpublished "https://$PRODUCTION_HOST/blog/" 404',
+            script,
+        )
+        self.assertIn(
+            "unpublished_articles_navigation_link=absent",
+            script,
+        )
+        self.assertNotIn("treatments_unpublished", script)
+
     def test_boolean_environment_values_are_strictly_validated(self):
         self.assertTrue(env_bool({"FEATURE": "yes"}, "FEATURE"))
         self.assertFalse(env_bool({"FEATURE": "off"}, "FEATURE", True))
