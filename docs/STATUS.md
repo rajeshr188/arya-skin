@@ -4,7 +4,7 @@ Last updated: 3 September 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
-`arya-skin:686e4e9`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
+`arya-skin:9b43e1f`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
 and daily client-side encrypted off-server backups. Privacy-minimized staff-only
 transactional email is active and passed production inbox acceptance. Monitoring,
 accessibility/performance review, a tested CSP, and the later HSTS
@@ -39,8 +39,10 @@ subdomain/preload decision remain explicitly tracked future work.
   page is an unpublished draft and is absent from navigation.
 - Seeded supplied doctor details and both clinic records as drafts. The supplied
   phone/WhatsApp number is stored but not publicly exposed.
-- Seeded empty Treatments, Contact, Privacy, and Medical disclaimer containers as
-  drafts. No treatment offering, medical content, or legal policy was invented.
+- Prepared five structured, source-checked treatment pages as unpublished drafts
+  for the approved shared services. They identify no unconfirmed equipment,
+  medicine, price, session count, recovery period, or outcome and require Dr.
+  Naresh Rathod's page-by-page review before publication.
 - Added a privacy-minimized appointment form that collects only clinic, name,
   phone, optional email, preferred date/time, and explicit contact consent.
 - Added signed form tokens, CSRF protection, a honeypot, session throttling,
@@ -126,7 +128,7 @@ Root
     ├── ClinicIndexPage: Clinics                    /clinics/          [live]
     │   ├── ClinicPage: Dolphin Derma Care          /clinics/sitapura/ [live]
     │   └── ClinicPage: Arya Skin and Hair Clinic   /clinics/chaksu/   [live]
-    ├── TreatmentIndexPage: Treatments              /treatments/       [draft; empty]
+    ├── TreatmentIndexPage: Treatments              /treatments/       [draft; 5 child drafts]
     ├── BlogIndexPage: Articles                      /blog/             [draft; empty]
     ├── ContactPage: Contact                        /contact/          [live]
     ├── StandardPage: Privacy                       /privacy/          [live]
@@ -211,7 +213,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:686e4e9` with PostgreSQL 16 and
+- Production runs immutable image `arya-skin:9b43e1f` with PostgreSQL 16 and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
 - Wagtail's canonical Site origin is `https://drnareshrathod.com`. Cloudflare
@@ -266,11 +268,13 @@ pages contain owner-approved working text. Professional
 legal/privacy review remains recommended but was explicitly deferred by the
 owner for the budget launch; the drafts are not legally verified. Blog authors,
 medical reviewers, source standards, review intervals, and every article also
-require approval. See `CONTENT_REQUIRED.md`.
+require approval. The five treatment drafts also require Dr. Naresh Rathod's
+medical/editorial approval before any publication. See `CONTENT_REQUIRED.md` and
+`TREATMENT_CONTENT_DRAFTS.md`.
 
 ## Next milestone
 
-Operate the live production site using the manual daily checks in
-`PRODUCTION_LAUNCH.md`. Next priorities are automated uptime/service/disk/backup
-alerts, accessibility/performance review, a tested CSP, and the HSTS
-subdomain/preload decision.
+Review the five treatment drafts in Wagtail and record corrections or explicit
+page-by-page approval before publication. Operational priorities remain automated
+uptime/service/disk/backup alerts, accessibility/performance review, a tested
+CSP, and the HSTS subdomain/preload decision.

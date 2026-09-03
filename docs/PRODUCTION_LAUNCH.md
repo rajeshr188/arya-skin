@@ -148,6 +148,17 @@ remained. Fresh encrypted backup
 `arya-skin-production-20260903T092947Z.backup.tar.age` uploaded successfully
 after activation.
 
+Later on 3 September 2026, five source-checked patient-information pages were
+deployed as unpublished Wagtail drafts in immutable image `arya-skin:9b43e1f`:
+acne assessment and treatment, skin-allergy assessment and testing, chemical
+peel consultation, laser treatment consultation, and general dermatology
+consultation. Each is linked to Dr. Naresh Rathod and both clinics but remains
+excluded from menus, routing, and search visibility. The seeder's repeat run was
+unchanged, the inventory reported five total and zero live treatments, and every
+draft URL returned 404 externally. Encrypted backup
+`arya-skin-production-20260903T095431Z.backup.tar.age` completed after creation.
+Publication requires Dr. Naresh Rathod's explicit page-by-page approval.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.

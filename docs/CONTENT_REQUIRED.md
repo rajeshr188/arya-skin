@@ -81,7 +81,11 @@ unchecked until final publication approval.
 
 ## Treatments and patient information
 
-- [ ] Confirm which proposed conditions/treatments are actually offered
+- [x] Confirmed draft scope from the approved shared services: general
+  dermatology consultation, acne assessment and treatment, skin-allergy
+  assessment/testing, chemical peels, and laser procedures
+- [x] Five structured, source-checked pages prepared in Wagtail as unpublished
+  drafts on 3 September 2026
 - [ ] Clinician-approved overview, symptoms, causes, diagnosis, consultation
   guidance, approaches, expectations, risks, and FAQs for every published page
 - [ ] Approved treatment imagery and usage rights

@@ -107,6 +107,11 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
 - [x] Add a guarded CMS before-and-after gallery, seed it as an empty production
   draft, document the consent/review workflow, and verify that it remains absent
   from public routing and navigation until explicitly published.
+- [x] Prepare and deploy five meaningful, source-checked treatment pages as
+  unpublished Wagtail drafts linked to Dr. Naresh Rathod and both clinics.
+- [ ] Complete Dr. Naresh Rathod's page-by-page medical/editorial review, apply
+  corrections, and explicitly approve the Treatments index and selected pages
+  before publication.
 
 ## Definition of done for every milestone
 
