@@ -157,5 +157,8 @@ unchecked until final publication approval.
 
 - [ ] Named person responsible for factual approval
 - [ ] Named medical reviewer for educational content
+- [ ] Confirm whether Dr. Naresh Rathod will be displayed as author, medical
+  reviewer, or both for the prepared blog series, including the exact public role
+  wording
 - [ ] Review frequency for doctor, clinic, treatment, and legal information
 - [ ] Process for urgent corrections to phone, hours, and address details

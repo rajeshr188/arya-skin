@@ -43,6 +43,11 @@ subdomain/preload decision remain explicitly tracked future work.
   for the approved shared services. They identify no unconfirmed equipment,
   medicine, price, session count, recovery period, or outcome and require Dr.
   Naresh Rathod's page-by-page review before publication.
+- Prepared a three-article patient-education starter series about acne treatment
+  timelines, patch testing, and chemical-peel safety. Each unpublished draft has
+  direct authoritative sources, one related treatment, meaningful image text,
+  and an original clinic-style illustration; authorship and completed medical
+  review remain deliberately unset.
 - Added a privacy-minimized appointment form that collects only clinic, name,
   phone, optional email, preferred date/time, and explicit contact consent.
 - Added signed form tokens, CSRF protection, a honeypot, session throttling,
@@ -96,7 +101,7 @@ subdomain/preload decision remain explicitly tracked future work.
   graph in dependency order.
 - Retained Django admin and installed allauth; public allauth routes remain
   intentionally unavailable.
-- Added project documentation and 81 passing foundation/domain/deployment tests.
+- Added project documentation and 101 passing foundation/domain/deployment tests.
 - Added fail-closed production media storage using a bucket-scoped Cloudflare R2
   configuration and public custom domain; local development and private staging
   retain filesystem media.
@@ -129,7 +134,7 @@ Root
     │   ├── ClinicPage: Dolphin Derma Care          /clinics/sitapura/ [live]
     │   └── ClinicPage: Arya Skin and Hair Clinic   /clinics/chaksu/   [live]
     ├── TreatmentIndexPage: Treatments              /treatments/       [draft; 5 child drafts]
-    ├── BlogIndexPage: Articles                      /blog/             [draft; empty]
+    ├── BlogIndexPage: Articles                      /blog/             [draft; 3 child drafts prepared]
     ├── ContactPage: Contact                        /contact/          [live]
     ├── StandardPage: Privacy                       /privacy/          [live]
     └── StandardPage: Medical disclaimer            /medical-disclaimer/ [live]
@@ -172,7 +177,7 @@ Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
 manage.py migrate                         no pending migrations
 manage.py check                           0 issues
 manage.py makemigrations --check          no changes detected
-manage.py test                            87 tests passed (SQLite)
+manage.py test                            101 tests passed (SQLite)
 manage.py test                            67 tests passed (PostgreSQL 16; previous CI baseline)
 manage.py collectstatic --dry-run         passed
 manage.py check --deploy                  2 expected initial-HSTS warnings
@@ -266,15 +271,17 @@ response target, the call/WhatsApp fallback for an unanswered request, and
 90-day post-closure retention are approved. The Privacy and Medical disclaimer
 pages contain owner-approved working text. Professional
 legal/privacy review remains recommended but was explicitly deferred by the
-owner for the budget launch; the drafts are not legally verified. Blog authors,
-medical reviewers, source standards, review intervals, and every article also
-require approval. The five treatment drafts also require Dr. Naresh Rathod's
-medical/editorial approval before any publication. See `CONTENT_REQUIRED.md` and
-`TREATMENT_CONTENT_DRAFTS.md`.
+owner for the budget launch; the drafts are not legally verified. Blog
+author/medical-reviewer role wording, review intervals, and every prepared
+article require approval. The five treatment drafts also require Dr. Naresh
+Rathod's medical/editorial approval before any publication. See
+`CONTENT_REQUIRED.md`, `TREATMENT_CONTENT_DRAFTS.md`, and
+`BLOG_CONTENT_DRAFTS.md`.
 
 ## Next milestone
 
-Review the five treatment drafts in Wagtail and record corrections or explicit
-page-by-page approval before publication. Operational priorities remain automated
-uptime/service/disk/backup alerts, accessibility/performance review, a tested
-CSP, and the HSTS subdomain/preload decision.
+Review the five treatment drafts and three prepared blog drafts in Wagtail, then
+record corrections or explicit page-by-page approval before publication. Confirm
+the public author/reviewer role wording for the articles. Operational priorities
+remain automated uptime/service/disk/backup alerts, accessibility/performance
+review, a tested CSP, and the HSTS subdomain/preload decision.

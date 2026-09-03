@@ -112,6 +112,10 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
 - [ ] Complete Dr. Naresh Rathod's page-by-page medical/editorial review, apply
   corrections, and explicitly approve the Treatments index and selected pages
   before publication.
+- [x] Prepare a three-article patient-education starter series with direct
+  sources and original accessible illustrations as unpublished Wagtail drafts.
+- [ ] Complete authorship designation and Dr. Naresh Rathod's page-by-page
+  medical/editorial review before approving the Articles index or any article.
 
 ## Definition of done for every milestone
 

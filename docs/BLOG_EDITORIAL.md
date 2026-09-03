@@ -33,3 +33,11 @@ first-publication timestamp provides the displayed publication date.
 Related treatment and article cards appear only when the target pages are live
 and unrestricted. No author, category, article, source, or review claim is seeded
 by migrations.
+
+## Prepared starter series
+
+The first three source-checked articles and their original illustrations are
+documented in `BLOG_CONTENT_DRAFTS.md`. They can be added using the dry-run-first
+`seed_blog_drafts` management command. The command sets `Awaiting review` but
+deliberately leaves author, reviewer, and completed-review date empty. It never
+publishes the Articles index or an article.

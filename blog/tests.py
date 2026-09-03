@@ -1,9 +1,11 @@
 from datetime import timedelta
-from io import BytesIO
+from io import BytesIO, StringIO
 from tempfile import TemporaryDirectory
 
 from django.core.exceptions import ValidationError
 from django.core.files.images import ImageFile
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import TestCase, override_settings
 from django.utils import timezone
 from PIL import Image as PillowImage
@@ -97,6 +99,75 @@ class BlogEditorialTests(TestCase):
         self.assertEqual(BlogPage.objects.count(), 0)
         self.assertEqual(BlogCategory.objects.count(), 0)
         self.assertEqual(self.client.get("/blog/").status_code, 404)
+
+    def test_content_seed_is_dry_run_first_and_creates_illustrated_drafts(self):
+        call_command("seed_treatment_drafts", execute=True)
+
+        dry_run_output = StringIO()
+        call_command("seed_blog_drafts", stdout=dry_run_output)
+
+        self.assertIn("would_create_blog_drafts=3", dry_run_output.getvalue())
+        self.assertIn("would_import_blog_illustrations=3", dry_run_output.getvalue())
+        self.assertEqual(BlogPage.objects.count(), 0)
+
+        with TemporaryDirectory() as media_root, override_settings(
+            MEDIA_ROOT=media_root
+        ):
+            output = StringIO()
+            call_command("seed_blog_drafts", execute=True, stdout=output)
+
+            self.index.refresh_from_db()
+            articles = BlogPage.objects.order_by("slug")
+            self.assertFalse(self.index.live)
+            self.assertIn("general education", self.index.introduction)
+            self.assertEqual(articles.count(), 3)
+            self.assertEqual(BlogCategory.objects.count(), 3)
+            for article in articles:
+                with self.subTest(article=article.slug):
+                    self.assertFalse(article.live)
+                    self.assertFalse(article.show_in_menus)
+                    self.assertEqual(
+                        article.review_status,
+                        BlogPage.ReviewStatus.AWAITING_REVIEW,
+                    )
+                    self.assertIsNone(article.author)
+                    self.assertIsNone(article.reviewed_by)
+                    self.assertIsNone(article.reviewed_on)
+                    self.assertTrue(article.featured_image)
+                    self.assertTrue(article.featured_image_alt_text)
+                    self.assertGreater(len(article.body), 5)
+                    self.assertGreaterEqual(article.sources.count(), 2)
+                    self.assertEqual(article.related_treatments.count(), 1)
+                    self.assertIn("an identified author", article.publication_errors())
+                    self.assertIn("Reviewed status", article.publication_errors())
+                    self.assertNotIn(
+                        "at least one factual source", article.publication_errors()
+                    )
+                    self.assertEqual(self.client.get(article.url).status_code, 404)
+
+            self.assertIn("blog_drafts_created=3", output.getvalue())
+            self.assertIn("blog_illustrations_imported=3", output.getvalue())
+            self.assertIn(
+                "author_and_medical_review_required=true", output.getvalue()
+            )
+
+            rerun_output = StringIO()
+            call_command("seed_blog_drafts", execute=True, stdout=rerun_output)
+            self.assertIn("blog_drafts_unchanged=3", rerun_output.getvalue())
+            self.assertEqual(BlogPage.objects.count(), 3)
+
+    def test_content_seed_refuses_a_partial_existing_set(self):
+        self.index.add_child(
+            instance=BlogPage(
+                title="Existing acne article",
+                slug="acne-treatment-takes-time",
+                excerpt="Existing editorial content must not be overwritten.",
+                live=False,
+            )
+        )
+
+        with self.assertRaisesMessage(CommandError, "partial seed"):
+            call_command("seed_blog_drafts", execute=True)
 
     def test_incomplete_article_can_be_saved_as_draft_but_not_published(self):
         article = BlogPage(
