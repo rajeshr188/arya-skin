@@ -1,12 +1,13 @@
 # Project status
 
-Last updated: 24 August 2026
+Last updated: 3 September 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
 `arya-skin:a79cd6a`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
-and daily client-side encrypted off-server backups. Monitoring, transactional
-email, accessibility/performance review, a tested CSP, and the later HSTS
+and daily client-side encrypted off-server backups. Transactional email is now
+implemented in code and awaits its production credential/deployment acceptance.
+Monitoring, accessibility/performance review, a tested CSP, and the later HSTS
 subdomain/preload decision remain explicitly tracked future work.
 
 ## Implemented
@@ -233,9 +234,10 @@ request logs.
   Google tag; the browser loads GA4 only after **Allow analytics** is selected.
 - One active Wagtail administrator and a separate restricted enquiry-monitor
   account for Dr. Naresh Rathod are configured. The latter can view and update
-  appointment enquiries but cannot delete them or act as a superuser. Because
-  transactional email is deferred, he must check the enquiry administration page
-  at least once each business day.
+  appointment enquiries but cannot delete them or act as a superuser. Staff-only
+  transactional email is now authorized and implemented in code, but he must
+  keep checking the enquiry administration page at least once each business day
+  until its production delivery acceptance is complete.
 - The production backup timer is enabled and the staging timer is disabled. The
   first 14-day-retained production database backup uploaded client-side encrypted
   to R2 and passed checksum plus isolated PostgreSQL restore/query verification.
@@ -245,9 +247,10 @@ request logs.
   image `arya-skin:377ee54`, and the unchanged data volumes are retained for
   rollback. The staging stack is stopped because this budget topology runs only
   one stack against the shared database volumes.
-- Paid Linode backups, automated monitoring, and transactional email remain
-  owner-deferred. The manual daily operating checks in `PRODUCTION_LAUNCH.md`
-  apply until monitoring is implemented.
+- Paid Linode backups and automated monitoring remain owner-deferred. The manual
+  daily operating checks in `PRODUCTION_LAUNCH.md` still apply. Transactional
+  email is authorized and pending its production credential, deployment, and
+  delivery proof.
 
 ## Missing real-world content
 
@@ -268,7 +271,7 @@ require approval. See `CONTENT_REQUIRED.md`.
 ## Next milestone
 
 Operate the live production site using the manual daily checks in
-`PRODUCTION_LAUNCH.md`. Next future-work priorities are automated uptime/service/
-disk/backup alerts, approved transactional email, accessibility/performance
-review, a tested CSP, and the later HSTS subdomain/preload decision. Analytics
-remains disabled until its separate account and consent decisions are supplied.
+`PRODUCTION_LAUNCH.md`. The immediate task is completing the authorized
+transactional-email rollout. Later priorities are automated uptime/service/disk/
+backup alerts, accessibility/performance review, a tested CSP, and the HSTS
+subdomain/preload decision.

@@ -91,3 +91,45 @@ class AppointmentEnquiry(models.Model):
         if self.clinic_id and not self.clinic_name:
             self.clinic_name = self.clinic.title
         super().save(*args, **kwargs)
+
+
+class AppointmentNotificationDelivery(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "pending", "Pending"
+        RETRYING = "retrying", "Retrying"
+        SENT = "sent", "Sent"
+
+    reference = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    enquiry = models.ForeignKey(
+        AppointmentEnquiry,
+        on_delete=models.CASCADE,
+        related_name="notification_deliveries",
+    )
+    recipient = models.EmailField()
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING,
+        db_index=True,
+    )
+    attempts = models.PositiveSmallIntegerField(default=0)
+    next_attempt_at = models.DateTimeField(default=timezone.now, db_index=True)
+    last_attempt_at = models.DateTimeField(null=True, blank=True)
+    sent_at = models.DateTimeField(null=True, blank=True)
+    last_error_type = models.CharField(max_length=120, blank=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["created_at", "pk"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=("enquiry", "recipient"),
+                name="unique_appointment_notification_recipient",
+            )
+        ]
+        verbose_name = "appointment notification delivery"
+        verbose_name_plural = "appointment notification deliveries"
+
+    def __str__(self):
+        return f"{self.get_status_display()} notification for enquiry {self.enquiry_id}"

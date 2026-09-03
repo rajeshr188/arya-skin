@@ -74,8 +74,9 @@ removed.
   limits;
 - production HSTS rollout after TLS is confirmed, including deliberate
   subdomain/preload decisions;
-- transactional email provider for operational mail (explicitly owner-deferred
-  for the budget launch; manual once-per-business-day enquiry review required);
+- transactional email provider for operational mail; the owner has now approved
+  Resend staff-only notifications, with manual once-per-business-day enquiry
+  review required until production delivery acceptance is complete;
 - bucket-scoped object-storage credentials, active media custom domain, and a
   private backup-bucket policy;
 - error-monitoring provider, alert routing, log retention, and named backup

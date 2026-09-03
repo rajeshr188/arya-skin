@@ -28,6 +28,8 @@ services:
     env_file:
       - ${PRODUCTION_ENV_FILE:-.env}
       - ${R2_MEDIA_ENV_FILE:-/srv/arya-skin/secrets/r2-media.env}
+      - path: ${TRANSACTIONAL_EMAIL_ENV_FILE:-/srv/arya-skin/secrets/transactional-email.env}
+        required: false
     environment:
       MEDIA_ROOT: /app/media-import
     volumes:

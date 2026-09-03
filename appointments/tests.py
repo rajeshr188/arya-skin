@@ -1,8 +1,11 @@
 from datetime import timedelta
 from io import StringIO
+from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
+from django.core import mail
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -10,7 +13,7 @@ from django.utils import timezone
 from clinics.models import ClinicIndexPage, ClinicPage
 
 from .forms import CONSENT_VERSION
-from .models import AppointmentEnquiry
+from .models import AppointmentEnquiry, AppointmentNotificationDelivery
 
 
 @override_settings(
@@ -113,6 +116,166 @@ class AppointmentEnquiryTests(TestCase):
         self.assertEqual(enquiry.consent_version, CONSENT_VERSION)
         self.assertEqual(enquiry.source_path, "/appointments/request/sitapura/")
         self.assertNotIn("patient@example.com", response.url)
+
+    @override_settings(
+        APPOINTMENT_EMAIL_NOTIFICATIONS_ENABLED=True,
+        APPOINTMENT_NOTIFICATION_RECIPIENTS=("doctor-notifications@example.com",),
+        EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+        DEFAULT_FROM_EMAIL=(
+            "Arya Skin Clinic <appointments@notify.drnareshrathod.com>"
+        ),
+        WAGTAILADMIN_BASE_URL="https://drnareshrathod.com",
+    )
+    def test_notification_is_queued_then_sent_without_patient_details(self):
+        self.publish_clinic(self.sitapura)
+        url = reverse(
+            "appointments:request_for_clinic",
+            kwargs={"clinic_slug": "sitapura"},
+        )
+        form_response = self.client.get(url)
+
+        response = self.client.post(url, self.valid_payload(form_response))
+
+        self.assertRedirects(response, reverse("appointments:success"))
+        delivery = AppointmentNotificationDelivery.objects.get()
+        self.assertEqual(
+            delivery.status, AppointmentNotificationDelivery.Status.PENDING
+        )
+        self.assertEqual(len(mail.outbox), 0)
+
+        output = StringIO()
+        call_command("send_appointment_notifications", stdout=output)
+
+        delivery.refresh_from_db()
+        self.assertEqual(
+            delivery.status, AppointmentNotificationDelivery.Status.SENT
+        )
+        self.assertEqual(delivery.attempts, 1)
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        self.assertEqual(message.to, ["doctor-notifications@example.com"])
+        self.assertIn("Dolphin Derma Care", message.subject)
+        self.assertIn(
+            "https://drnareshrathod.com/admin/appointments/appointmentenquiry/",
+            message.body,
+        )
+        for patient_value in (
+            "Test Patient",
+            "+91 98765 43210",
+            "patient@example.com",
+            (timezone.localdate() + timedelta(days=3)).isoformat(),
+            "/appointments/request/sitapura/",
+            str(delivery.enquiry.reference),
+        ):
+            self.assertNotIn(patient_value, message.body)
+            self.assertNotIn(patient_value, message.subject)
+        self.assertEqual(
+            message.extra_headers["Resend-Idempotency-Key"],
+            f"appointment-notification/{delivery.reference}",
+        )
+        self.assertIn("sent=1", output.getvalue())
+
+        call_command("send_appointment_notifications", stdout=StringIO())
+        self.assertEqual(len(mail.outbox), 1)
+
+    @override_settings(
+        APPOINTMENT_EMAIL_NOTIFICATIONS_ENABLED=True,
+        APPOINTMENT_NOTIFICATION_RECIPIENTS=("doctor-notifications@example.com",),
+        EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+        DEFAULT_FROM_EMAIL=(
+            "Arya Skin Clinic <appointments@notify.drnareshrathod.com>"
+        ),
+        WAGTAILADMIN_BASE_URL="https://drnareshrathod.com",
+    )
+    def test_notification_failure_is_retried_without_losing_enquiry_or_error_text(self):
+        self.publish_clinic(self.sitapura)
+        url = reverse("appointments:request")
+        form_response = self.client.get(url)
+        self.client.post(url, self.valid_payload(form_response))
+
+        with patch(
+            "appointments.notifications.EmailMessage.send",
+            side_effect=TimeoutError("patient@example.com must not reach logs"),
+        ):
+            with self.assertRaises(CommandError):
+                call_command("send_appointment_notifications", stdout=StringIO())
+
+        self.assertEqual(AppointmentEnquiry.objects.count(), 1)
+        delivery = AppointmentNotificationDelivery.objects.get()
+        self.assertEqual(
+            delivery.status, AppointmentNotificationDelivery.Status.RETRYING
+        )
+        self.assertEqual(delivery.attempts, 1)
+        self.assertEqual(delivery.last_error_type, "TimeoutError")
+        self.assertNotIn("patient@example.com", delivery.last_error_type)
+        self.assertGreater(delivery.next_attempt_at, timezone.now())
+
+        immediate_output = StringIO()
+        call_command("send_appointment_notifications", stdout=immediate_output)
+        self.assertIn("attempted=0", immediate_output.getvalue())
+
+        AppointmentNotificationDelivery.objects.filter(pk=delivery.pk).update(
+            next_attempt_at=timezone.now() - timedelta(seconds=1)
+        )
+        call_command("send_appointment_notifications", stdout=StringIO())
+        delivery.refresh_from_db()
+        self.assertEqual(
+            delivery.status, AppointmentNotificationDelivery.Status.SENT
+        )
+        self.assertEqual(delivery.attempts, 2)
+
+    @override_settings(
+        APPOINTMENT_EMAIL_NOTIFICATIONS_ENABLED=True,
+        APPOINTMENT_NOTIFICATION_RECIPIENTS=("doctor-notifications@example.com",),
+        EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+        DEFAULT_FROM_EMAIL=(
+            "Arya Skin Clinic <appointments@notify.drnareshrathod.com>"
+        ),
+    )
+    def test_removed_recipient_does_not_receive_a_queued_notification(self):
+        self.publish_clinic(self.sitapura)
+        url = reverse("appointments:request")
+        form_response = self.client.get(url)
+        self.client.post(url, self.valid_payload(form_response))
+
+        with override_settings(APPOINTMENT_NOTIFICATION_RECIPIENTS=()):
+            output = StringIO()
+            call_command("send_appointment_notifications", stdout=output)
+
+        self.assertIn("attempted=0", output.getvalue())
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(
+            AppointmentNotificationDelivery.objects.get().status,
+            AppointmentNotificationDelivery.Status.PENDING,
+        )
+
+    def test_notification_is_not_queued_while_feature_is_disabled(self):
+        self.publish_clinic(self.sitapura)
+        url = reverse("appointments:request")
+        form_response = self.client.get(url)
+
+        self.client.post(url, self.valid_payload(form_response))
+
+        self.assertEqual(AppointmentEnquiry.objects.count(), 1)
+        self.assertEqual(AppointmentNotificationDelivery.objects.count(), 0)
+
+    @override_settings(
+        APPOINTMENT_EMAIL_NOTIFICATIONS_ENABLED=True,
+        APPOINTMENT_NOTIFICATION_RECIPIENTS=("doctor-notifications@example.com",),
+        EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+        DEFAULT_FROM_EMAIL=(
+            "Arya Skin Clinic <appointments@notify.drnareshrathod.com>"
+        ),
+    )
+    def test_configuration_test_email_contains_no_enquiry_data(self):
+        output = StringIO()
+
+        call_command("send_appointment_notification_test", stdout=output)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ["doctor-notifications@example.com"])
+        self.assertIn("no appointment or patient information", mail.outbox[0].body)
+        self.assertIn("test_notifications_sent=1", output.getvalue())
 
     def test_fixed_clinic_cannot_be_changed_by_post_data(self):
         self.publish_clinic(self.sitapura)

@@ -1,7 +1,7 @@
 # Privacy and medical-disclaimer drafts
 
 Drafted: 22 August 2026; analytics wording updated at the owner's instruction on
-24 August 2026
+24 August 2026; transactional-email wording prepared on 3 September 2026
 
 These are conservative owner-approved working texts for the budget launch. They
 are not legal advice. On 22 August 2026, the owner approved the exact wording in
@@ -39,6 +39,9 @@ project launch gate.
 - Direct GA4 uses Basic Consent Mode. It was enabled on 24 August 2026 after the
   approved privacy wording was published and the owner confirmed the account-side
   measurement safeguards.
+- Appointment notification email is staff-only. It contains the clinic name,
+  received time, and a secure administration link but no patient-entered values.
+  Dr. Naresh Rathod is the initial recipient.
 
 ## Privacy notice draft
 
@@ -88,8 +91,11 @@ Dr. Naresh Rathod is the designated enquiry monitor. Access is restricted to
 authorized administrator accounts; a technical administrator may access
 information only when necessary to maintain or secure the service. Information
 may also be processed by hosting, backup, or technical providers strictly to
-operate and secure the website, or disclosed where legally required. It is not
-sold. Reasonable access controls, encryption in transit, restricted
+operate and secure the website. The transactional email provider processes the
+designated staff recipient address and a notification containing the clinic
+name, received time, and secure administration link; patient-entered appointment
+details are intentionally excluded. Information may also be disclosed where
+legally required. It is not sold. Reasonable access controls, encryption in transit, restricted
 administration, backups, and security logging are used, but no internet service
 can promise absolute security.
 

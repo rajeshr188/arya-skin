@@ -1,7 +1,9 @@
 import re
+from email.utils import parseaddr
 from urllib.parse import parse_qs, unquote, urlparse
 
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.core.validators import validate_email
 
 
 TRUE_VALUES = {"1", "true", "yes", "on"}
@@ -30,6 +32,94 @@ def env_bool(environ, name, default=False):
 
 def env_list(environ, name, default=""):
     return [item.strip() for item in environ.get(name, default).split(",") if item.strip()]
+
+
+def transactional_email_config(environ):
+    enabled = env_bool(
+        environ, "APPOINTMENT_EMAIL_NOTIFICATIONS_ENABLED", False
+    )
+    recipients = tuple(
+        env_list(environ, "APPOINTMENT_NOTIFICATION_RECIPIENTS")
+    )
+    backend = environ.get(
+        "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+    ).strip()
+    host = environ.get("EMAIL_HOST", "").strip()
+    username = environ.get("EMAIL_HOST_USER", "").strip()
+    password = environ.get("EMAIL_HOST_PASSWORD", "")
+    from_email = environ.get("DEFAULT_FROM_EMAIL", "root@localhost").strip()
+    use_tls = env_bool(environ, "EMAIL_USE_TLS", enabled)
+    use_ssl = env_bool(environ, "EMAIL_USE_SSL", False)
+
+    try:
+        port = int(environ.get("EMAIL_PORT", "587"))
+        timeout = int(environ.get("EMAIL_TIMEOUT", "10"))
+    except ValueError as error:
+        raise ImproperlyConfigured(
+            "EMAIL_PORT and EMAIL_TIMEOUT must be whole numbers."
+        ) from error
+    if not 1 <= port <= 65535:
+        raise ImproperlyConfigured("EMAIL_PORT must be between 1 and 65535.")
+    if not 1 <= timeout <= 60:
+        raise ImproperlyConfigured("EMAIL_TIMEOUT must be between 1 and 60 seconds.")
+    if use_tls and use_ssl:
+        raise ImproperlyConfigured(
+            "EMAIL_USE_TLS and EMAIL_USE_SSL cannot both be enabled."
+        )
+
+    invalid_recipients = []
+    for recipient in recipients:
+        try:
+            validate_email(recipient)
+        except ValidationError:
+            invalid_recipients.append(recipient)
+
+    _, sender_address = parseaddr(from_email)
+    try:
+        validate_email(sender_address)
+        sender_is_valid = sender_address.lower() != "root@localhost"
+    except ValidationError:
+        sender_is_valid = False
+
+    if enabled:
+        if backend != "django.core.mail.backends.smtp.EmailBackend":
+            raise ImproperlyConfigured(
+                "Enabled appointment notifications require Django's SMTP email backend."
+            )
+        missing = []
+        if not recipients:
+            missing.append("APPOINTMENT_NOTIFICATION_RECIPIENTS")
+        if not host:
+            missing.append("EMAIL_HOST")
+        if not username:
+            missing.append("EMAIL_HOST_USER")
+        if not password:
+            missing.append("EMAIL_HOST_PASSWORD")
+        if not sender_is_valid:
+            missing.append("DEFAULT_FROM_EMAIL")
+        if missing:
+            raise ImproperlyConfigured(
+                "Missing or invalid transactional email settings: "
+                + ", ".join(missing)
+            )
+        if invalid_recipients:
+            raise ImproperlyConfigured(
+                "APPOINTMENT_NOTIFICATION_RECIPIENTS contains an invalid email address."
+            )
+
+    return {
+        "enabled": enabled,
+        "recipients": recipients,
+        "backend": backend,
+        "host": host,
+        "port": port,
+        "username": username,
+        "password": password,
+        "use_tls": use_tls,
+        "use_ssl": use_ssl,
+        "timeout": timeout,
+        "from_email": from_email,
+    }
 
 
 def r2_media_storage_options(environ, required=False):

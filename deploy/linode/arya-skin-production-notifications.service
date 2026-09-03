@@ -1,0 +1,21 @@
+[Unit]
+Description=Arya Skin production appointment email notifications
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+User=arya-deploy
+Group=arya-deploy
+SupplementaryGroups=docker
+WorkingDirectory=/srv/arya-skin/production
+UMask=0077
+RuntimeDirectory=arya-skin-production-notifications-docker
+RuntimeDirectoryMode=0700
+Environment=DOCKER_CONFIG=/run/arya-skin-production-notifications-docker
+ExecStart=/usr/bin/docker compose --env-file .env --file compose.production.yml exec -T web python manage.py send_appointment_notifications --limit 25
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+CapabilityBoundingSet=

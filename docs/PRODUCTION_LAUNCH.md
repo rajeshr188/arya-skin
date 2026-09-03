@@ -4,17 +4,20 @@ Launch authorization date: 22 August 2026
 
 ## Owner-authorized budget deferrals
 
-The owner authorized the single-Linode production cutover and explicitly chose
-to postpone automated service/backup failure monitoring and transactional email
-notifications. These are recorded as future work, not completed controls.
+The owner authorized the single-Linode production cutover and initially chose to
+postpone automated service/backup failure monitoring and transactional email
+notifications. On 3 September 2026, the owner authorized staff-only appointment
+email to Dr. Naresh Rathod and completed sending-domain verification. Monitoring
+remains deferred; email remains pending until its sending key, deployment, and
+delivery acceptance are complete.
 
 Until monitoring is added, an operator must manually check the public homepage,
 `/healthz/`, the production backup timer result, available disk space, and the
 latest encrypted R2 backup each day. A service outage, low disk condition, or
 failed/missing backup may otherwise remain unnoticed.
 
-Until transactional email is added, no email, SMS, WhatsApp API, calendar, or
-CRM notification is sent for a new appointment enquiry. Dr. Naresh Rathod must
+Until transactional email passes production acceptance, no email, SMS, WhatsApp
+API, calendar, or CRM notification is sent for a new appointment enquiry. Dr. Naresh Rathod must
 sign in to the restricted enquiry administration page at least once each
 business day to meet the approved response target. The published fallback tells
 requesters to call or WhatsApp the selected clinic after one business day.
@@ -130,7 +133,9 @@ tag before consent. The full acceptance suite passed, and encrypted backup
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.
-- Add approved transactional email with privacy-safe content and delivery tests.
+- Complete the approved transactional-email production rollout and end-to-end
+  delivery proof. The implementation intentionally excludes patient-entered
+  values from email.
 - Revisit a tested Content Security Policy after inventories of required
   first-party and third-party script/style/image sources.
 - Reassess HSTS duration, subdomain coverage, and preload only after the initial

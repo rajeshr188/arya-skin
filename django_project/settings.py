@@ -8,6 +8,7 @@ from .environment import (
     env_list,
     postgres_config_from_url,
     r2_media_storage_options,
+    transactional_email_config,
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -292,13 +293,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-EMAIL_BACKEND = os.environ.get(
-    "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
-)
-
-# https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "root@localhost")
+# Staff-only transactional appointment notifications. Production credentials live
+# in a separate mode-600 environment file rather than the main deployment file.
+TRANSACTIONAL_EMAIL = transactional_email_config(os.environ)
+APPOINTMENT_EMAIL_NOTIFICATIONS_ENABLED = TRANSACTIONAL_EMAIL["enabled"]
+APPOINTMENT_NOTIFICATION_RECIPIENTS = TRANSACTIONAL_EMAIL["recipients"]
+EMAIL_BACKEND = TRANSACTIONAL_EMAIL["backend"]
+EMAIL_HOST = TRANSACTIONAL_EMAIL["host"]
+EMAIL_PORT = TRANSACTIONAL_EMAIL["port"]
+EMAIL_HOST_USER = TRANSACTIONAL_EMAIL["username"]
+EMAIL_HOST_PASSWORD = TRANSACTIONAL_EMAIL["password"]
+EMAIL_USE_TLS = TRANSACTIONAL_EMAIL["use_tls"]
+EMAIL_USE_SSL = TRANSACTIONAL_EMAIL["use_ssl"]
+EMAIL_TIMEOUT = TRANSACTIONAL_EMAIL["timeout"]
+DEFAULT_FROM_EMAIL = TRANSACTIONAL_EMAIL["from_email"]
 
 # django-debug-toolbar
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html

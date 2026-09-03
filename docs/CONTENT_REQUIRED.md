@@ -125,9 +125,12 @@ unchecked until final publication approval.
 - [x] Approved fallback when Dr. Naresh Rathod is unavailable: after one business
   day, ask the requester to call or WhatsApp the selected clinic; reiterate that
   an online request is not confirmation and must not be used for emergencies
-- [x] Transactional email notifications explicitly deferred by the owner on
-  22 August 2026; Dr. Naresh Rathod will check the enquiry administration page
-  at least once each business day until notifications are implemented
+- [x] Transactional email is now owner-authorized for Dr. Naresh Rathod and
+  future approved staff only; his initial recipient address was supplied
+  privately and must remain in the protected server environment only
+- [x] Resend sending domain verified by the owner on 3 September 2026
+- [ ] Install a sending-only Resend API key on production, deploy the notification
+  worker, publish the prepared Privacy amendment, and verify inbox delivery
 
 ## Marketing and measurement
 

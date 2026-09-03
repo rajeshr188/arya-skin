@@ -93,6 +93,8 @@ The production files are deliberately separate:
   PostgreSQL secrets while generating the production host configuration;
 - `/srv/arya-skin/secrets/r2-media.env` supplies the separately protected,
   bucket-scoped R2 credential;
+- `/srv/arya-skin/secrets/transactional-email.env` supplies the sending-only
+  Resend SMTP credential and staff recipient list;
 - `migrate_media_to_r2.sh` defaults to a dry run and requires `--execute` before
   it uploads anything;
 - `configure_wagtail_production.py` changes the canonical Wagtail Site only in
@@ -147,3 +149,28 @@ Without that recovery key, encrypted off-server backups cannot be restored.
 The production timer must replace, not duplicate, the staging timer at cutover.
 Review each run with `systemctl status` and `journalctl`; monitoring of timer
 failures remains a separate launch requirement.
+
+## Production appointment notifications
+
+Deploy and migrate with notifications disabled, then publish the repeat-safe
+Privacy amendment. Next copy `transactional-email.env.example` to the protected
+server secrets directory, set the private recipient and API key, keep it mode
+600, and recreate the web container. Never store the key or real recipient in
+the repository or display them in command output. Send the patient-data-free
+transport test as documented in `docs/APPOINTMENTS.md`.
+
+Install and enable the minute worker only after Dr. Naresh confirms receipt of
+that test:
+
+```sh
+sudo install -m 0644 arya-skin-production-notifications.service \
+  arya-skin-production-notifications.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now arya-skin-production-notifications.timer
+sudo systemctl start arya-skin-production-notifications.service
+sudo systemctl status arya-skin-production-notifications.service --no-pager
+```
+
+The service exits non-zero when a delivery is moved to retrying, making failures
+visible in its journal. Automated alerting is still deferred, so include this
+service in the manual daily check until external alerts are introduced.

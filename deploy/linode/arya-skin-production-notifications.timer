@@ -1,0 +1,12 @@
+[Unit]
+Description=Process Arya Skin appointment email notifications every minute
+
+[Timer]
+OnBootSec=2m
+OnUnitActiveSec=1m
+AccuracySec=15s
+Persistent=true
+Unit=arya-skin-production-notifications.service
+
+[Install]
+WantedBy=timers.target

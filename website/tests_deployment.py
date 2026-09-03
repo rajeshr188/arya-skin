@@ -23,11 +23,29 @@ from django_project.environment import (
     env_bool,
     postgres_config_from_url,
     r2_media_storage_options,
+    transactional_email_config,
 )
 from django_project.logging import JsonFormatter
 
 
 class DeploymentConfigurationTests(TestCase):
+    def test_production_notification_worker_uses_protected_environment(self):
+        root = Path(__file__).resolve().parents[1]
+        compose = (root / "deploy/linode/compose.production.yml").read_text(
+            encoding="utf-8"
+        )
+        service = (
+            root / "deploy/linode/arya-skin-production-notifications.service"
+        ).read_text(encoding="utf-8")
+        timer = (
+            root / "deploy/linode/arya-skin-production-notifications.timer"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("TRANSACTIONAL_EMAIL_ENV_FILE", compose)
+        self.assertIn("required: false", compose)
+        self.assertIn("send_appointment_notifications --limit 25", service)
+        self.assertIn("OnUnitActiveSec=1m", timer)
+
     def test_production_check_follows_the_current_cms_portrait(self):
         script = (
             Path(__file__).resolve().parents[1]
@@ -45,6 +63,55 @@ class DeploymentConfigurationTests(TestCase):
         self.assertFalse(env_bool({"FEATURE": "off"}, "FEATURE", True))
         with self.assertRaises(ImproperlyConfigured):
             env_bool({"FEATURE": "release"}, "FEATURE")
+
+    def test_transactional_email_is_disabled_safely_by_default(self):
+        config = transactional_email_config({})
+
+        self.assertFalse(config["enabled"])
+        self.assertEqual(config["recipients"], ())
+        self.assertEqual(
+            config["backend"], "django.core.mail.backends.console.EmailBackend"
+        )
+
+    def test_transactional_email_requires_complete_valid_smtp_configuration(self):
+        environment = {
+            "APPOINTMENT_EMAIL_NOTIFICATIONS_ENABLED": "true",
+            "APPOINTMENT_NOTIFICATION_RECIPIENTS": (
+                "doctor-notifications@example.com"
+            ),
+            "EMAIL_BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+            "EMAIL_HOST": "smtp.resend.com",
+            "EMAIL_PORT": "587",
+            "EMAIL_USE_TLS": "true",
+            "EMAIL_HOST_USER": "resend",
+            "EMAIL_HOST_PASSWORD": "secret-sending-key",
+            "DEFAULT_FROM_EMAIL": (
+                "Arya Skin Clinic <appointments@notify.drnareshrathod.com>"
+            ),
+        }
+
+        config = transactional_email_config(environment)
+
+        self.assertTrue(config["enabled"])
+        self.assertEqual(
+            config["recipients"], ("doctor-notifications@example.com",)
+        )
+        self.assertEqual(config["host"], "smtp.resend.com")
+        self.assertTrue(config["use_tls"])
+
+        invalid_environments = (
+            {**environment, "EMAIL_HOST_PASSWORD": ""},
+            {**environment, "APPOINTMENT_NOTIFICATION_RECIPIENTS": "invalid"},
+            {**environment, "EMAIL_USE_SSL": "true"},
+            {
+                **environment,
+                "EMAIL_BACKEND": "django.core.mail.backends.console.EmailBackend",
+            },
+        )
+        for invalid_environment in invalid_environments:
+            with self.subTest(environment=invalid_environment):
+                with self.assertRaises(ImproperlyConfigured):
+                    transactional_email_config(invalid_environment)
 
     def test_postgres_url_is_parsed_with_persistent_health_checked_connections(self):
         config = postgres_config_from_url(

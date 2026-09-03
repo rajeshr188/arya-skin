@@ -87,10 +87,19 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
       server recovery key after confirming its off-server copy.
     - [x] Enable the production timer at cutover. Timer-failure alerting is
       explicitly owner-deferred and remains future work.
-  - [ ] Add monitoring/alerts and transactional email; both were explicitly
-    owner-deferred on 22 August 2026 for the budget launch.
+  - [ ] Add monitoring/alerts; this remains explicitly owner-deferred for the
+    budget launch.
+  - [ ] Complete the owner-authorized transactional email rollout.
+    - [x] Add a privacy-minimized PostgreSQL outbox, retrying delivery command,
+      admin delivery status, strict SMTP configuration, and a one-minute systemd
+      timer definition.
+    - [x] Verify the Resend sending domain and designate Dr. Naresh Rathod as the
+      initial staff recipient.
+    - [ ] Install the sending-only API key, deploy/migrate, publish the Privacy
+      amendment, confirm the safe test email, enable the timer, and verify one
+      synthetic end-to-end enquiry.
   - [x] Complete the production cutover and public launch acceptance checks.
-  - [ ] Complete deferred monitoring/email plus accessibility/performance, a
+  - [ ] Complete deferred monitoring plus accessibility/performance, a
     tested CSP, and the later HSTS subdomain/preload decision.
 
 ## Post-launch content features

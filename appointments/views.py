@@ -1,6 +1,7 @@
 import time
 
 from django.conf import settings
+from django.db import transaction
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
@@ -10,6 +11,7 @@ from django.views.decorators.http import require_GET, require_http_methods
 from clinics.models import ClinicPage
 
 from .forms import AppointmentEnquiryForm, new_form_token
+from .notifications import queue_appointment_notifications
 
 
 RATE_LIMIT_SESSION_KEY = "appointment_submission_times"
@@ -61,7 +63,9 @@ def appointment_request(request, clinic_slug=None):
             enquiry.clinic = fixed_clinic or form.cleaned_data["clinic"]
             enquiry.clinic_name = enquiry.clinic.title
             enquiry.source_path = request.path[:255]
-            enquiry.save()
+            with transaction.atomic():
+                enquiry.save()
+                queue_appointment_notifications(enquiry)
             _record_submission(request)
             request.session["appointment_request_submitted"] = True
             request.session["appointment_request_clinic_slug"] = enquiry.clinic.slug
