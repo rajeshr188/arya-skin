@@ -175,6 +175,17 @@ live routes and continue enforcing the unpublished Articles index. Encrypted
 backup `arya-skin-production-20260903T102948Z.backup.tar.age` uploaded
 successfully after the article import.
 
+The owner subsequently designated Dr. Naresh Rathod as both article author and
+medical reviewer using the public role "Dermatologist and Cosmetologist". Before
+the automated assignment, production inventory showed that the acne article had
+already been marked Reviewed, dated 3 September 2026, and published as a child
+of the still-draft Articles index; that state was preserved. Immutable image
+`arya-skin:ab56c34` normalized the existing author role and assigned the same
+person to the other two Awaiting review drafts without setting their review
+status or date. A repeat run was unchanged, the acceptance suite passed, and
+encrypted backup `arya-skin-production-20260903T105944Z.backup.tar.age` uploaded
+successfully.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.

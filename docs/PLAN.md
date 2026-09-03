@@ -116,8 +116,9 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
   sources and original accessible illustrations as unpublished Wagtail drafts.
 - [x] Designate Dr. Naresh Rathod as both author and assigned medical reviewer,
   using the approved role "Dermatologist and Cosmetologist".
-- [ ] Complete Dr. Naresh Rathod's page-by-page medical/editorial review before
-  approving the Articles index or any article.
+- [ ] Complete Dr. Naresh Rathod's page-by-page medical/editorial review for the
+  remaining patch-testing and chemical-peel drafts before publishing them or the
+  Articles index.
 
 ## Definition of done for every milestone
 

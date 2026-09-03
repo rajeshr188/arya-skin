@@ -1,11 +1,13 @@
 # Initial blog content drafts
 
 Prepared on 3 September 2026 for Dr. Naresh Rathod's editorial and medical
-review. These articles and the Articles index are unpublished. The initial seed
-command does not identify an author or medical reviewer and cannot make the
-articles public. The owner subsequently designated Dr. Naresh Rathod as both
-author and assigned medical reviewer, with the public role "Dermatologist and
-Cosmetologist"; that assignment does not claim the review is complete.
+review. The Articles index remains unpublished. The initial seed command does
+not identify an author or medical reviewer and cannot make the articles public.
+The owner subsequently designated Dr. Naresh Rathod as both author and assigned
+medical reviewer, with the public role "Dermatologist and Cosmetologist"; that
+assignment does not claim the review is complete. The acne article was then
+marked Reviewed and published in the CMS, while the other two remain Awaiting
+review. Because the parent index is still a draft, no article route is public.
 
 ## Draft set
 

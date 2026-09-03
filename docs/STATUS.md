@@ -4,7 +4,7 @@ Last updated: 3 September 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
-`arya-skin:011dc6e`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
+`arya-skin:ab56c34`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
 and daily client-side encrypted off-server backups. Privacy-minimized staff-only
 transactional email is active and passed production inbox acceptance. Monitoring,
 accessibility/performance review, a tested CSP, and the later HSTS
@@ -47,7 +47,8 @@ subdomain/preload decision remain explicitly tracked future work.
   timelines, patch testing, and chemical-peel safety. Each unpublished draft has
   direct authoritative sources, one related treatment, meaningful image text,
   and an original clinic-style illustration. Dr. Naresh Rathod is the approved
-  author and assigned medical reviewer; completed review remains unset.
+  author and assigned medical reviewer. The acne article has a completed CMS
+  review; the other two remain awaiting review.
 - Added a privacy-minimized appointment form that collects only clinic, name,
   phone, optional email, preferred date/time, and explicit contact consent.
 - Added signed form tokens, CSRF protection, a honeypot, session throttling,
@@ -134,7 +135,7 @@ Root
     │   ├── ClinicPage: Dolphin Derma Care          /clinics/sitapura/ [live]
     │   └── ClinicPage: Arya Skin and Hair Clinic   /clinics/chaksu/   [live]
     ├── TreatmentIndexPage: Treatments              /treatments/       [live; 5 live child pages]
-    ├── BlogIndexPage: Articles                      /blog/             [draft; 3 child drafts prepared]
+    ├── BlogIndexPage: Articles                      /blog/             [draft; 1 reviewed live child, 2 drafts]
     ├── ContactPage: Contact                        /contact/          [live]
     ├── StandardPage: Privacy                       /privacy/          [live]
     └── StandardPage: Medical disclaimer            /medical-disclaimer/ [live]
@@ -218,7 +219,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:011dc6e` with PostgreSQL 16 and
+- Production runs immutable image `arya-skin:ab56c34` with PostgreSQL 16 and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
 - Wagtail's canonical Site origin is `https://drnareshrathod.com`. Cloudflare
@@ -236,10 +237,12 @@ request logs.
   public route returns 404 and its navigation link remains hidden until an
   approved comparison is added and the page is explicitly published.
 - Three source-checked articles and their original illustrations are installed
-  as production drafts. Production inventory reports three total and zero live
-  articles; each route is 404 and each R2 image original is retrievable. Dr.
-  Naresh Rathod is assigned as author and medical reviewer, while completed
-  medical-review status and date remain unset by design.
+  in production. The acne article is marked Reviewed with its recorded date and
+  is a live child page; the patch-testing and chemical-peel articles remain
+  Awaiting review drafts. The Articles index remains unpublished, so the index
+  and every article route return 404. Each R2 image original is retrievable. Dr.
+  Naresh Rathod is assigned as author and medical reviewer for all three using
+  the role "Dermatologist and Cosmetologist".
 - The published Privacy notice now describes consent-gated Google Analytics,
   the permitted data boundary, withdrawal, disabled advertising features, and
   two-month retention. Measurement ID `G-DKBKVGX7NK` is enabled with Basic
@@ -279,19 +282,20 @@ response target, the call/WhatsApp fallback for an unanswered request, and
 90-day post-closure retention are approved. The Privacy and Medical disclaimer
 pages contain owner-approved working text. Professional
 legal/privacy review remains recommended but was explicitly deferred by the
-owner for the budget launch; the drafts are not legally verified. Blog
-review intervals and every prepared article require approval. Dr. Naresh Rathod
-is the approved author and assigned medical reviewer using the role
-"Dermatologist and Cosmetologist". The five treatment pages are currently public; their
-medical/editorial approval record should be confirmed if it was not recorded
-during CMS publication. See
+owner for the budget launch; the drafts are not legally verified. The blog review
+interval and the remaining two articles require approval. Dr. Naresh Rathod is
+the approved author and assigned medical reviewer using the role "Dermatologist
+and Cosmetologist". The five treatment pages are currently public; their medical/
+editorial approval record should be confirmed if it was not recorded during CMS
+publication. See
 `CONTENT_REQUIRED.md`, `TREATMENT_CONTENT_DRAFTS.md`, and
 `BLOG_CONTENT_DRAFTS.md`.
 
 ## Next milestone
 
-Review the three prepared blog drafts in Wagtail, then record corrections or
-explicit page-by-page approval before publication. Retain the article and
+Review the remaining patch-testing and chemical-peel blog drafts in Wagtail,
+then record corrections or explicit page-by-page approval. Publish the Articles
+index only when the intended launch set is ready. Retain the article and
 treatment approval records. Operational priorities
 remain automated uptime/service/disk/backup alerts, accessibility/performance
 review, a tested CSP, and the HSTS subdomain/preload decision.
