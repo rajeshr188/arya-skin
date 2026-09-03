@@ -89,14 +89,14 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
       explicitly owner-deferred and remains future work.
   - [ ] Add monitoring/alerts; this remains explicitly owner-deferred for the
     budget launch.
-  - [ ] Complete the owner-authorized transactional email rollout.
+  - [x] Complete the owner-authorized transactional email rollout.
     - [x] Add a privacy-minimized PostgreSQL outbox, retrying delivery command,
       admin delivery status, strict SMTP configuration, and a one-minute systemd
       timer definition.
     - [x] Verify the Resend sending domain and designate Dr. Naresh Rathod as the
       initial staff recipient.
     - [x] Deploy/migrate with sending disabled and publish the Privacy amendment.
-    - [ ] Install the sending-only API key, confirm the safe test email, enable
+    - [x] Install the sending-only API key, confirm the safe test email, enable
       the timer, and verify one synthetic end-to-end enquiry.
   - [x] Complete the production cutover and public launch acceptance checks.
   - [ ] Complete deferred monitoring plus accessibility/performance, a

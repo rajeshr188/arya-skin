@@ -78,3 +78,8 @@ Install `arya-skin-production-notifications.service` and its timer in
 `/etc/systemd/system`, then inspect `systemctl status` and `journalctl` after the
 first run. The admin enquiry list shows pending, retrying, and sent counts without
 displaying recipient addresses.
+
+Production activation completed on 3 September 2026 after the transport test and
+a synthetic live-form notification both reached the designated inbox. The
+synthetic enquiry was deleted after confirmation. Automated failure alerting is
+still deferred, so the daily admin and worker-status checks remain necessary.

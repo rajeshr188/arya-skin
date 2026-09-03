@@ -8,18 +8,19 @@ The owner authorized the single-Linode production cutover and initially chose to
 postpone automated service/backup failure monitoring and transactional email
 notifications. On 3 September 2026, the owner authorized staff-only appointment
 email to Dr. Naresh Rathod and completed sending-domain verification. Monitoring
-remains deferred; email remains pending until its sending key, deployment, and
-delivery acceptance are complete.
+remains deferred; email completed production delivery acceptance on 3 September
+2026.
 
 Until monitoring is added, an operator must manually check the public homepage,
 `/healthz/`, the production backup timer result, available disk space, and the
 latest encrypted R2 backup each day. A service outage, low disk condition, or
 failed/missing backup may otherwise remain unnoticed.
 
-Until transactional email passes production acceptance, no email, SMS, WhatsApp
-API, calendar, or CRM notification is sent for a new appointment enquiry. Dr. Naresh Rathod must
-sign in to the restricted enquiry administration page at least once each
-business day to meet the approved response target. The published fallback tells
+Transactional email now sends Dr. Naresh Rathod a privacy-minimized alert for a
+new appointment enquiry. SMS, WhatsApp API, calendar, CRM, and patient
+acknowledgement email remain disabled. Because automated worker-failure alerts
+are deferred, Dr. Naresh must still sign in to the restricted enquiry
+administration page at least once each business day. The published fallback tells
 requesters to call or WhatsApp the selected clinic after one business day.
 
 Use these manual server checks each day until automated monitoring is added:
@@ -135,16 +136,21 @@ was deployed as immutable image `arya-skin:686e4e9`. Migration
 `appointments.0003_appointmentnotificationdelivery` added the durable delivery
 outbox. Privacy revision 41 disclosed the transactional provider's limited data
 handling. The full production acceptance suite passed, and the notification
-command confirmed that sending remained disabled. Activation awaits the
-sending-only Resend key, a patient-data-free inbox test, timer enablement, and a
-synthetic end-to-end enquiry proof.
+command confirmed that sending remained disabled during this first phase.
+
+The owner then installed the sending-only Resend key in a mode-600 server secret.
+A patient-data-free transport test reached the designated inbox. The one-minute
+systemd timer was enabled, and a clearly synthetic request submitted through the
+live public form was automatically delivered with `attempted=1`, `sent=1`, and
+`retrying=0`. The recipient confirmed inbox receipt. The guarded cleanup removed
+the one synthetic enquiry and its delivery record, then verified that none
+remained. Fresh encrypted backup
+`arya-skin-production-20260903T092947Z.backup.tar.age` uploaded successfully
+after activation.
 
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.
-- Complete the approved transactional-email production rollout and end-to-end
-  delivery proof. The implementation intentionally excludes patient-entered
-  values from email.
 - Revisit a tested Content Security Policy after inventories of required
   first-party and third-party script/style/image sources.
 - Reassess HSTS duration, subdomain coverage, and preload only after the initial

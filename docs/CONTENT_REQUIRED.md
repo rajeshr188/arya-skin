@@ -131,7 +131,7 @@ unchecked until final publication approval.
 - [x] Resend sending domain verified by the owner on 3 September 2026
 - [x] Deploy the notification outbox migration with sending disabled and publish
   Privacy revision 41 covering the privacy-minimized provider message
-- [ ] Install a sending-only Resend API key on production, verify inbox delivery,
+- [x] Install a sending-only Resend API key on production, verify inbox delivery,
   enable the notification worker, and prove a synthetic end-to-end enquiry
 
 ## Marketing and measurement
