@@ -1,6 +1,6 @@
 import json
 
-from blog.models import BlogPage
+from blog.models import BlogAuthor, BlogPage
 from clinics.models import ClinicPage
 from doctors.models import DoctorPage
 from treatments.models import TreatmentPage
@@ -121,7 +121,30 @@ report = {
     "articles": {
         "total": BlogPage.objects.count(),
         "live": BlogPage.objects.live().count(),
+        "items": [
+            {
+                "title": page.title,
+                "slug": page.slug,
+                "live": page.live,
+                "review_status": page.review_status,
+                "author_id": page.author_id,
+                "reviewed_by_id": page.reviewed_by_id,
+                "reviewed_on": page.reviewed_on,
+                "sources": page.sources.count(),
+                "has_featured_image": bool(page.featured_image_id),
+            }
+            for page in BlogPage.objects.order_by("id")
+        ],
     },
+    "blog_authors": [
+        {
+            "id": author.id,
+            "name": author.name,
+            "role": author.role,
+            "doctor_page_id": author.doctor_page_id,
+        }
+        for author in BlogAuthor.objects.order_by("id")
+    ],
     "images": [
         {
             "title": image.title,

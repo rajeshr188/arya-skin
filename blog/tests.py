@@ -177,6 +177,18 @@ class BlogEditorialTests(TestCase):
         ):
             call_command("seed_blog_drafts", execute=True)
 
+            existing_person = BlogAuthor.objects.create(
+                name="Dr. Naresh Rathod",
+                role="Doctor",
+                doctor_page=DoctorPage.objects.get(),
+            )
+            existing_article = BlogPage.objects.get(
+                slug="acne-treatment-takes-time"
+            )
+            existing_article.author = existing_person
+            existing_article.reviewed_by = existing_person
+            existing_article.save(update_fields=("author", "reviewed_by"))
+
             dry_run_output = StringIO()
             call_command("assign_blog_editorial_roles", stdout=dry_run_output)
             self.assertIn(
@@ -185,6 +197,10 @@ class BlogEditorialTests(TestCase):
             )
             self.assertIn(
                 "completed_medical_review=false",
+                dry_run_output.getvalue(),
+            )
+            self.assertIn(
+                "would_update_author_role=true",
                 dry_run_output.getvalue(),
             )
 

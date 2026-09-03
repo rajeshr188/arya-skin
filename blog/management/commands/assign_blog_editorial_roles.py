@@ -38,11 +38,10 @@ class Command(BaseCommand):
                 "refusing an ambiguous assignment."
             )
         person = people[0] if people else None
-        if person and (
-            person.role != AUTHOR_ROLE or person.doctor_page_id != doctor.id
-        ):
+        if person and person.doctor_page_id != doctor.id:
             raise CommandError(
-                "The existing Dr. Naresh Rathod author record has unexpected details."
+                "The existing Dr. Naresh Rathod author record is linked to an "
+                "unexpected doctor page."
             )
 
         for page in pages.values():
@@ -57,7 +56,7 @@ class Command(BaseCommand):
                     f"Article {page.slug} already has a different medical reviewer."
                 )
 
-        if person and all(
+        if person and person.role == AUTHOR_ROLE and all(
             page.author_id == person.id and page.reviewed_by_id == person.id
             for page in pages.values()
         ):
@@ -68,6 +67,9 @@ class Command(BaseCommand):
             self.stdout.write(f"would_assign_blog_editorial_roles={len(pages)}")
             self.stdout.write(f"author={AUTHOR_NAME}")
             self.stdout.write(f"role={AUTHOR_ROLE}")
+            self.stdout.write(
+                f"would_update_author_role={str(bool(person and person.role != AUTHOR_ROLE)).lower()}"
+            )
             self.stdout.write("completed_medical_review=false")
             return
 
@@ -77,6 +79,9 @@ class Command(BaseCommand):
                 role=AUTHOR_ROLE,
                 doctor_page=doctor,
             )
+        elif person.role != AUTHOR_ROLE:
+            person.role = AUTHOR_ROLE
+            person.save(update_fields=("role",))
 
         for page in pages.values():
             page.author = person
