@@ -129,8 +129,10 @@ unchecked until final publication approval.
   future approved staff only; his initial recipient address was supplied
   privately and must remain in the protected server environment only
 - [x] Resend sending domain verified by the owner on 3 September 2026
-- [ ] Install a sending-only Resend API key on production, deploy the notification
-  worker, publish the prepared Privacy amendment, and verify inbox delivery
+- [x] Deploy the notification outbox migration with sending disabled and publish
+  Privacy revision 41 covering the privacy-minimized provider message
+- [ ] Install a sending-only Resend API key on production, verify inbox delivery,
+  enable the notification worker, and prove a synthetic end-to-end enquiry
 
 ## Marketing and measurement
 

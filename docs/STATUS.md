@@ -4,7 +4,7 @@ Last updated: 3 September 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
-`arya-skin:a79cd6a`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
+`arya-skin:686e4e9`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
 and daily client-side encrypted off-server backups. Transactional email is now
 implemented in code and awaits its production credential/deployment acceptance.
 Monitoring, accessibility/performance review, a tested CSP, and the later HSTS
@@ -211,7 +211,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:a79cd6a` with PostgreSQL 16 and
+- Production runs immutable image `arya-skin:686e4e9` with PostgreSQL 16 and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
 - Wagtail's canonical Site origin is `https://drnareshrathod.com`. Cloudflare

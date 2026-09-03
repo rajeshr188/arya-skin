@@ -95,9 +95,9 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
       timer definition.
     - [x] Verify the Resend sending domain and designate Dr. Naresh Rathod as the
       initial staff recipient.
-    - [ ] Install the sending-only API key, deploy/migrate, publish the Privacy
-      amendment, confirm the safe test email, enable the timer, and verify one
-      synthetic end-to-end enquiry.
+    - [x] Deploy/migrate with sending disabled and publish the Privacy amendment.
+    - [ ] Install the sending-only API key, confirm the safe test email, enable
+      the timer, and verify one synthetic end-to-end enquiry.
   - [x] Complete the production cutover and public launch acceptance checks.
   - [ ] Complete deferred monitoring plus accessibility/performance, a
     tested CSP, and the later HSTS subdomain/preload decision.

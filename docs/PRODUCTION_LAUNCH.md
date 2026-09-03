@@ -130,6 +130,15 @@ measurement configuration, while the server-rendered HTML contained no Google
 tag before consent. The full acceptance suite passed, and encrypted backup
 `arya-skin-production-20260824T051503Z.backup.tar.age` uploaded successfully.
 
+On 3 September 2026, the privacy-safe appointment notification implementation
+was deployed as immutable image `arya-skin:686e4e9`. Migration
+`appointments.0003_appointmentnotificationdelivery` added the durable delivery
+outbox. Privacy revision 41 disclosed the transactional provider's limited data
+handling. The full production acceptance suite passed, and the notification
+command confirmed that sending remained disabled. Activation awaits the
+sending-only Resend key, a patient-data-free inbox test, timer enablement, and a
+synthetic end-to-end enquiry proof.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.
