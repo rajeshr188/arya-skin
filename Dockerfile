@@ -26,7 +26,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PATH="/app/.venv/bin:$PATH"
 
-RUN mkdir -p /app/media && \
+RUN sed -i 's/\r$//' /app/scripts/release.sh && \
+    mkdir -p /app/media && \
     chown app:app /app/media && \
     chmod +x /app/scripts/release.sh
 USER app
