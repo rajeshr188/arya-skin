@@ -186,6 +186,26 @@ status or date. A repeat run was unchanged, the acceptance suite passed, and
 encrypted backup `arya-skin-production-20260903T105944Z.backup.tar.age` uploaded
 successfully.
 
+On 7 September 2026, production was upgraded from Wagtail 7.4.3 to Wagtail 8.0
+using immutable image `arya-skin:0caa597`. A fresh encrypted pre-upgrade backup
+`arya-skin-production-20260907T072210Z.backup.tar.age` completed before the
+release task applied `wagtailcore.0098_apitoken`. The image build normalizes the
+release script's line endings so checksum-verified archives produced on Windows
+remain executable in Linux containers. The Wagtail admin login and the complete
+production acceptance suite passed after the web-only container replacement;
+the previous image `arya-skin:ab56c34` remains available for rollback.
+
+The same release added three source-checked, illustrated articles about hair-loss
+consultation clues, daily sun protection, and fungal skin-infection diagnosis as
+unpublished drafts. The additive import preserved all three existing articles,
+created exactly three missing pages and three R2 images, and was unchanged on a
+repeat run. Dr. Naresh Rathod is assigned as author and medical reviewer, while
+the new articles remain Awaiting review with no completed-review date. Their
+public routes return 404, and all three illustration originals return complete
+200 PNG responses from the media domain. Both the backup and appointment
+notification timers remained active. Post-release encrypted backup
+`arya-skin-production-20260907T073325Z.backup.tar.age` uploaded successfully.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.

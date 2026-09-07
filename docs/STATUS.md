@@ -4,7 +4,7 @@ Last updated: 7 September 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
-`arya-skin:ab56c34`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
+`arya-skin:0caa597`. Production uses PostgreSQL, Cloudflare R2 media, Caddy TLS,
 and daily client-side encrypted off-server backups. Privacy-minimized staff-only
 transactional email is active and passed production inbox acceptance. Monitoring,
 accessibility/performance review, a tested CSP, and the later HSTS
@@ -221,29 +221,30 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:ab56c34` with PostgreSQL 16 and
+- Production runs immutable image `arya-skin:0caa597` with Wagtail 8.0,
+  PostgreSQL 16, and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
 - Wagtail's canonical Site origin is `https://drnareshrathod.com`. Cloudflare
   authoritative DNS proxies the apex and `www`, Caddy holds active Let's Encrypt
   certificates for both, and `www` redirects to the apex.
-- Cloudflare R2 serves all seven migrated media objects through
-  `media.drnareshrathod.com`. Both a portrait original and Wagtail rendition have
-  returned 200 with image content.
+- Cloudflare R2 serves production media through `media.drnareshrathod.com`.
+  Representative existing media and all three new article illustration originals
+  return 200 with image content.
 - The expanded production acceptance suite passed every approved page, the
   appointment form, health, robots, sitemap, Wagtail admin redirect, R2 portrait,
   canonical origin, navigation, and initial security-header check. The Treatments
-  index and its five pages are live. The Articles index and its three prepared
-  child drafts remain unpublished and return 404.
+  index and its five pages are live. The Articles index remains unpublished, and
+  each of the three newly prepared child drafts returns 404.
 - The before-and-after gallery exists as an empty, unpublished CMS draft. Its
   public route returns 404 and its navigation link remains hidden until an
   approved comparison is added and the page is explicitly published.
-- Three source-checked articles and their original illustrations are installed
-  in production. The acne article is marked Reviewed with its recorded date and
-  is a live child page; the patch-testing and chemical-peel articles remain
-  Awaiting review drafts. The Articles index remains unpublished, so the index
-  and every article route return 404. Each R2 image original is retrievable. Dr.
-  Naresh Rathod is assigned as author and medical reviewer for all three using
+- Six source-checked articles and their original illustrations are installed in
+  production. The initial acne, patch-testing, and chemical-peel articles are
+  marked Reviewed with recorded dates. The new hair-loss, sun-protection, and
+  fungal-infection articles remain Awaiting review and unpublished. The Articles
+  index remains unpublished, so its public route and each new article route
+  return 404. Dr. Naresh Rathod is assigned as author and medical reviewer using
   the role "Dermatologist and Cosmetologist".
 - The published Privacy notice now describes consent-gated Google Analytics,
   the permitted data boundary, withdrawal, disabled advertising features, and
@@ -261,12 +262,12 @@ request logs.
   to R2 and passed checksum plus isolated PostgreSQL restore/query verification.
   Every successful backup is followed by the approved 90-day closed-enquiry
   purge. The off-server private recovery key remains outside the Linode.
-- Final staging backup `arya-skin-staging-20260822T145711Z`, the old immutable
-  image `arya-skin:377ee54`, and the unchanged data volumes are retained for
-  rollback. The staging stack is stopped because this budget topology runs only
-  one stack against the shared database volumes.
-- Encrypted backup `arya-skin-production-20260903T102948Z.backup.tar.age`
-  uploaded successfully after the blog draft import.
+- Final staging backup `arya-skin-staging-20260822T145711Z`, rollback images
+  `arya-skin:ab56c34` and `arya-skin:377ee54`, and the unchanged data volumes are
+  retained for rollback. The staging stack is stopped because this budget
+  topology runs only one stack against the shared database volumes.
+- Encrypted backup `arya-skin-production-20260907T073325Z.backup.tar.age`
+  uploaded successfully after the Wagtail 8 migration and blog draft import.
 - Paid Linode backups and automated monitoring remain owner-deferred. The manual
   daily operating checks in `PRODUCTION_LAUNCH.md` still apply. Transactional
   email is active after transport and live-form delivery proofs; its one-minute
