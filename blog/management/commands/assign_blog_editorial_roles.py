@@ -28,7 +28,7 @@ class Command(BaseCommand):
             for page in BlogPage.objects.filter(slug__in=target_slugs)
         }
         if set(pages) != target_slugs:
-            raise CommandError("All three prepared blog drafts are required.")
+            raise CommandError("All prepared blog drafts are required.")
 
         doctor = DoctorPage.objects.get()
         people = list(BlogAuthor.objects.filter(name=AUTHOR_NAME))

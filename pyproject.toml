@@ -9,7 +9,7 @@ dependencies = [
   "crispy-bootstrap5 ~=2026.3",
   "gunicorn ~=25.3",
   "psycopg[binary] ~=3.3",
-  "wagtail ~=7.4.0",
+  "wagtail ~=8.0.0",
   "whitenoise ~=6.12",
   "django-storages[s3]~=1.14.6",
 ]

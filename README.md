@@ -14,7 +14,7 @@ a private staging deployment baseline.
 
 - Python 3.12+ (currently verified with 3.13.3)
 - Django 6.0.4
-- Wagtail 7.4 LTS (currently locked to 7.4.3)
+- Wagtail 8.0 (currently locked to 8.0)
 - Bootstrap 5.3, WhiteNoise, Gunicorn, psycopg, django-allauth, crispy forms
 - SQLite for local development; PostgreSQL for CI, staging, and production
 

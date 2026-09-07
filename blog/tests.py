@@ -5,7 +5,6 @@ from tempfile import TemporaryDirectory
 from django.core.exceptions import ValidationError
 from django.core.files.images import ImageFile
 from django.core.management import call_command
-from django.core.management.base import CommandError
 from django.test import TestCase, override_settings
 from django.utils import timezone
 from PIL import Image as PillowImage
@@ -107,8 +106,8 @@ class BlogEditorialTests(TestCase):
         dry_run_output = StringIO()
         call_command("seed_blog_drafts", stdout=dry_run_output)
 
-        self.assertIn("would_create_blog_drafts=3", dry_run_output.getvalue())
-        self.assertIn("would_import_blog_illustrations=3", dry_run_output.getvalue())
+        self.assertIn("would_create_blog_drafts=6", dry_run_output.getvalue())
+        self.assertIn("would_import_blog_illustrations=6", dry_run_output.getvalue())
         self.assertEqual(BlogPage.objects.count(), 0)
 
         with TemporaryDirectory() as media_root, override_settings(
@@ -121,8 +120,8 @@ class BlogEditorialTests(TestCase):
             articles = BlogPage.objects.order_by("slug")
             self.assertFalse(self.index.live)
             self.assertIn("general education", self.index.introduction)
-            self.assertEqual(articles.count(), 3)
-            self.assertEqual(BlogCategory.objects.count(), 3)
+            self.assertEqual(articles.count(), 6)
+            self.assertEqual(BlogCategory.objects.count(), 6)
             for article in articles:
                 with self.subTest(article=article.slug):
                     self.assertFalse(article.live)
@@ -146,29 +145,47 @@ class BlogEditorialTests(TestCase):
                     )
                     self.assertEqual(self.client.get(article.url).status_code, 404)
 
-            self.assertIn("blog_drafts_created=3", output.getvalue())
-            self.assertIn("blog_illustrations_imported=3", output.getvalue())
+            self.assertIn("blog_drafts_created=6", output.getvalue())
+            self.assertIn("blog_illustrations_imported=6", output.getvalue())
             self.assertIn(
                 "author_and_medical_review_required=true", output.getvalue()
             )
 
             rerun_output = StringIO()
             call_command("seed_blog_drafts", execute=True, stdout=rerun_output)
-            self.assertIn("blog_drafts_unchanged=3", rerun_output.getvalue())
-            self.assertEqual(BlogPage.objects.count(), 3)
+            self.assertIn("blog_drafts_unchanged=6", rerun_output.getvalue())
+            self.assertEqual(BlogPage.objects.count(), 6)
 
-    def test_content_seed_refuses_a_partial_existing_set(self):
-        self.index.add_child(
-            instance=BlogPage(
-                title="Existing acne article",
-                slug="acne-treatment-takes-time",
-                excerpt="Existing editorial content must not be overwritten.",
-                live=False,
-            )
+    def test_content_seed_preserves_existing_articles_and_adds_missing_drafts(self):
+        existing = BlogPage(
+            title="Existing acne article",
+            slug="acne-treatment-takes-time",
+            excerpt="Existing editorial content must not be overwritten.",
+            live=False,
         )
+        self.index.add_child(instance=existing)
+        self.publish_index()
+        call_command("seed_treatment_drafts", execute=True)
 
-        with self.assertRaisesMessage(CommandError, "partial seed"):
-            call_command("seed_blog_drafts", execute=True)
+        with TemporaryDirectory() as media_root, override_settings(
+            MEDIA_ROOT=media_root
+        ):
+            output = StringIO()
+            call_command("seed_blog_drafts", execute=True, stdout=output)
+
+        existing.refresh_from_db()
+        self.assertEqual(existing.title, "Existing acne article")
+        self.assertEqual(
+            existing.excerpt,
+            "Existing editorial content must not be overwritten.",
+        )
+        self.assertEqual(BlogPage.objects.count(), 6)
+        self.index.refresh_from_db()
+        self.assertTrue(self.index.live)
+        self.assertIn("blog_drafts_created=5", output.getvalue())
+        self.assertIn("blog_illustrations_imported=5", output.getvalue())
+        self.assertIn("existing_blog_drafts_preserved=1", output.getvalue())
+        self.assertIn("blog_index_published=true", output.getvalue())
 
     def test_owner_approved_editorial_roles_are_assigned_without_review_claim(self):
         call_command("seed_treatment_drafts", execute=True)
@@ -192,7 +209,7 @@ class BlogEditorialTests(TestCase):
             dry_run_output = StringIO()
             call_command("assign_blog_editorial_roles", stdout=dry_run_output)
             self.assertIn(
-                "would_assign_blog_editorial_roles=3",
+                "would_assign_blog_editorial_roles=6",
                 dry_run_output.getvalue(),
             )
             self.assertIn(
@@ -228,7 +245,7 @@ class BlogEditorialTests(TestCase):
                         "a completed review date", article.publication_errors()
                     )
 
-            self.assertIn("blog_editorial_roles_assigned=3", output.getvalue())
+            self.assertIn("blog_editorial_roles_assigned=6", output.getvalue())
             self.assertIn("completed_medical_review=false", output.getvalue())
 
             rerun_output = StringIO()
@@ -238,7 +255,7 @@ class BlogEditorialTests(TestCase):
                 stdout=rerun_output,
             )
             self.assertIn(
-                "blog_editorial_roles_unchanged=3", rerun_output.getvalue()
+                "blog_editorial_roles_unchanged=6", rerun_output.getvalue()
             )
 
     def test_incomplete_article_can_be_saved_as_draft_but_not_published(self):

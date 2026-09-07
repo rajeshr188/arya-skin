@@ -15,7 +15,7 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
 
 ## Milestone 1 — Wagtail foundation
 
-- [x] Add Wagtail 7.4 LTS and required applications/middleware.
+- [x] Add the Wagtail foundation and upgrade it from 7.4 LTS to Wagtail 8.0.
 - [x] Add Wagtail admin, documents, sitemap, redirects, and front-end routing.
 - [x] Create the `website` app with the initial home page and site settings.
 - [x] Add media configuration and a restrained shared base template.

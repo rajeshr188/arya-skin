@@ -8,8 +8,10 @@ django-crispy-forms, WhiteNoise, Gunicorn, psycopg, SQLite for local development
 and optional Docker/PostgreSQL files. It had a custom user model, demo template
 views, no content models, and no meaningful tests.
 
-Wagtail 7.4 LTS is selected because its official compatibility table supports
-Django 6.0 and Python 3.12. Django is not downgraded.
+Wagtail 8.0 is selected as the current stable release. Its official compatibility
+matrix supports Django 6.0 and Python 3.12+, so neither the framework nor the
+project runtime is downgraded. The project was upgraded from Wagtail 7.4 LTS
+after auditing the 8.0 removals and upgrade considerations.
 
 ## Responsibilities
 

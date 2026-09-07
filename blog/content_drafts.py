@@ -163,10 +163,10 @@ BLOG_DRAFTS = (
             "how it differs from other allergy tests, and how results are interpreted."
         ),
         "image": {
-            "filename": "patch-testing-explained.png",
+            "filename": "patch-testing-explained-v2.png",
             "title": "Patch testing explained - editorial illustration",
             "alt_text": (
-                "A woman reviewing everyday skin-care products beside a patch-test symbol"
+                "An adult patient with patch-test chambers attached to the upper back"
             ),
         },
         "related_treatment_slug": "skin-allergy-assessment-testing",
@@ -441,6 +441,448 @@ BLOG_DRAFTS = (
                     "https://www.aad.org/public/cosmetic/younger-looking/"
                     "chemical-peels-faqs"
                 ),
+            },
+        ),
+    },
+    {
+        "title": "Hair shedding or hair loss: what clues matter at a consultation",
+        "slug": "hair-shedding-or-hair-loss",
+        "category": ("Hair and scalp care", "hair-scalp-care"),
+        "excerpt": (
+            "Hair shedding, breakage, and progressive thinning are not the same. "
+            "Learn which patterns and scalp changes are useful to record before a review."
+        ),
+        "search_description": (
+            "A practical guide to hair shedding, thinning, scalp warning signs, "
+            "and preparing for a dermatologist consultation about hair loss."
+        ),
+        "image": {
+            "filename": "hair-shedding-or-hair-loss.png",
+            "title": "Hair shedding and hair loss - editorial illustration",
+            "alt_text": (
+                "An adult man viewing gradual thinning at the crown of his scalp"
+            ),
+        },
+        "related_treatment_slug": "general-dermatology-consultation",
+        "source_accessed_on": date(2026, 9, 7),
+        "body": [
+            (
+                "rich_text",
+                "<p>Noticing more hair in the shower can be worrying, but the amount "
+                "seen on one day does not identify the cause. Increased shedding, hair "
+                "breakage, gradual pattern thinning, smooth bald patches, and hair loss "
+                "with an inflamed scalp can represent different processes. Some are "
+                "temporary; others benefit from early assessment.</p><p>There is no "
+                "single treatment that is right for every type of hair loss. A useful "
+                "consultation starts by working out what is changing and why.</p>",
+            ),
+            (
+                "heading",
+                {"text": "Describe the pattern and pace", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<p>Try to describe what you can actually see rather than relying only "
+                "on a daily hair count. Useful observations include:</p><ul><li>whether "
+                "the change is sudden or gradual;</li><li>diffuse shedding versus a "
+                "receding hairline, widening part, thinning crown, or distinct patch;</li>"
+                "<li>full-length hairs falling from the root versus shorter broken "
+                "hairs;</li><li>changes in the eyebrows, eyelashes, beard, or body "
+                "hair;</li><li>itch, pain, burning, tenderness, scaling, redness, crusting, "
+                "or discharge on the scalp.</li></ul><p>Photographs taken every few "
+                "weeks with the same parting, lighting, angle, and distance can be more "
+                "useful than repeatedly checking from different angles.</p>",
+            ),
+            (
+                "heading",
+                {"text": "Why the history matters", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<p>Hair shedding can follow events such as a significant illness, "
+                "operation, childbirth, major weight change, or severe stress. Family "
+                "history, nutrition, medical conditions, medicines, supplements, and "
+                "hormonal changes may also be relevant. Tight hairstyles, repeated "
+                "pulling, chemical processing, and excessive heat can contribute to "
+                "breakage or traction-related loss.</p><p>Make a short timeline of the "
+                "change and bring a complete medicine and supplement list. Do not stop "
+                "a prescribed medicine suddenly because you suspect it is affecting "
+                "your hair; discuss the concern with the prescriber.</p>",
+            ),
+            (
+                "heading",
+                {"text": "When an earlier assessment is sensible", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<p>Arrange a timely clinical review for a rapidly appearing bald patch, "
+                "marked or continuing shedding, loss of eyebrows or eyelashes, or hair "
+                "loss that is affecting wellbeing. Scalp pain, intense itch, swelling, "
+                "thick scale, broken hairs with a spreading patch, sores, or pus also "
+                "deserve assessment because inflammation or infection may be present.</p>"
+                "<p>A clinician may examine the scalp, hair and nails, ask about the "
+                "timeline, and perform selected tests when the findings suggest they "
+                "are needed. Not everyone requires the same blood tests, supplements, "
+                "biopsy, or treatment.</p>",
+            ),
+            (
+                "information",
+                {
+                    "style": "information",
+                    "heading": "Prepare a one-page hair history",
+                    "text": (
+                        "<p>Record when the change began, the areas involved, scalp "
+                        "symptoms, recent health events, family history, hair practices, "
+                        "and everything taken or applied. Bring photographs and the "
+                        "names or packaging of products if available.</p>"
+                    ),
+                },
+            ),
+            (
+                "faq",
+                {
+                    "heading": "Common questions",
+                    "items": [
+                        {
+                            "question": "Can a shampoo diagnose or treat every type of hair loss?",
+                            "answer": (
+                                "<p>No. Shampoo may help with cleansing or a diagnosed "
+                                "scalp condition, but many causes of shedding and thinning "
+                                "require a different approach. Diagnosis comes first.</p>"
+                            ),
+                        },
+                        {
+                            "question": "Should I start hair supplements immediately?",
+                            "answer": (
+                                "<p>Not automatically. Supplements do not treat every "
+                                "cause of hair loss. Ask whether the history and examination "
+                                "suggest a deficiency and whether testing is appropriate; "
+                                "tell the clinician about every supplement you take.</p>"
+                            ),
+                        },
+                        {
+                            "question": "Does cutting hair shorter make the roots grow faster?",
+                            "answer": (
+                                "<p>Cutting changes the length and appearance of the "
+                                "hair shaft, not the biological activity of the follicle. "
+                                "A shorter style may reduce tangling or make care easier, "
+                                "but it does not establish or treat the cause.</p>"
+                            ),
+                        },
+                    ],
+                },
+            ),
+        ],
+        "sources": (
+            {
+                "title": "Hair loss: Diagnosis and treatment",
+                "publisher": "American Academy of Dermatology",
+                "url": "https://www.aad.org/public/diseases/hair-loss/treatment/diagnosis-treat",
+            },
+            {
+                "title": "Hair loss: Signs and symptoms",
+                "publisher": "American Academy of Dermatology",
+                "url": "https://www.aad.org/public/diseases/hair-loss/insider/begin",
+            },
+            {
+                "title": "Hair loss",
+                "publisher": "NHS",
+                "url": "https://www.nhs.uk/conditions/hair-loss/",
+            },
+        ),
+    },
+    {
+        "title": "Daily sun protection: how to choose and use sunscreen well",
+        "slug": "daily-sun-protection-sunscreen",
+        "category": ("Sun protection", "sun-protection"),
+        "excerpt": (
+            "A practical guide to broad-spectrum protection, SPF, application, "
+            "reapplication, shade, and clothing without product hype."
+        ),
+        "search_description": (
+            "Learn how to read a sunscreen label, apply sunscreen correctly, "
+            "reapply it, and combine it with shade and protective clothing."
+        ),
+        "image": {
+            "filename": "daily-sun-protection-sunscreen.png",
+            "title": "Daily sun protection - editorial illustration",
+            "alt_text": (
+                "Sun-protection items arranged around an unbranded sunscreen bottle"
+            ),
+        },
+        "related_treatment_slug": "general-dermatology-consultation",
+        "source_accessed_on": date(2026, 9, 7),
+        "body": [
+            (
+                "rich_text",
+                "<p>Sunscreen works best as one part of sun protection, alongside shade, "
+                "clothing, a broad-brimmed hat, and UV-protective sunglasses. The most "
+                "expensive or highest-numbered product is not automatically the most "
+                "useful. A suitable sunscreen is one with an appropriate label that you "
+                "can apply evenly and reapply when needed.</p><p>Sun protection matters "
+                "for every skin tone. People with deeper skin tones may burn less easily, "
+                "but ultraviolet and visible light can still contribute to skin damage "
+                "and some pigmentation concerns.</p>",
+            ),
+            (
+                "heading",
+                {"text": "Start with three label essentials", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<p>The American Academy of Dermatology recommends looking for:</p>"
+                "<ul><li><strong>broad-spectrum protection</strong>, covering UVA and "
+                "UVB;</li><li><strong>SPF 30 or higher</strong>;</li><li><strong>water "
+                "resistance</strong>, particularly when sweating or swimming.</li></ul>"
+                "<p>Water resistant does not mean waterproof. Check whether the label "
+                "specifies 40 or 80 minutes and follow its reapplication directions. "
+                "Terms such as sport, natural, or dermatologist tested do not replace "
+                "the three essentials.</p>",
+            ),
+            (
+                "heading",
+                {"text": "Application changes the protection", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<p>Apply sunscreen before going outdoors and use enough to cover all "
+                "exposed skin evenly. Commonly missed areas include the ears, neck, "
+                "hairline or exposed scalp, hands, tops of the feet, and lips. Follow "
+                "the product label around the eyes and for children.</p><p>When outdoors, "
+                "reapply at least every two hours and sooner after swimming, heavy "
+                "sweating, or towel drying. Reapplication does not extend a planned "
+                "period in strong sun indefinitely; shade and covering up still matter.</p>",
+            ),
+            (
+                "heading",
+                {"text": "Choose a texture you can use consistently", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<p>Creams, lotions, gels, sticks, sprays, and tinted products can all "
+                "have a place when their labels provide suitable protection and they "
+                "are applied correctly. For acne-prone skin, a non-comedogenic product "
+                "may be easier to tolerate. A tinted sunscreen that matches the skin "
+                "tone can reduce visible residue and may be discussed when visible "
+                "light worsens pigmentation.</p><p>If a product repeatedly stings, "
+                "causes a rash, or is difficult to use with a skin condition, stop the "
+                "trial-and-error cycle and ask for individualized advice.</p>",
+            ),
+            (
+                "information",
+                {
+                    "style": "information",
+                    "heading": "A simple outdoor check",
+                    "text": (
+                        "<p>Before leaving: consider the duration and conditions, seek "
+                        "shade where practical, cover exposed skin, apply sunscreen "
+                        "evenly, and carry enough to reapply. Check the expiry date and "
+                        "do not rely on sunscreen that has been stored contrary to its "
+                        "label instructions.</p>"
+                    ),
+                },
+            ),
+            (
+                "faq",
+                {
+                    "heading": "Common questions",
+                    "items": [
+                        {
+                            "question": "Does a higher SPF mean I never need to reapply?",
+                            "answer": (
+                                "<p>No. Reapplication and an even, adequate layer remain "
+                                "important. Follow the label and reapply at least every "
+                                "two hours outdoors, sooner after swimming or sweating.</p>"
+                            ),
+                        },
+                        {
+                            "question": "Is sunscreen enough by itself?",
+                            "answer": (
+                                "<p>No single measure gives complete protection. Combine "
+                                "sunscreen with shade, protective clothing, a suitable "
+                                "hat, and UV-protective sunglasses.</p>"
+                            ),
+                        },
+                        {
+                            "question": "Does a white cast show that sunscreen is working?",
+                            "answer": (
+                                "<p>No. Visible residue is not a measure of protection. "
+                                "Check the label for broad-spectrum protection, SPF, and "
+                                "water resistance, then focus on complete application.</p>"
+                            ),
+                        },
+                    ],
+                },
+            ),
+        ],
+        "sources": (
+            {
+                "title": "How to select a sunscreen",
+                "publisher": "American Academy of Dermatology",
+                "url": (
+                    "https://www.aad.org/public/everyday-care/sun-protection/"
+                    "shade-clothing-sunscreen/how-to-select-sunscreen"
+                ),
+            },
+            {
+                "title": "How to apply sunscreen",
+                "publisher": "American Academy of Dermatology",
+                "url": (
+                    "https://www.aad.org/public/everyday-care/sun-protection/"
+                    "shade-clothing-sunscreen/how-to-apply-sunscreen"
+                ),
+            },
+            {
+                "title": "Sunscreen: How to Help Protect Your Skin from the Sun",
+                "publisher": "US Food and Drug Administration",
+                "url": (
+                    "https://www.fda.gov/drugs/understanding-over-counter-medicines/"
+                    "sunscreen-how-help-protect-your-skin-sun"
+                ),
+            },
+        ),
+    },
+    {
+        "title": "Ringworm and fungal skin infections: why the right diagnosis matters",
+        "slug": "ringworm-fungal-skin-infection-diagnosis",
+        "category": ("Fungal skin infections", "fungal-skin-infections"),
+        "excerpt": (
+            "Ring-shaped and scaly rashes can have several causes. Learn why the "
+            "site, appearance, spread, and products already used matter."
+        ),
+        "search_description": (
+            "Understand common ringworm clues, safer prevention habits, steroid-cream "
+            "concerns, and when a fungal skin infection needs medical assessment."
+        ),
+        "image": {
+            "filename": "ringworm-fungal-skin-infection.png",
+            "title": "Fungal skin infection assessment - editorial illustration",
+            "alt_text": (
+                "An illustrated magnifier examining a circular scaly patch on brown skin"
+            ),
+        },
+        "related_treatment_slug": "general-dermatology-consultation",
+        "source_accessed_on": date(2026, 9, 7),
+        "body": [
+            (
+                "rich_text",
+                "<p>Ringworm is a common fungal infection; despite the name, it is not "
+                "caused by a worm. On the body it may form an itchy, scaly, enlarging "
+                "patch with a more active edge, but appearance varies with the body "
+                "site and skin tone. Fungal infection of the feet, groin, scalp, beard, "
+                "or nails may look quite different.</p><p>A circular rash is not proof "
+                "of fungus. Eczema and other skin conditions can resemble ringworm, "
+                "while steroid use can alter a fungal rash and make recognition harder.</p>",
+            ),
+            (
+                "heading",
+                {"text": "Notice the site, edge, and spread", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<p>Useful details include where the rash began, whether it is enlarging "
+                "or appearing in new places, the amount of itch or pain, and whether "
+                "the edge is raised or scaly. Also mention foot scaling, nail changes, "
+                "scalp scale or broken hairs, similar symptoms in household members, "
+                "contact sports, shared towels or clothing, and contact with an animal "
+                "that has a skin problem.</p><p>Take a photograph before applying a new "
+                "product and bring the packaging of everything already used. A clinician "
+                "may sometimes take a small skin scraping, hair, or nail sample when "
+                "confirmation would change management.</p>",
+            ),
+            (
+                "heading",
+                {"text": "Avoid steroid creams on an undiagnosed ring-like rash", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<p>The US Centers for Disease Control and Prevention advises against "
+                "using corticosteroid creams for ringworm or a rash that may be ringworm. "
+                "Steroids can allow the infection to spread, increase burning or redness, "
+                "and change its appearance. Some combination creams contain both an "
+                "antifungal and a steroid, so read the active-ingredient list rather "
+                "than relying on the front label.</p><p>Treatment depends on the body "
+                "site and severity. Scalp and nail disease, widespread infection, and "
+                "rashes that do not respond as expected warrant clinical assessment "
+                "rather than repeated over-the-counter experiments.</p>",
+            ),
+            (
+                "heading",
+                {"text": "Reduce spread while seeking the right diagnosis", "level": "h2"},
+            ),
+            (
+                "rich_text",
+                "<ul><li>Keep affected skin clean and dry.</li><li>Do not share towels, "
+                "clothing, combs, hats, bedding, or sports equipment.</li><li>Change "
+                "socks and underwear regularly and use protective footwear in communal "
+                "showers.</li><li>Wash hands after touching the area and avoid scratching.</li>"
+                "<li>If a pet has suspicious hair loss or a rash, arrange veterinary "
+                "assessment rather than treating the animal yourself.</li></ul>",
+            ),
+            (
+                "information",
+                {
+                    "style": "warning",
+                    "heading": "Arrange prompt medical advice",
+                    "text": (
+                        "<p>Seek assessment for scalp involvement, painful swelling, "
+                        "pus, fever, rapid spread, extensive disease, or a rash near the "
+                        "eyes. Earlier advice is also sensible for young children, "
+                        "pregnancy, reduced immunity, significant medical conditions, "
+                        "or symptoms that persist despite correctly used treatment.</p>"
+                    ),
+                },
+            ),
+            (
+                "faq",
+                {
+                    "heading": "Common questions",
+                    "items": [
+                        {
+                            "question": "Does every circular rash mean ringworm?",
+                            "answer": (
+                                "<p>No. Several skin conditions can form round or ring-like "
+                                "patches. The site, edge, scale, symptoms, spread, and any "
+                                "testing help establish the diagnosis.</p>"
+                            ),
+                        },
+                        {
+                            "question": "Can ringworm come from another person or a pet?",
+                            "answer": (
+                                "<p>Yes. The fungi can spread through contact with infected "
+                                "people or animals and through contaminated personal items "
+                                "or surfaces. The likely source is only one part of the "
+                                "clinical assessment.</p>"
+                            ),
+                        },
+                        {
+                            "question": "Should treatment stop as soon as the itch improves?",
+                            "answer": (
+                                "<p>Do not stop early simply because symptoms improve. Use "
+                                "a recommended antifungal for the full directed course and "
+                                "seek advice if the diagnosis is uncertain or progress is "
+                                "not as expected.</p>"
+                            ),
+                        },
+                    ],
+                },
+            ),
+        ],
+        "sources": (
+            {
+                "title": "Ringworm Basics",
+                "publisher": "US Centers for Disease Control and Prevention",
+                "url": "https://www.cdc.gov/ringworm/about/index.html",
+            },
+            {
+                "title": "Treatment of Ringworm",
+                "publisher": "US Centers for Disease Control and Prevention",
+                "url": "https://www.cdc.gov/ringworm/treatment/index.html",
+            },
+            {
+                "title": "Ringworm: Signs and symptoms",
+                "publisher": "American Academy of Dermatology",
+                "url": "https://www.aad.org/public/diseases/a-z/ringworm-symptoms",
             },
         ),
     },

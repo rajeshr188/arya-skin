@@ -1,6 +1,6 @@
 # Project status
 
-Last updated: 3 September 2026
+Last updated: 7 September 2026
 
 Milestones 0 through 6, staging milestone 7A, and the budget production cutover
 are complete. `https://drnareshrathod.com` is live on immutable image
@@ -13,7 +13,8 @@ subdomain/preload decision remain explicitly tracked future work.
 ## Implemented
 
 - Audited and retained the useful Lithium Django foundation.
-- Kept Django 6.0.4 and locked Wagtail 7.4.3 from the 7.4 LTS line.
+- Kept Django 6.0.4 and upgraded Wagtail from 7.4.3 LTS to the current stable
+  Wagtail 8.0 release. The removed-API audit found no affected project code.
 - Integrated Wagtail admin, pages, settings, images, documents, search, redirects,
   XML sitemap, publishing, and local media configuration.
 - Reframed the umbrella public identity around Dr. Naresh Rathod while preserving
@@ -43,12 +44,13 @@ subdomain/preload decision remain explicitly tracked future work.
   for the approved shared services. They identify no unconfirmed equipment,
   medicine, price, session count, recovery period, or outcome and require Dr.
   Naresh Rathod's page-by-page review before publication.
-- Prepared a three-article patient-education starter series about acne treatment
-  timelines, patch testing, and chemical-peel safety. Each unpublished draft has
-  direct authoritative sources, one related treatment, meaningful image text,
-  and an original clinic-style illustration. Dr. Naresh Rathod is the approved
-  author and assigned medical reviewer. The acne article has a completed CMS
-  review; the other two remain awaiting review.
+- Prepared six source-checked patient-education articles with accessible original
+  illustrations. The initial series covers acne timelines, patch testing, and
+  chemical-peel safety; the second covers hair-loss consultation clues, practical
+  sun protection, and fungal skin-infection diagnosis. The additive importer
+  preserves existing articles and creates only missing drafts. Dr. Naresh Rathod
+  remains the approved author and assigned medical reviewer, but every new draft
+  stays Awaiting review until he records an actual completed review.
 - Added a privacy-minimized appointment form that collects only clinic, name,
   phone, optional email, preferred date/time, and explicit contact consent.
 - Added signed form tokens, CSRF protection, a honeypot, session throttling,
@@ -172,7 +174,7 @@ legal/privacy review remains explicitly deferred and is not claimed.
 
 ## Verification
 
-Verified against Python 3.13.3, Django 6.0.4, and Wagtail 7.4.3:
+Verified against Python 3.13.3, Django 6.0.4, and Wagtail 8.0:
 
 ```text
 manage.py migrate                         no pending migrations

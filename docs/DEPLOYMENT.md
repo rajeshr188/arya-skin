@@ -96,6 +96,18 @@ that HTTPS origin.
 Never commit secrets. Analytics identifiers are not secrets, but still require
 approved account ownership and privacy configuration.
 
+## Wagtail framework upgrades
+
+The application is locked to Wagtail 8.0. Treat framework upgrades as staged
+releases: confirm a restorable production database backup, build a fresh image so
+Wagtail's updated admin static files are collected, deploy to staging, and run the
+release task once. The 8.0 upgrade applies `wagtailcore.0098_apitoken`.
+
+Before production promotion, smoke-test `/cms/`, page editing and preview,
+publishing safeguards, image uploads and renditions, redirects, and representative
+public pages. Keep the previous immutable application image and the matching
+pre-upgrade database backup until acceptance is complete.
+
 ## Release outline
 
 ```text

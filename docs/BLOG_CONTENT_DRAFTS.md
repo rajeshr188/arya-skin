@@ -1,13 +1,12 @@
-# Initial blog content drafts
+# Prepared blog content drafts
 
-Prepared on 3 September 2026 for Dr. Naresh Rathod's editorial and medical
-review. The Articles index remains unpublished. The initial seed command does
-not identify an author or medical reviewer and cannot make the articles public.
-The owner subsequently designated Dr. Naresh Rathod as both author and assigned
-medical reviewer, with the public role "Dermatologist and Cosmetologist"; that
-assignment does not claim the review is complete. The acne article was then
-marked Reviewed and published in the CMS, while the other two remain Awaiting
-review. Because the parent index is still a draft, no article route is public.
+The initial three articles were prepared on 3 September 2026; three further
+articles were prepared on 7 September 2026. All require Dr. Naresh Rathod's
+editorial and medical review. The seed command does not identify an author or
+medical reviewer and cannot publish an article. The owner designated Dr. Naresh
+Rathod as both author and assigned medical reviewer, with the public role
+"Dermatologist and Cosmetologist"; that assignment does not claim review is
+complete. Existing Wagtail articles are preserved when new drafts are imported.
 
 ## Draft set
 
@@ -29,13 +28,32 @@ review. Because the parent index is still a draft, no article route is public.
    - Related draft: Chemical peel consultation.
    - Sources: US Food and Drug Administration warning and American Academy of
      Dermatology preparation/FAQ guidance.
+4. **Hair shedding or hair loss: what clues matter at a consultation**
+   - Intent: help readers distinguish patterns worth recording, recognize scalp
+     findings that deserve timely assessment, and prepare a useful history.
+   - Related draft: General dermatology consultation.
+   - Sources: American Academy of Dermatology diagnosis and signs guidance, and
+     NHS hair-loss guidance.
+5. **Daily sun protection: how to choose and use sunscreen well**
+   - Intent: explain broad-spectrum protection, SPF, water resistance,
+     application, reapplication, shade, and protective clothing without product
+     promotion.
+   - Related draft: General dermatology consultation.
+   - Sources: American Academy of Dermatology selection/application guidance and
+     current US Food and Drug Administration consumer guidance.
+6. **Ringworm and fungal skin infections: why the right diagnosis matters**
+   - Intent: explain why ring-shaped rashes need context, warn against steroid
+     creams on an undiagnosed possible fungal infection, and reduce spread.
+   - Related draft: General dermatology consultation.
+   - Sources: US Centers for Disease Control and Prevention ringworm guidance
+     and American Academy of Dermatology signs guidance.
 
 Every direct source URL and the access date are stored with the relevant Wagtail
 article.
 
 ## Original illustrations
 
-The three generated editorial illustrations are project-owned source assets in
+The six generated editorial illustrations are project-owned source assets in
 `content_assets/blog/`. They use the site's green, mint, cream, and terracotta
 palette and deliberately contain no text, brands, before-and-after comparison,
 unverified equipment, or promised outcome.
@@ -44,10 +62,16 @@ Alternative text prepared with the drafts:
 
 - `acne-treatment-takes-time.png`: "A woman following a simple skin-care
   routine beside a calendar"
-- `patch-testing-explained.png`: "A woman reviewing everyday skin-care products
-  beside a patch-test symbol"
+- `patch-testing-explained-v2.png`: "An adult patient with patch-test chambers
+  attached to the upper back"
 - `chemical-peel-safety-checklist.png`: "A woman reviewing a procedure
   checklist with sun-protection items"
+- `hair-shedding-or-hair-loss.png`: "An adult man viewing gradual thinning at
+  the crown of his scalp"
+- `daily-sun-protection-sunscreen.png`: "Sun-protection items arranged around
+  an unbranded sunscreen bottle"
+- `ringworm-fungal-skin-infection.png`: "An illustrated magnifier examining a
+  circular scaly patch on brown skin"
 
 The images are imported into Wagtail/R2 only when the execute mode is used.
 Wagtail renditions, rather than the full original files, serve the article page
@@ -67,7 +91,7 @@ Preview the operation first:
 uv run manage.py seed_blog_drafts
 ```
 
-Create the three illustrated drafts:
+Create any missing illustrated drafts:
 
 ```powershell
 uv run manage.py seed_blog_drafts --execute
@@ -80,9 +104,10 @@ uv run manage.py assign_blog_editorial_roles
 uv run manage.py assign_blog_editorial_roles --execute
 ```
 
-The command is repeat-safe after a complete import and refuses a partial set,
-an already-published Articles index, unexpected existing index copy, missing
-illustrations, or missing related treatment drafts.
+The command is repeat-safe and additive. It preserves existing articles and an
+already-published Articles index, while refusing a prepared slug outside that
+index, unexpected initial index copy, missing illustrations, or missing related
+treatment drafts.
 
 ## Required review before publication
 

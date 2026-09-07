@@ -34,17 +34,17 @@ Related treatment and article cards appear only when the target pages are live
 and unrestricted. No author, category, article, source, or review claim is seeded
 by migrations.
 
-## Prepared starter series
+## Prepared article series
 
-The first three source-checked articles and their original illustrations are
-documented in `BLOG_CONTENT_DRAFTS.md`. They can be added using the dry-run-first
-`seed_blog_drafts` management command. The command sets `Awaiting review` but
-deliberately leaves author, reviewer, and completed-review date empty. It never
-publishes the Articles index or an article.
+The six source-checked articles and their original illustrations are documented
+in `BLOG_CONTENT_DRAFTS.md`. The dry-run-first `seed_blog_drafts` management
+command creates only missing articles, preserves existing editorial content, and
+sets new pages to `Awaiting review`. It deliberately leaves author, reviewer, and
+completed-review date empty and never publishes an article.
 
 The owner later approved Dr. Naresh Rathod as both author and assigned medical
 reviewer using the public role "Dermatologist and Cosmetologist". The
 dry-run-first `assign_blog_editorial_roles` command applies that designation to
-the three prepared drafts. It leaves `Awaiting review` and the empty completed-
+the prepared drafts. It leaves `Awaiting review` and the empty completed-
 review date unchanged, so the designation cannot be mistaken for a completed
 medical review.

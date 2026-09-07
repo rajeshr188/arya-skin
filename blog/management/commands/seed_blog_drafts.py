@@ -18,7 +18,7 @@ ASSET_DIRECTORY = Path(__file__).resolve().parents[3] / "content_assets" / "blog
 
 
 class Command(BaseCommand):
-    help = "Create source-checked articles with illustrations as unpublished drafts."
+    help = "Create missing source-checked articles as illustrated unpublished drafts."
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -30,22 +30,18 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         target_slugs = {draft["slug"] for draft in BLOG_DRAFTS}
-        existing_slugs = set(
-            BlogPage.objects.filter(slug__in=target_slugs).values_list(
-                "slug", flat=True
-            )
-        )
+        existing_pages = list(BlogPage.objects.filter(slug__in=target_slugs))
+        existing_slugs = {page.slug for page in existing_pages}
+        missing_drafts = [
+            draft for draft in BLOG_DRAFTS if draft["slug"] not in existing_slugs
+        ]
         if existing_slugs == target_slugs:
             self.stdout.write(f"blog_drafts_unchanged={len(existing_slugs)}")
             return
-        if existing_slugs:
-            raise CommandError(
-                "Some target article slugs already exist; refusing a partial seed."
-            )
 
         missing_assets = [
             draft["image"]["filename"]
-            for draft in BLOG_DRAFTS
+            for draft in missing_drafts
             if not (ASSET_DIRECTORY / draft["image"]["filename"]).is_file()
         ]
         if missing_assets:
@@ -54,7 +50,9 @@ class Command(BaseCommand):
                 + ", ".join(sorted(missing_assets))
             )
 
-        treatment_slugs = {draft["related_treatment_slug"] for draft in BLOG_DRAFTS}
+        treatment_slugs = {
+            draft["related_treatment_slug"] for draft in missing_drafts
+        }
         treatments = {
             page.slug: page
             for page in TreatmentPage.objects.filter(slug__in=treatment_slugs)
@@ -63,29 +61,39 @@ class Command(BaseCommand):
             raise CommandError("All related treatment drafts are required.")
 
         index = BlogIndexPage.objects.select_for_update().get()
-        if index.live:
+        if any(page.get_parent().pk != index.pk for page in existing_pages):
             raise CommandError(
-                "The Articles index is already live; create and review drafts manually."
+                "A prepared article slug exists outside the Articles index."
             )
-        if index.introduction and str(index.introduction) != BLOG_INDEX_INTRODUCTION:
+        if (
+            not existing_pages
+            and index.introduction
+            and str(index.introduction) != BLOG_INDEX_INTRODUCTION
+        ):
             raise CommandError(
                 "The Articles index has editorial content; refusing to overwrite it."
             )
 
         if not options["execute"]:
-            self.stdout.write(f"would_create_blog_drafts={len(target_slugs)}")
-            self.stdout.write(f"would_import_blog_illustrations={len(BLOG_DRAFTS)}")
-            self.stdout.write("blog_index_published=false")
+            self.stdout.write(f"would_create_blog_drafts={len(missing_drafts)}")
+            self.stdout.write(
+                f"would_import_blog_illustrations={len(missing_drafts)}"
+            )
+            self.stdout.write(f"existing_blog_drafts_preserved={len(existing_slugs)}")
+            self.stdout.write(
+                f"blog_index_published={str(index.live).lower()}"
+            )
             self.stdout.write("author_and_medical_review_required=true")
             return
 
-        index.introduction = BLOG_INDEX_INTRODUCTION
-        index.save(update_fields=("introduction",))
-        index.save_revision(log_action=True)
+        if not index.live and not index.introduction:
+            index.introduction = BLOG_INDEX_INTRODUCTION
+            index.save(update_fields=("introduction",))
+            index.save_revision(log_action=True)
 
         Image = get_image_model()
         created = 0
-        for draft in BLOG_DRAFTS:
+        for draft in missing_drafts:
             category_name, category_slug = draft["category"]
             category, _ = BlogCategory.objects.get_or_create(
                 slug=category_slug,
@@ -131,7 +139,9 @@ class Command(BaseCommand):
                     title=source["title"],
                     publisher=source["publisher"],
                     url=source["url"],
-                    accessed_on=SOURCE_ACCESSED_ON,
+                    accessed_on=draft.get(
+                        "source_accessed_on", SOURCE_ACCESSED_ON
+                    ),
                 )
             page.save()
             page.save_revision(log_action=True)
@@ -139,5 +149,6 @@ class Command(BaseCommand):
 
         self.stdout.write(f"blog_drafts_created={created}")
         self.stdout.write(f"blog_illustrations_imported={created}")
-        self.stdout.write("blog_index_published=false")
+        self.stdout.write(f"existing_blog_drafts_preserved={len(existing_slugs)}")
+        self.stdout.write(f"blog_index_published={str(index.live).lower()}")
         self.stdout.write("author_and_medical_review_required=true")
