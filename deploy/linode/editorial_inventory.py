@@ -140,7 +140,7 @@ report = {
     "illustrated_care_journeys": {
         "pages": IllustratedCareJourneyPage.objects.count(),
         "live_pages": IllustratedCareJourneyPage.objects.live().count(),
-        "items": [
+        "live_items": [
             {
                 "title": item.title,
                 "disclosure_confirmed": item.illustration_disclosure_confirmed,
@@ -154,6 +154,23 @@ report = {
             }
             for page in IllustratedCareJourneyPage.objects.all()
             for item in page.journeys.order_by("sort_order")
+        ],
+        "latest_revision_items": [
+            {
+                "title": item.title,
+                "disclosure_confirmed": item.illustration_disclosure_confirmed,
+                "presentation_reviewed": item.presentation_reviewed,
+                "has_distinct_images": (
+                    item.before_image_id != item.after_image_id
+                ),
+                "has_descriptions": bool(
+                    item.before_alt_text.strip() and item.after_alt_text.strip()
+                ),
+            }
+            for page in IllustratedCareJourneyPage.objects.all()
+            for item in page.get_latest_revision_as_object().journeys.order_by(
+                "sort_order"
+            )
         ],
     },
     "blog_authors": [
