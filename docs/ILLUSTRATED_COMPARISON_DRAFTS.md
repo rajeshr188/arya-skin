@@ -65,6 +65,57 @@ Visual signs were checked against the American Academy of Dermatology's
 The source notes that scalp flaking can have different causes, which is why this
 pair uses neutral wording.
 
+## 4. Visible facial redness
+
+- Neutral title: **Illustrated change in visible facial redness**
+- Before file: `content_assets/before_after/facial-redness-before.jpg`
+- Before description: Illustration of an adult woman with moderate diffuse
+  redness across both central cheeks and around the sides of the nose.
+- After file: `content_assets/before_after/facial-redness-after.jpg`
+- After description: Matching illustration of the same woman with milder
+  residual redness across the central cheeks and natural skin texture.
+- Presentation note: Do not label the appearance as rosacea, identify a trigger,
+  or imply that every skin tone displays facial colour change in the same way.
+
+Visual wording was checked against the American Academy of Dermatology's
+[rosacea signs and symptoms](https://www.aad.org/public/diseases/rosacea/what-is/symptoms)
+guidance. The pair remains deliberately non-diagnostic because redness and
+colour change can have different causes and appearances.
+
+## 5. Shaving-area bumps
+
+- Neutral title: **Illustrated change in shaving-area bumps**
+- Before file: `content_assets/before_after/shaving-area-bumps-before.jpg`
+- Before description: Three-quarter illustration of an adult man with several
+  small raised bumps and flat dark marks along the lower jaw and upper neck.
+- After file: `content_assets/before_after/shaving-area-bumps-after.jpg`
+- After description: Matching illustration of the same man with fewer raised
+  bumps, several residual dark marks and unchanged beard density.
+- Presentation note: Do not diagnose razor bumps, folliculitis or acne from an
+  illustration and do not connect the change to a product or procedure.
+
+The location and neutral wording were checked against the American Academy of
+Dermatology's [folliculitis overview](https://www.aad.org/public/diseases/a-z/folliculitis)
+and [razor-bump guidance](https://www.aad.org/news/how-to-prevent-razor-bumps).
+These sources support the visual vocabulary, not a diagnosis or expected result.
+
+## 6. Raised welt-like patches
+
+- Neutral title: **Illustrated change in raised welt-like patches**
+- Before file: `content_assets/before_after/raised-welts-before.jpg`
+- Before description: Close illustration of a brown-skinned adult forearm with
+  several smooth raised pink-brown patches of varied size.
+- After file: `content_assets/before_after/raised-welts-after.jpg`
+- After description: Matching illustration of the same forearm with two faint
+  raised patches, mild residual uneven colour and natural skin texture.
+- Presentation note: Do not diagnose hives, identify an allergy or trigger, or
+  connect the depicted change to a medicine or other treatment.
+
+Visual signs were checked against the American Academy of Dermatology's
+[hives signs and symptoms](https://www.aad.org/public/diseases/a-z/hives-symptoms)
+guidance. Raised patches can vary in shape and colour and may have several
+causes, so the pair stays non-diagnostic.
+
 ## Required review before use
 
 Dr. Naresh Rathod should confirm that:
@@ -77,6 +128,7 @@ Dr. Naresh Rathod should confirm that:
 - placement does not make the assets look like genuine patient results.
 
 Run `python manage.py seed_illustrated_care_journeys` to preview the import and add
-`--execute` to create the three pairs as an unpublished draft. The command is
-repeat-safe and refuses to overwrite existing editorial content. Keep the page
-unpublished until the checks above are complete.
+`--execute` to create any missing prepared pairs as an unpublished draft. The
+command is repeat-safe, preserves the existing ordered prefix, and refuses to
+overwrite mismatched editorial content. Keep the page unpublished until the
+checks above are complete.

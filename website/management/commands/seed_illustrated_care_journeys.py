@@ -37,12 +37,12 @@ class Command(BaseCommand):
             )
         )
 
-        if existing_titles:
-            if existing_titles == expected_titles:
-                self.stdout.write(
-                    f"illustrated_care_journeys_unchanged={len(existing_titles)}"
-                )
-                return
+        if existing_titles == expected_titles:
+            self.stdout.write(
+                f"illustrated_care_journeys_unchanged={len(existing_titles)}"
+            )
+            return
+        if existing_titles != expected_titles[: len(existing_titles)]:
             raise CommandError(
                 "The illustrated care journeys page already has editorial content; "
                 "refusing to overwrite it."
@@ -62,9 +62,10 @@ class Command(BaseCommand):
                 "refusing to overwrite it."
             )
 
+        missing_journeys = ILLUSTRATED_CARE_JOURNEYS[len(existing_titles) :]
         filenames = [
             image_details["filename"]
-            for journey in ILLUSTRATED_CARE_JOURNEYS
+            for journey in missing_journeys
             for image_details in (journey["before"], journey["after"])
         ]
         missing_assets = [
@@ -80,7 +81,7 @@ class Command(BaseCommand):
 
         if not options["execute"]:
             self.stdout.write(
-                f"would_create_illustrated_care_journeys={len(expected_titles)}"
+                f"would_create_illustrated_care_journeys={len(missing_journeys)}"
             )
             self.stdout.write(f"would_import_illustrations={len(filenames)}")
             self.stdout.write("illustrated_care_journey_page_published=false")
@@ -91,7 +92,10 @@ class Command(BaseCommand):
         page.save(update_fields=("introduction",))
 
         Image = get_image_model()
-        for sort_order, journey in enumerate(ILLUSTRATED_CARE_JOURNEYS):
+        for sort_order, journey in enumerate(
+            missing_journeys,
+            start=len(existing_titles),
+        ):
             imported_images = {}
             for position in ("before", "after"):
                 image_details = journey[position]
@@ -123,7 +127,7 @@ class Command(BaseCommand):
 
         page.save_revision(log_action=True)
         self.stdout.write(
-            f"illustrated_care_journeys_created={len(expected_titles)}"
+            f"illustrated_care_journeys_created={len(missing_journeys)}"
         )
         self.stdout.write(f"illustrations_imported={len(filenames)}")
         self.stdout.write("illustrated_care_journey_page_published=false")

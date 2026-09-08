@@ -57,8 +57,8 @@ class IllustratedCareJourneyTests(TestCase):
         call_command("seed_illustrated_care_journeys", stdout=output)
 
         self.assertEqual(self.page.journeys.count(), 0)
-        self.assertIn("would_create_illustrated_care_journeys=3", output.getvalue())
-        self.assertIn("would_import_illustrations=6", output.getvalue())
+        self.assertIn("would_create_illustrated_care_journeys=6", output.getvalue())
+        self.assertIn("would_import_illustrations=12", output.getvalue())
         self.assertIn("doctor_review_required=true", output.getvalue())
 
     def test_importer_creates_unreviewed_draft_and_is_repeat_safe(self):
@@ -74,7 +74,7 @@ class IllustratedCareJourneyTests(TestCase):
             self.page.refresh_from_db()
             journeys = list(self.page.journeys.order_by("sort_order"))
 
-            self.assertEqual(len(journeys), 3)
+            self.assertEqual(len(journeys), 6)
             self.assertEqual(
                 len(
                     {
@@ -86,7 +86,7 @@ class IllustratedCareJourneyTests(TestCase):
                         )
                     }
                 ),
-                6,
+                12,
             )
             self.assertTrue(
                 all(not item.illustration_disclosure_confirmed for item in journeys)
@@ -106,13 +106,38 @@ class IllustratedCareJourneyTests(TestCase):
 
         self.page.refresh_from_db()
         self.assertFalse(self.page.live)
-        self.assertEqual(self.page.journeys.count(), 3)
-        self.assertIn("illustrated_care_journeys_created=3", output.getvalue())
-        self.assertIn("illustrations_imported=6", output.getvalue())
+        self.assertEqual(self.page.journeys.count(), 6)
+        self.assertIn("illustrated_care_journeys_created=6", output.getvalue())
+        self.assertIn("illustrations_imported=12", output.getvalue())
         self.assertIn(
-            "illustrated_care_journeys_unchanged=3",
+            "illustrated_care_journeys_unchanged=6",
             rerun_output.getvalue(),
         )
+
+    def test_importer_adds_only_missing_suffix_and_preserves_existing_items(self):
+        with TemporaryDirectory() as media_root, override_settings(
+            MEDIA_ROOT=media_root
+        ):
+            call_command("seed_illustrated_care_journeys", execute=True)
+            journeys = list(self.page.journeys.order_by("sort_order"))
+            first = journeys[0]
+            first.caption = "Existing reviewed editorial caption"
+            first.save(update_fields=("caption",))
+            for journey in journeys[3:]:
+                journey.delete()
+
+            output = StringIO()
+            call_command(
+                "seed_illustrated_care_journeys",
+                execute=True,
+                stdout=output,
+            )
+
+        first.refresh_from_db()
+        self.assertEqual(first.caption, "Existing reviewed editorial caption")
+        self.assertEqual(self.page.journeys.count(), 6)
+        self.assertIn("illustrated_care_journeys_created=3", output.getvalue())
+        self.assertIn("illustrations_imported=6", output.getvalue())
 
     def test_importer_refuses_existing_editorial_content(self):
         with TemporaryDirectory() as media_root, override_settings(

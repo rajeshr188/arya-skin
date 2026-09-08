@@ -75,4 +75,76 @@ ILLUSTRATED_CARE_JOURNEYS = [
             "diagnose dandruff or another condition and does not show hair regrowth."
         ),
     },
+    {
+        "title": "Illustrated change in visible facial redness",
+        "before": {
+            "filename": "facial-redness-before.jpg",
+            "title": "Facial redness - illustrated before",
+            "alt_text": (
+                "Illustration of an adult woman with moderate diffuse redness "
+                "across both central cheeks and around the sides of the nose"
+            ),
+        },
+        "after": {
+            "filename": "facial-redness-after.jpg",
+            "title": "Facial redness - illustrated after",
+            "alt_text": (
+                "Matching illustration of the same woman with milder residual "
+                "redness across the central cheeks and natural skin texture"
+            ),
+        },
+        "caption": (
+            "Facial redness and colour change can have different causes and can "
+            "look different across skin tones. This illustration does not "
+            "diagnose rosacea or identify a treatment."
+        ),
+    },
+    {
+        "title": "Illustrated change in shaving-area bumps",
+        "before": {
+            "filename": "shaving-area-bumps-before.jpg",
+            "title": "Shaving-area bumps - illustrated before",
+            "alt_text": (
+                "Three-quarter illustration of an adult man with several small "
+                "raised bumps and flat dark marks along the lower jaw and upper neck"
+            ),
+        },
+        "after": {
+            "filename": "shaving-area-bumps-after.jpg",
+            "title": "Shaving-area bumps - illustrated after",
+            "alt_text": (
+                "Matching illustration of the same man with fewer raised bumps, "
+                "several residual dark marks and unchanged beard density"
+            ),
+        },
+        "caption": (
+            "Bumps in a beard area can have different causes. This illustration "
+            "does not diagnose razor bumps, folliculitis or acne and does not "
+            "identify a treatment."
+        ),
+    },
+    {
+        "title": "Illustrated change in raised welt-like patches",
+        "before": {
+            "filename": "raised-welts-before.jpg",
+            "title": "Raised welt-like patches - illustrated before",
+            "alt_text": (
+                "Close illustration of a brown-skinned adult forearm with several "
+                "smooth raised pink-brown patches of varied size"
+            ),
+        },
+        "after": {
+            "filename": "raised-welts-after.jpg",
+            "title": "Raised welt-like patches - illustrated after",
+            "alt_text": (
+                "Matching illustration of the same forearm with two faint raised "
+                "patches, mild residual uneven colour and natural skin texture"
+            ),
+        },
+        "caption": (
+            "Raised patches can have different causes and may change quickly. "
+            "This illustration does not diagnose hives, identify a trigger or "
+            "show the effect of a treatment."
+        ),
+    },
 ]
