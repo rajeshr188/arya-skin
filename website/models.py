@@ -279,6 +279,143 @@ class BeforeAfterGalleryItem(Orderable):
             raise ValidationError(errors)
 
 
+class IllustratedCareJourneyPage(Page):
+    introduction = RichTextField(
+        blank=True,
+        features=["bold", "italic", "link"],
+        help_text=(
+            "Optional educational introduction. Do not describe the illustrations "
+            "as patient results or predict an outcome."
+        ),
+    )
+
+    parent_page_types = ["website.HomePage"]
+    subpage_types = []
+    max_count = 1
+
+    content_panels = Page.content_panels + [
+        FieldPanel("introduction"),
+        InlinePanel("journeys", label="Illustrated care journey"),
+    ]
+
+    def publication_errors(self):
+        journeys = list(self.journeys.all())
+        errors = []
+        if not journeys:
+            errors.append("at least one reviewed illustrated journey")
+            return errors
+        if any(not item.illustration_disclosure_confirmed for item in journeys):
+            errors.append("illustration disclosure for every journey")
+        if any(not item.presentation_reviewed for item in journeys):
+            errors.append("clinical and fair-presentation review for every journey")
+        if any(
+            not item.before_alt_text.strip() or not item.after_alt_text.strip()
+            for item in journeys
+        ):
+            errors.append("before and after image descriptions")
+        if any(item.before_image_id == item.after_image_id for item in journeys):
+            errors.append("different before and after images for every journey")
+        return errors
+
+    def save(self, *args, **kwargs):
+        if self.live:
+            errors = self.publication_errors()
+            if errors:
+                raise ValidationError(
+                    "Cannot publish illustrated care journeys without "
+                    + ", ".join(errors)
+                    + "."
+                )
+        return super().save(*args, **kwargs)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["journeys"] = self.journeys.select_related(
+            "before_image", "after_image"
+        ).order_by("sort_order")
+        return context
+
+
+class IllustratedCareJourneyItem(Orderable):
+    page = ParentalKey(
+        IllustratedCareJourneyPage,
+        on_delete=models.CASCADE,
+        related_name="journeys",
+    )
+    title = models.CharField(
+        max_length=160,
+        help_text="Use a neutral visible-change description, not a treatment claim.",
+    )
+    before_image = models.ForeignKey(
+        get_image_model_string(),
+        on_delete=models.PROTECT,
+        related_name="+",
+    )
+    after_image = models.ForeignKey(
+        get_image_model_string(),
+        on_delete=models.PROTECT,
+        related_name="+",
+    )
+    before_alt_text = models.CharField(
+        max_length=255,
+        help_text="Describe only what is visibly relevant in the first illustration.",
+    )
+    after_alt_text = models.CharField(
+        max_length=255,
+        help_text="Describe only what is visibly relevant in the second illustration.",
+    )
+    caption = models.TextField(
+        blank=True,
+        max_length=500,
+        help_text=(
+            "Use neutral educational context. Do not name a treatment, time interval, "
+            "typical result, or diagnosis."
+        ),
+    )
+    illustration_disclosure_confirmed = models.BooleanField(
+        default=False,
+        help_text=(
+            "Confirm that both images are synthetic illustrations and the page does "
+            "not present them as patient photographs or clinical evidence."
+        ),
+    )
+    presentation_reviewed = models.BooleanField(
+        default=False,
+        help_text=(
+            "Confirm clinical reasonableness and that identity, crop, lighting, colour, "
+            "and labels create a fair, non-exaggerated comparison."
+        ),
+    )
+
+    panels = [
+        FieldPanel("title"),
+        MultiFieldPanel(
+            [
+                FieldPanel("before_image"),
+                FieldPanel("before_alt_text"),
+                FieldPanel("after_image"),
+                FieldPanel("after_alt_text"),
+            ],
+            heading="Illustrations and descriptions",
+        ),
+        FieldPanel("caption"),
+        MultiFieldPanel(
+            [
+                FieldPanel("illustration_disclosure_confirmed"),
+                FieldPanel("presentation_reviewed"),
+            ],
+            heading="Required publication checks",
+        ),
+    ]
+
+    def clean(self):
+        super().clean()
+        if self.before_image_id and self.before_image_id == self.after_image_id:
+            raise ValidationError(
+                {"after_image": "Choose a different matching after illustration."}
+            )
+
+
 @register_setting(icon="cog")
 class SiteSettings(BaseSiteSetting):
     """Editable site-wide data; branch-specific facts belong to ClinicPage."""

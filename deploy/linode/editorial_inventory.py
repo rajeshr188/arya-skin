@@ -7,6 +7,7 @@ from treatments.models import TreatmentPage
 from wagtail.images import get_image_model
 from wagtail.models import Page
 from website.models import SiteSettings, StandardPage
+from website.models import IllustratedCareJourneyPage
 
 
 def latest_content(page):
@@ -134,6 +135,25 @@ report = {
                 "has_featured_image": bool(page.featured_image_id),
             }
             for page in BlogPage.objects.order_by("id")
+        ],
+    },
+    "illustrated_care_journeys": {
+        "pages": IllustratedCareJourneyPage.objects.count(),
+        "live_pages": IllustratedCareJourneyPage.objects.live().count(),
+        "items": [
+            {
+                "title": item.title,
+                "disclosure_confirmed": item.illustration_disclosure_confirmed,
+                "presentation_reviewed": item.presentation_reviewed,
+                "has_distinct_images": (
+                    item.before_image_id != item.after_image_id
+                ),
+                "has_descriptions": bool(
+                    item.before_alt_text.strip() and item.after_alt_text.strip()
+                ),
+            }
+            for page in IllustratedCareJourneyPage.objects.all()
+            for item in page.journeys.order_by("sort_order")
         ],
     },
     "blog_authors": [

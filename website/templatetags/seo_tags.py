@@ -106,6 +106,7 @@ def structured_data(context):
         BeforeAfterGalleryPage,
         ContactPage,
         HomePage,
+        IllustratedCareJourneyPage,
         StandardPage,
     )
 
@@ -141,6 +142,7 @@ def structured_data(context):
             BeforeAfterGalleryPage,
             BlogIndexPage,
             ClinicIndexPage,
+            IllustratedCareJourneyPage,
             TreatmentIndexPage,
         ),
     ):

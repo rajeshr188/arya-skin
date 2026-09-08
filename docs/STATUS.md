@@ -38,19 +38,25 @@ subdomain/preload decision remain explicitly tracked future work.
   descriptions, documented-consent and fair-presentation confirmations, a fixed
   results-vary notice, and fail-closed publication checks. Its empty production
   page is an unpublished draft and is absent from navigation.
+- Prepared a separate **Illustrated care journeys** Wagtail collection for
+  synthetic educational comparisons. Its fixed disclosure says the artwork is
+  not patient photography or evidence of a promised result; publication remains
+  blocked until every pair has complete descriptions plus clinical and
+  fair-presentation confirmation. Deployment and Dr. Naresh Rathod's review are
+  still pending.
 - Seeded supplied doctor details and both clinic records as drafts. The supplied
   phone/WhatsApp number is stored but not publicly exposed.
 - Prepared five structured, source-checked treatment pages as unpublished drafts
   for the approved shared services. They identify no unconfirmed equipment,
   medicine, price, session count, recovery period, or outcome and require Dr.
   Naresh Rathod's page-by-page review before publication.
-- Prepared six source-checked patient-education articles with accessible original
+- Prepared and published six source-checked patient-education articles with accessible original
   illustrations. The initial series covers acne timelines, patch testing, and
   chemical-peel safety; the second covers hair-loss consultation clues, practical
   sun protection, and fungal skin-infection diagnosis. The additive importer
   preserves existing articles and creates only missing drafts. Dr. Naresh Rathod
-  remains the approved author and assigned medical reviewer, but every new draft
-  stays Awaiting review until he records an actual completed review.
+  is the recorded author and medical reviewer, and every article has a completed
+  review date.
 - Added a privacy-minimized appointment form that collects only clinic, name,
   phone, optional email, preferred date/time, and explicit contact consent.
 - Added signed form tokens, CSRF protection, a honeypot, session throttling,
@@ -70,7 +76,7 @@ subdomain/preload decision remain explicitly tracked future work.
 - Added public category filtering, pagination, responsive Wagtail image
   renditions, publication/review attribution, sources, related content, medical
   disclaimer, and latest-article homepage integration.
-- Seeded only an empty draft Articles index. No article, category, author,
+- Initially seeded only an empty draft Articles index. No article, category, author,
   reviewer, medical copy, source, or review claim was invented.
 - Added centralized page-specific descriptions, canonical URLs, robots metadata,
   Open Graph/Twitter cards, social-image renditions, and article dates.
@@ -234,18 +240,15 @@ request logs.
 - The expanded production acceptance suite passed every approved page, the
   appointment form, health, robots, sitemap, Wagtail admin redirect, R2 portrait,
   canonical origin, navigation, and initial security-header check. The Treatments
-  index and its five pages are live. The Articles index remains unpublished, and
-  each of the three newly prepared child drafts returns 404.
+  index and its five pages are live. The Articles index and all six reviewed
+  articles are also live and present in primary navigation.
 - The before-and-after gallery exists as an empty, unpublished CMS draft. Its
   public route returns 404 and its navigation link remains hidden until an
   approved comparison is added and the page is explicitly published.
 - Six source-checked articles and their original illustrations are installed in
-  production. The initial acne, patch-testing, and chemical-peel articles are
-  marked Reviewed with recorded dates. The new hair-loss, sun-protection, and
-  fungal-infection articles remain Awaiting review and unpublished. The Articles
-  index remains unpublished, so its public route and each new article route
-  return 404. Dr. Naresh Rathod is assigned as author and medical reviewer using
-  the role "Dermatologist and Cosmetologist".
+  production. All six are marked Reviewed with recorded dates and are publicly
+  available through the Articles index. Dr. Naresh Rathod is assigned as author
+  and medical reviewer using the role "Dermatologist and Cosmetologist".
 - The published Privacy notice now describes consent-gated Google Analytics,
   the permitted data boundary, withdrawal, disabled advertising features, and
   two-month retention. Measurement ID `G-DKBKVGX7NK` is enabled with Basic
@@ -286,9 +289,9 @@ response target, the call/WhatsApp fallback for an unanswered request, and
 pages contain owner-approved working text. Professional
 legal/privacy review remains recommended but was explicitly deferred by the
 owner for the budget launch; the drafts are not legally verified. The blog review
-interval and the remaining two articles require approval. Dr. Naresh Rathod is
-the approved author and assigned medical reviewer using the role "Dermatologist
-and Cosmetologist". The five treatment pages are currently public; their medical/
+interval remains to be set, while all six current articles are reviewed and
+published. Dr. Naresh Rathod is the recorded author and medical reviewer using
+the role "Dermatologist and Cosmetologist". The five treatment pages are currently public; their medical/
 editorial approval record should be confirmed if it was not recorded during CMS
 publication. See
 `CONTENT_REQUIRED.md`, `TREATMENT_CONTENT_DRAFTS.md`, and

@@ -58,7 +58,7 @@ class DeploymentConfigurationTests(TestCase):
         self.assertIn('expect_status portrait_media "$portrait_url" 200', script)
         self.assertNotIn("original_images/nareshbust.png", script)
 
-    def test_production_check_matches_live_treatments_and_draft_articles(self):
+    def test_production_check_matches_live_articles_and_draft_care_journeys(self):
         script = (
             Path(__file__).resolve().parents[1]
             / "deploy"
@@ -71,13 +71,26 @@ class DeploymentConfigurationTests(TestCase):
             script,
         )
         self.assertIn(
-            'expect_status articles_unpublished "https://$PRODUCTION_HOST/blog/" 404',
+            'expect_status articles_index "https://$PRODUCTION_HOST/blog/" 200',
             script,
         )
         self.assertIn(
-            "unpublished_articles_navigation_link=absent",
+            '"https://$PRODUCTION_HOST/blog/hair-shedding-or-hair-loss/" 200',
             script,
         )
+        self.assertIn(
+            "illustrated_care_journeys_unpublished",
+            script,
+        )
+        self.assertIn(
+            "articles_navigation_link=verified",
+            script,
+        )
+        self.assertIn(
+            "illustrated_care_journeys_navigation_link=absent",
+            script,
+        )
+        self.assertNotIn("articles_unpublished", script)
         self.assertNotIn("treatments_unpublished", script)
 
     def test_boolean_environment_values_are_strictly_validated(self):

@@ -40,8 +40,9 @@ Front-end Wagtail routing is mounted last so application URLs retain priority.
 ## Application boundaries
 
 - `accounts`: existing custom user model and Django admin integration.
-- `website`: cross-site foundations, homepage, standard pages, constrained
-  shared blocks, site settings, and shared template tags.
+- `website`: cross-site foundations, homepage, standard pages, separate guarded
+  patient-photo and educational-illustration collections, constrained shared
+  blocks, site settings, and shared template tags.
 - `doctors`: structured doctor profile, qualifications, registrations,
   specialties, languages, memberships, and portrait. Implemented in Milestone 2A.
 - `clinics`: physical-location content and location-specific contact facts.
@@ -107,6 +108,10 @@ umbrella professional identity; clinic names remain independent.
   factual sources, categories, and live-filtered related treatments/articles.
   Incomplete pages may remain drafts, while publication requires an author,
   body, source, reviewed status, reviewer, and valid review date.
+- `IllustratedCareJourneyPage`: a singleton educational collection kept separate
+  from the consent-governed patient-photo gallery. It has a permanent synthetic
+  illustration disclosure and blocks publication until every pair has complete
+  descriptions plus clinical and fair-presentation confirmation.
 - snippets: categories and reusable people/FAQ records only where reuse is real;
   page-specific FAQs remain attached to their page.
 

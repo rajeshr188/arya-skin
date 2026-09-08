@@ -30,3 +30,16 @@ If consent is withdrawn, unpublish the gallery or remove the comparison promptly
 and delete unused CMS images. A deleted database reference may remain in an
 encrypted backup until that backup reaches the approved expiry described in the
 Privacy notice.
+
+## Educational illustrations are different
+
+The current gallery and its confirmation fields are designed for genuine,
+same-patient photographs. Do not place generated, stock, or illustrated imagery
+in it and do not use the patient-consent confirmation for synthetic artwork.
+Illustrated comparisons must be presented separately, visibly identified as
+educational illustrations, and must never be described as patient results.
+
+Prepared illustration-only concepts and their review wording are recorded in
+`ILLUSTRATED_COMPARISON_DRAFTS.md`. The separate **Illustrated care journeys**
+page provides a permanent disclosure and illustration-specific review checks;
+it remains unpublished until Dr. Naresh Rathod approves every pair.

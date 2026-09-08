@@ -112,13 +112,17 @@ blank in the CMS and are tracked in `CONTENT_REQUIRED.md`.
 - [ ] Complete Dr. Naresh Rathod's page-by-page medical/editorial review, apply
   corrections, and explicitly approve the Treatments index and selected pages
   before publication.
-- [x] Prepare a three-article patient-education starter series with direct
-  sources and original accessible illustrations as unpublished Wagtail drafts.
+- [x] Prepare two three-article patient-education series with direct sources and
+  original accessible illustrations as Wagtail drafts.
 - [x] Designate Dr. Naresh Rathod as both author and assigned medical reviewer,
   using the approved role "Dermatologist and Cosmetologist".
-- [ ] Complete Dr. Naresh Rathod's page-by-page medical/editorial review for the
-  remaining patch-testing and chemical-peel drafts before publishing them or the
-  Articles index.
+- [x] Complete Dr. Naresh Rathod's page-by-page medical/editorial review and
+  publish the approved Articles index and articles.
+- [x] Add a separate guarded **Illustrated care journeys** CMS presentation for
+  synthetic before-and-after concepts, with a permanent disclosure and no
+  patient-consent claim.
+- [ ] Complete Dr. Naresh Rathod's clinical and fair-presentation review of all
+  three illustrated journey pairs before publishing the new page.
 
 ## Definition of done for every milestone
 

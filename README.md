@@ -78,6 +78,8 @@ is tracked for the production-hardening milestone in `docs/PLAN.md` and
 - `docs/ANALYTICS.md`: privacy-safe events and UTM conventions
 - `docs/APPOINTMENTS.md`: appointment data, abuse protection, and staff workflow
 - `docs/BLOG_EDITORIAL.md`: article sourcing, review, and publishing workflow
+- `docs/ILLUSTRATED_COMPARISON_DRAFTS.md`: educational comparison assets,
+  disclosures, descriptions, and review requirements
 - `docs/DEPLOYMENT.md`: current and target deployment architecture
 - `docs/STAGING.md`: private staging environment and release runbook
 - `deploy/linode/`: secret-free Linode host and staging Compose configuration

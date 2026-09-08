@@ -2,19 +2,21 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from wagtail import hooks
 
-from .models import BeforeAfterGalleryPage
+from .models import BeforeAfterGalleryPage, IllustratedCareJourneyPage
 
 
 @hooks.register("before_publish_page")
 def prevent_unapproved_gallery_publication(request, page):
     gallery = page.specific
-    if not isinstance(gallery, BeforeAfterGalleryPage):
+    if not isinstance(
+        gallery, (BeforeAfterGalleryPage, IllustratedCareJourneyPage)
+    ):
         return None
     errors = gallery.publication_errors()
     if not errors:
         return None
     messages.error(
         request,
-        "This gallery remains a draft. Complete: " + ", ".join(errors) + ".",
+        "This page remains a draft. Complete: " + ", ".join(errors) + ".",
     )
     return redirect("wagtailadmin_pages:edit", gallery.pk)
