@@ -42,8 +42,8 @@ subdomain/preload decision remain explicitly tracked future work.
   synthetic educational comparisons. Its fixed disclosure says the artwork is
   not patient photography or evidence of a promised result; publication remains
   blocked until every pair has complete descriptions plus clinical and
-  fair-presentation confirmation. The three pairs are deployed as an unpublished
-  production draft; Dr. Naresh Rathod's review is still pending.
+  fair-presentation confirmation. The first three reviewed pairs are live. Three
+  additional unreviewed pairs are stored only in the latest draft revision.
 - Seeded supplied doctor details and both clinic records as drafts. The supplied
   phone/WhatsApp number is stored but not publicly exposed.
 - Prepared five structured, source-checked treatment pages as unpublished drafts
@@ -227,7 +227,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:f47dca2` with Wagtail 8.0,
+- Production runs immutable image `arya-skin:cad7094` with Wagtail 8.0,
   PostgreSQL 16, and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
@@ -235,7 +235,7 @@ request logs.
   authoritative DNS proxies the apex and `www`, Caddy holds active Let's Encrypt
   certificates for both, and `www` redirects to the apex.
 - Cloudflare R2 serves production media through `media.drnareshrathod.com`.
-  Representative existing media, all six article illustrations, and all six
+  Representative existing media, all six article illustrations, and all twelve
   illustrated-care-journey originals return 200 with image content.
 - The expanded production acceptance suite passed every approved page, the
   appointment form, health, robots, sitemap, Wagtail admin redirect, R2 portrait,
@@ -245,12 +245,13 @@ request logs.
 - The before-and-after gallery exists as an empty, unpublished CMS draft. Its
   public route returns 404 and its navigation link remains hidden until an
   approved comparison is added and the page is explicitly published.
-- The separate Illustrated care journeys page contains three synthetic
-  educational comparison pairs as an unpublished draft. Production inventory
-  reports zero live pages, distinct before/after images, complete descriptions,
-  and both review confirmations still false for every pair. Its route returns
-  404 and it is absent from navigation until Dr. Naresh Rathod completes both
-  confirmations per pair and explicitly publishes the page.
+- The separate Illustrated care journeys page is live with three synthetic
+  educational comparison pairs approved by Dr. Naresh Rathod. Its latest draft
+  revision adds facial redness, shaving-area bumps, and raised welt-like patches.
+  Inventory reports three live and six draft-revision items; each addition has
+  distinct images and complete descriptions, while both review confirmations
+  remain false. The public page and navigation remain unchanged until those
+  additions are reviewed and the new revision is explicitly published.
 - Six source-checked articles and their original illustrations are installed in
   production. All six are marked Reviewed with recorded dates and are publicly
   available through the Articles index. Dr. Naresh Rathod is assigned as author
@@ -275,10 +276,10 @@ request logs.
   `arya-skin:ab56c34` and `arya-skin:377ee54`, and the unchanged data volumes are
   retained for rollback. The staging stack is stopped because this budget
   topology runs only one stack against the shared database volumes.
-- Encrypted backup `arya-skin-production-20260908T075813Z.backup.tar.age`
-  uploaded successfully after the illustrated-care-journey deployment and draft
-  import; pre-release backup
-  `arya-skin-production-20260908T075156Z.backup.tar.age` also completed.
+- Encrypted backup `arya-skin-production-20260908T092350Z.backup.tar.age`
+  uploaded successfully after the three additional illustrated journeys were
+  stored in draft revision 87; pre-release backup
+  `arya-skin-production-20260908T091003Z.backup.tar.age` also completed.
 - Paid Linode backups and automated monitoring remain owner-deferred. The manual
   daily operating checks in `PRODUCTION_LAUNCH.md` still apply. Transactional
   email is active after transport and live-form delivery proofs; its one-minute
@@ -307,9 +308,11 @@ publication. See
 
 ## Next milestone
 
-Review the three Illustrated care journeys pairs in Wagtail. For each pair,
+Review the three new Illustrated care journeys pairs in Wagtail: visible facial
+redness, shaving-area bumps, and raised welt-like patches. For each pair,
 verify the clinical appearance and descriptions, confirm the fixed educational-
 illustration disclosure, confirm fair presentation, and preview the full page.
-Publish only after all six confirmations are deliberately recorded. Operational
+Publish the latest revision only after all six new confirmations—two per
+addition—are deliberately recorded. Operational
 priorities remain automated uptime/service/disk/backup alerts, accessibility/
 performance review, a tested CSP, and the HSTS subdomain/preload decision.

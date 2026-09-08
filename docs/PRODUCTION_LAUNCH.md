@@ -222,6 +222,24 @@ backups `arya-skin-production-20260908T075156Z.backup.tar.age` and
 after the release respectively. Image `arya-skin:0caa597` remains available for
 rollback.
 
+Later on 8 September 2026, production inventory showed that Dr. Naresh Rathod
+had completed both required confirmations for all three original Illustrated care
+journeys and published the page. The acceptance check was reconciled to require
+its 200 response and navigation link. Three additional synthetic pairs—visible
+facial redness, shaving-area bumps, and raised welt-like patches—were then added
+using immutable image `arya-skin:cad7094`. Their visual vocabulary and neutral
+wording were checked against current American Academy of Dermatology guidance.
+The additive importer preserved the published page's editorial introduction and
+three live items, uploaded six R2 originals, and stored the additions only in
+unpublished revision 87. A repeat run reported all six unchanged. Inventory
+confirmed three approved live items and six latest-revision items; both review
+flags remain false on each addition. The new images return 200, while none of the
+new titles appears on the public page. The full acceptance suite passed, CMS
+login remained available, and the backup and notification timers stayed active.
+Encrypted backups `arya-skin-production-20260908T091003Z.backup.tar.age` and
+`arya-skin-production-20260908T092350Z.backup.tar.age` completed before and after
+the rollout. Image `arya-skin:f47dca2` remains available for rollback.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.
