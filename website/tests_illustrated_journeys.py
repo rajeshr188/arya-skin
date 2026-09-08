@@ -151,6 +151,8 @@ class IllustratedCareJourneyTests(TestCase):
                 illustration_disclosure_confirmed=True,
                 presentation_reviewed=True,
             )
+            self.page.introduction = "<p>Approved editorial introduction.</p>"
+            self.page.save(update_fields=("introduction",))
             self.page.save_revision().publish()
             self.page.refresh_from_db()
 
@@ -169,6 +171,10 @@ class IllustratedCareJourneyTests(TestCase):
         self.assertTrue(self.page.has_unpublished_changes)
         self.assertEqual(self.page.journeys.count(), 3)
         self.assertEqual(draft_page.journeys.count(), 6)
+        self.assertEqual(
+            str(draft_page.introduction),
+            "<p>Approved editorial introduction.</p>",
+        )
         self.assertContains(before_response, "Illustrated change in visible acne")
         self.assertNotContains(before_response, "visible facial redness")
         self.assertContains(after_response, "Illustrated change in visible acne")

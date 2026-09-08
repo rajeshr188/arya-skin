@@ -50,7 +50,8 @@ class Command(BaseCommand):
             )
 
         if (
-            working_page.introduction
+            not existing_titles
+            and working_page.introduction
             and str(working_page.introduction)
             != ILLUSTRATED_CARE_JOURNEY_INTRODUCTION
         ):
@@ -90,8 +91,9 @@ class Command(BaseCommand):
             return
 
         revision_page = working_page if page.live else page
-        revision_page.introduction = ILLUSTRATED_CARE_JOURNEY_INTRODUCTION
-        if not page.live:
+        if not existing_titles:
+            revision_page.introduction = ILLUSTRATED_CARE_JOURNEY_INTRODUCTION
+        if not page.live and not existing_titles:
             revision_page.save(update_fields=("introduction",))
 
         Image = get_image_model()
