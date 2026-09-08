@@ -206,6 +206,22 @@ public routes return 404, and all three illustration originals return complete
 notification timers remained active. Post-release encrypted backup
 `arya-skin-production-20260907T073325Z.backup.tar.age` uploaded successfully.
 
+On 8 September 2026, immutable image `arya-skin:f47dca2` added a separate
+Illustrated care journeys collection with three synthetic educational comparison
+pairs covering visible acne, a dry scaly skin patch, and scalp flaking. Migrations
+`website.0010` and `website.0011` completed before the web-only switch. The
+dry-run proposed three pairs and six illustrations; execution created exactly
+those records and R2 objects, and a repeat execution reported all three
+unchanged. Production inventory confirmed one page, zero live pages, distinct
+images and complete descriptions for each pair, with both required review flags
+still false. The route returns 404 and remains absent from navigation. All six
+media originals return 200, the complete production acceptance suite passed,
+and the CMS login plus backup and notification timers remained healthy. Encrypted
+backups `arya-skin-production-20260908T075156Z.backup.tar.age` and
+`arya-skin-production-20260908T075813Z.backup.tar.age` completed before and
+after the release respectively. Image `arya-skin:0caa597` remains available for
+rollback.
+
 ## Future work
 
 - Add externally delivered uptime, service, disk, and backup-failure alerts.

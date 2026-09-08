@@ -42,8 +42,8 @@ subdomain/preload decision remain explicitly tracked future work.
   synthetic educational comparisons. Its fixed disclosure says the artwork is
   not patient photography or evidence of a promised result; publication remains
   blocked until every pair has complete descriptions plus clinical and
-  fair-presentation confirmation. Deployment and Dr. Naresh Rathod's review are
-  still pending.
+  fair-presentation confirmation. The three pairs are deployed as an unpublished
+  production draft; Dr. Naresh Rathod's review is still pending.
 - Seeded supplied doctor details and both clinic records as drafts. The supplied
   phone/WhatsApp number is stored but not publicly exposed.
 - Prepared five structured, source-checked treatment pages as unpublished drafts
@@ -227,7 +227,7 @@ request logs.
   is verified, and UFW permits only SSH, HTTP, and HTTPS inbound.
 - Docker Engine and Compose are installed from Docker's official repository with
   bounded local logs.
-- Production runs immutable image `arya-skin:0caa597` with Wagtail 8.0,
+- Production runs immutable image `arya-skin:f47dca2` with Wagtail 8.0,
   PostgreSQL 16, and
   generated server-only secrets. The database and Gunicorn containers are
   healthy and internal-only; Caddy alone publishes HTTP/HTTPS.
@@ -235,8 +235,8 @@ request logs.
   authoritative DNS proxies the apex and `www`, Caddy holds active Let's Encrypt
   certificates for both, and `www` redirects to the apex.
 - Cloudflare R2 serves production media through `media.drnareshrathod.com`.
-  Representative existing media and all three new article illustration originals
-  return 200 with image content.
+  Representative existing media, all six article illustrations, and all six
+  illustrated-care-journey originals return 200 with image content.
 - The expanded production acceptance suite passed every approved page, the
   appointment form, health, robots, sitemap, Wagtail admin redirect, R2 portrait,
   canonical origin, navigation, and initial security-header check. The Treatments
@@ -245,6 +245,12 @@ request logs.
 - The before-and-after gallery exists as an empty, unpublished CMS draft. Its
   public route returns 404 and its navigation link remains hidden until an
   approved comparison is added and the page is explicitly published.
+- The separate Illustrated care journeys page contains three synthetic
+  educational comparison pairs as an unpublished draft. Production inventory
+  reports zero live pages, distinct before/after images, complete descriptions,
+  and both review confirmations still false for every pair. Its route returns
+  404 and it is absent from navigation until Dr. Naresh Rathod completes both
+  confirmations per pair and explicitly publishes the page.
 - Six source-checked articles and their original illustrations are installed in
   production. All six are marked Reviewed with recorded dates and are publicly
   available through the Articles index. Dr. Naresh Rathod is assigned as author
@@ -269,8 +275,10 @@ request logs.
   `arya-skin:ab56c34` and `arya-skin:377ee54`, and the unchanged data volumes are
   retained for rollback. The staging stack is stopped because this budget
   topology runs only one stack against the shared database volumes.
-- Encrypted backup `arya-skin-production-20260907T073325Z.backup.tar.age`
-  uploaded successfully after the Wagtail 8 migration and blog draft import.
+- Encrypted backup `arya-skin-production-20260908T075813Z.backup.tar.age`
+  uploaded successfully after the illustrated-care-journey deployment and draft
+  import; pre-release backup
+  `arya-skin-production-20260908T075156Z.backup.tar.age` also completed.
 - Paid Linode backups and automated monitoring remain owner-deferred. The manual
   daily operating checks in `PRODUCTION_LAUNCH.md` still apply. Transactional
   email is active after transport and live-form delivery proofs; its one-minute
@@ -299,9 +307,9 @@ publication. See
 
 ## Next milestone
 
-Review the remaining patch-testing and chemical-peel blog drafts in Wagtail,
-then record corrections or explicit page-by-page approval. Publish the Articles
-index only when the intended launch set is ready. Retain the article and
-treatment approval records. Operational priorities
-remain automated uptime/service/disk/backup alerts, accessibility/performance
-review, a tested CSP, and the HSTS subdomain/preload decision.
+Review the three Illustrated care journeys pairs in Wagtail. For each pair,
+verify the clinical appearance and descriptions, confirm the fixed educational-
+illustration disclosure, confirm fair presentation, and preview the full page.
+Publish only after all six confirmations are deliberately recorded. Operational
+priorities remain automated uptime/service/disk/backup alerts, accessibility/
+performance review, a tested CSP, and the HSTS subdomain/preload decision.
