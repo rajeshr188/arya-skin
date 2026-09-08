@@ -58,7 +58,7 @@ class DeploymentConfigurationTests(TestCase):
         self.assertIn('expect_status portrait_media "$portrait_url" 200', script)
         self.assertNotIn("original_images/nareshbust.png", script)
 
-    def test_production_check_matches_live_articles_and_draft_care_journeys(self):
+    def test_production_check_matches_live_articles_and_care_journeys(self):
         script = (
             Path(__file__).resolve().parents[1]
             / "deploy"
@@ -79,7 +79,7 @@ class DeploymentConfigurationTests(TestCase):
             script,
         )
         self.assertIn(
-            "illustrated_care_journeys_unpublished",
+            "illustrated_care_journeys_published",
             script,
         )
         self.assertIn(
@@ -87,7 +87,7 @@ class DeploymentConfigurationTests(TestCase):
             script,
         )
         self.assertIn(
-            "illustrated_care_journeys_navigation_link=absent",
+            "illustrated_care_journeys_navigation_link=verified",
             script,
         )
         self.assertNotIn("articles_unpublished", script)

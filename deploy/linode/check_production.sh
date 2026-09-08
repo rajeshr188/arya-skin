@@ -61,8 +61,8 @@ expect_status fungal_infection_article \
     "https://$PRODUCTION_HOST/blog/ringworm-fungal-skin-infection-diagnosis/" 200
 expect_status before_after_unpublished \
     "https://$PRODUCTION_HOST/before-after/" 404
-expect_status illustrated_care_journeys_unpublished \
-    "https://$PRODUCTION_HOST/illustrated-care-journeys/" 404
+expect_status illustrated_care_journeys_published \
+    "https://$PRODUCTION_HOST/illustrated-care-journeys/" 200
 expect_status wagtail_admin_redirect "https://$PRODUCTION_HOST/cms/" 302
 expect_status public_health "https://$PRODUCTION_HOST/healthz/" 200
 portrait_url=$(curl --silent --show-error "https://$PRODUCTION_HOST/profile/" \
@@ -106,9 +106,9 @@ if ! grep --fixed-strings --quiet 'href="/blog/"' "$response_body"; then
     echo "The published Articles index is missing from navigation." >&2
     exit 1
 fi
-if grep --fixed-strings --quiet \
+if ! grep --fixed-strings --quiet \
     'href="/illustrated-care-journeys/"' "$response_body"; then
-    echo "The unpublished illustrated care journeys page appears in navigation." >&2
+    echo "The published illustrated care journeys page is missing from navigation." >&2
     exit 1
 fi
 
@@ -124,5 +124,5 @@ printf 'canonical_origin=verified\n'
 printf 'robots_sitemap=verified\n'
 printf 'production_noindex=absent\n'
 printf 'articles_navigation_link=verified\n'
-printf 'illustrated_care_journeys_navigation_link=absent\n'
+printf 'illustrated_care_journeys_navigation_link=verified\n'
 printf 'initial_security_headers=verified\n'

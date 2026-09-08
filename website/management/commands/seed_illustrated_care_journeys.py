@@ -30,9 +30,10 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         page = IllustratedCareJourneyPage.objects.select_for_update().get()
+        working_page = page.get_latest_revision_as_object()
         expected_titles = [journey["title"] for journey in ILLUSTRATED_CARE_JOURNEYS]
         existing_titles = list(
-            page.journeys.order_by("sort_order", "id").values_list(
+            working_page.journeys.order_by("sort_order", "id").values_list(
                 "title", flat=True
             )
         )
@@ -48,14 +49,10 @@ class Command(BaseCommand):
                 "refusing to overwrite it."
             )
 
-        if page.live:
-            raise CommandError(
-                "The illustrated care journeys page is already published; refusing "
-                "to seed it."
-            )
         if (
-            page.introduction
-            and str(page.introduction) != ILLUSTRATED_CARE_JOURNEY_INTRODUCTION
+            working_page.introduction
+            and str(working_page.introduction)
+            != ILLUSTRATED_CARE_JOURNEY_INTRODUCTION
         ):
             raise CommandError(
                 "The illustrated care journeys introduction has editorial content; "
@@ -84,12 +81,18 @@ class Command(BaseCommand):
                 f"would_create_illustrated_care_journeys={len(missing_journeys)}"
             )
             self.stdout.write(f"would_import_illustrations={len(filenames)}")
-            self.stdout.write("illustrated_care_journey_page_published=false")
+            self.stdout.write(
+                "illustrated_care_journey_page_currently_live="
+                + str(page.live).lower()
+            )
+            self.stdout.write("new_illustrated_care_journeys_published=false")
             self.stdout.write("doctor_review_required=true")
             return
 
-        page.introduction = ILLUSTRATED_CARE_JOURNEY_INTRODUCTION
-        page.save(update_fields=("introduction",))
+        revision_page = working_page if page.live else page
+        revision_page.introduction = ILLUSTRATED_CARE_JOURNEY_INTRODUCTION
+        if not page.live:
+            revision_page.save(update_fields=("introduction",))
 
         Image = get_image_model()
         for sort_order, journey in enumerate(
@@ -112,8 +115,8 @@ class Command(BaseCommand):
                     )
                 imported_images[position] = image
 
-            IllustratedCareJourneyItem.objects.create(
-                page=page,
+            item = IllustratedCareJourneyItem(
+                page=revision_page,
                 sort_order=sort_order,
                 title=journey["title"],
                 before_image=imported_images["before"],
@@ -124,11 +127,19 @@ class Command(BaseCommand):
                 illustration_disclosure_confirmed=False,
                 presentation_reviewed=False,
             )
+            if page.live:
+                revision_page.journeys.add(item)
+            else:
+                item.save()
 
-        page.save_revision(log_action=True)
+        revision_page.save_revision(log_action=True)
         self.stdout.write(
             f"illustrated_care_journeys_created={len(missing_journeys)}"
         )
         self.stdout.write(f"illustrations_imported={len(filenames)}")
-        self.stdout.write("illustrated_care_journey_page_published=false")
+        self.stdout.write(
+            "illustrated_care_journey_page_currently_live="
+            + str(page.live).lower()
+        )
+        self.stdout.write("new_illustrated_care_journeys_published=false")
         self.stdout.write("doctor_review_required=true")

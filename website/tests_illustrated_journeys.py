@@ -125,6 +125,7 @@ class IllustratedCareJourneyTests(TestCase):
             first.save(update_fields=("caption",))
             for journey in journeys[3:]:
                 journey.delete()
+            self.page.save_revision()
 
             output = StringIO()
             call_command(
@@ -138,6 +139,48 @@ class IllustratedCareJourneyTests(TestCase):
         self.assertEqual(self.page.journeys.count(), 6)
         self.assertIn("illustrated_care_journeys_created=3", output.getvalue())
         self.assertIn("illustrations_imported=6", output.getvalue())
+
+    def test_importer_stages_additions_without_changing_published_version(self):
+        with TemporaryDirectory() as media_root, override_settings(
+            MEDIA_ROOT=media_root
+        ):
+            call_command("seed_illustrated_care_journeys", execute=True)
+            for journey in self.page.journeys.order_by("sort_order")[3:]:
+                journey.delete()
+            self.page.journeys.update(
+                illustration_disclosure_confirmed=True,
+                presentation_reviewed=True,
+            )
+            self.page.save_revision().publish()
+            self.page.refresh_from_db()
+
+            before_response = self.client.get("/illustrated-care-journeys/")
+            output = StringIO()
+            call_command(
+                "seed_illustrated_care_journeys",
+                execute=True,
+                stdout=output,
+            )
+            self.page.refresh_from_db()
+            after_response = self.client.get("/illustrated-care-journeys/")
+            draft_page = self.page.get_latest_revision_as_object()
+
+        self.assertTrue(self.page.live)
+        self.assertTrue(self.page.has_unpublished_changes)
+        self.assertEqual(self.page.journeys.count(), 3)
+        self.assertEqual(draft_page.journeys.count(), 6)
+        self.assertContains(before_response, "Illustrated change in visible acne")
+        self.assertNotContains(before_response, "visible facial redness")
+        self.assertContains(after_response, "Illustrated change in visible acne")
+        self.assertNotContains(after_response, "visible facial redness")
+        new_journeys = list(draft_page.journeys.order_by("sort_order")[3:])
+        self.assertTrue(
+            all(not item.illustration_disclosure_confirmed for item in new_journeys)
+        )
+        self.assertTrue(all(not item.presentation_reviewed for item in new_journeys))
+        self.assertIn("illustrated_care_journeys_created=3", output.getvalue())
+        self.assertIn("illustrated_care_journey_page_currently_live=true", output.getvalue())
+        self.assertIn("new_illustrated_care_journeys_published=false", output.getvalue())
 
     def test_importer_refuses_existing_editorial_content(self):
         with TemporaryDirectory() as media_root, override_settings(

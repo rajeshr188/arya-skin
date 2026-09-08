@@ -174,7 +174,7 @@ class BeforeAfterGalleryPage(Page):
         return errors
 
     def save(self, *args, **kwargs):
-        if self.live:
+        if self.live and kwargs.get("clean", True):
             errors = self.publication_errors()
             if errors:
                 raise ValidationError(
@@ -318,7 +318,7 @@ class IllustratedCareJourneyPage(Page):
         return errors
 
     def save(self, *args, **kwargs):
-        if self.live:
+        if self.live and kwargs.get("clean", True):
             errors = self.publication_errors()
             if errors:
                 raise ValidationError(

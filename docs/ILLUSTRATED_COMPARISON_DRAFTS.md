@@ -130,5 +130,6 @@ Dr. Naresh Rathod should confirm that:
 Run `python manage.py seed_illustrated_care_journeys` to preview the import and add
 `--execute` to create any missing prepared pairs as an unpublished draft. The
 command is repeat-safe, preserves the existing ordered prefix, and refuses to
-overwrite mismatched editorial content. Keep the page unpublished until the
-checks above are complete.
+overwrite mismatched editorial content. If the page is already live, additions
+are stored in a new unpublished revision without changing the version visitors
+can see. Keep each addition unpublished until the checks above are complete.
